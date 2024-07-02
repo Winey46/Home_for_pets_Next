@@ -1,0 +1,32 @@
+@import './colors.scss';
+
+.information-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 960px;
+
+
+  @media (max-width: 960px) {
+    width: 610px;
+  }
+
+  @media (max-width: 610px) {
+    width: 360px;
+  }
+
+  .information-text {
+    width: 100%;
+    text-align: justify;
+    min-height: calc(660px - 84px);
+    border: 1px solid dimgrey;
+    border-radius: 10px;
+    margin: 0;
+    padding: 5px 25px;
+    background-color: $background-grey;
+
+    @media (max-width: 960px) {
+      width: 90%;
+    }
+  }
+}

@@ -1,0 +1,38 @@
+#navigation {
+  display: flex;
+  margin: 25px 0;
+  width: 960px;
+}
+@media (max-width: 960px) {
+  #navigation {
+    margin: 15px 0;
+    justify-content: center;
+    width: 610px;
+  }
+}
+@media (max-width: 610px) {
+  #navigation {
+    width: 360px;
+  }
+}
+#navigation .navigation-list {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+#navigation .navigation-list .navigation-not-active:hover {
+  color: #fbc43c;
+}
+#navigation .navigation-list .navigation-active {
+  color: #833de7;
+}
+#navigation .navigation-list .navigation-active:hover {
+  color: #fbc43c;
+}
+#navigation .navigation-list .navigation-arrow {
+  margin-right: 10px;
+}
+
+/*# sourceMappingURL=navigation.css.map */

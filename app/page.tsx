@@ -1,7 +1,17 @@
-export default function Home() {
+import "@/styles/homePage.scss"
+import MainPageNavigation from "@/components/MainPageNavigation.jsx";
+import Heading from "@/components/Heading.jsx";
+import About from "@/components/About.jsx";
+import Contacts from "@/components/Contacts.jsx";
+import React from "react";
+
+export default function HomePage(): React.JSX.Element {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      Main page
-    </main>
-  );
+    <div className="home__wrapper">
+      <MainPageNavigation />
+      <Heading />
+      <About />
+      <Contacts />
+    </div>
+  )
 }
