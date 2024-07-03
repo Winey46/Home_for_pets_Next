@@ -1,8 +1,9 @@
 import '@/styles/footer.scss'
 import Link from "next/link";
 import Image from "next/image";
+import React from "react";
 
-export default function Footer() {
+const Footer: React.FC = function Footer() {
   return (
     <footer id="footer" className="footer">
       <Link
@@ -31,3 +32,5 @@ export default function Footer() {
     </footer>
   )
 }
+
+export default Footer;

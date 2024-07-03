@@ -14,16 +14,18 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en">
-    <body>
-    <ModalProvider>
-      <ModalWindow />
-      <MainNavigation />
-      <main className="main__wrapper">
-        {children}
-      </main>
-      <Footer />
-    </ModalProvider>
-    </body>
+      <body>
+        <ModalProvider>
+          <ModalWindow />
+          <div id="root">
+            <MainNavigation />
+            <main className="main__wrapper">
+              {children}
+            </main>
+            <Footer />
+          </div>
+        </ModalProvider>
+      </body>
     </html>
   );
 }

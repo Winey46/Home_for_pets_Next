@@ -7,9 +7,9 @@ import {AnimatePresence, motion} from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import {ModalContext} from "@/store/ModalContext";
-import Button from "./Button.js";
+import Button from "./Button";
 
-const MainNavigation: React.FC = function MainNavigation() {
+const MainNavigation = () => {
   const [navigationState, setNavigationState] = useState<boolean>(false)
   const {modalOpen} = useContext(ModalContext)
 
@@ -45,7 +45,7 @@ const MainNavigation: React.FC = function MainNavigation() {
           <div className="buttons-wrapper">
             <Button
               className="button yellow"
-              onClick={() => modalOpen(null, 'post')}
+              handleClick={() => modalOpen(null, 'post')}
               variants={scale}
               initial="initial"
               whileHover="animate"
@@ -89,24 +89,22 @@ const MainNavigation: React.FC = function MainNavigation() {
                   Main
                 </Link>
               </li>
-              {/*<li>*/}
-              {/*  <Link*/}
-              {/*    className={({isActive}) =>*/}
-              {/*      isActive ? 'navigation-active' : 'navigation-not-active'}*/}
-              {/*    // href="/animalsList"*/}
-              {/*  >*/}
-              {/*    Looking for home*/}
-              {/*  </Link>*/}
-              {/*</li>*/}
-              {/*<li>*/}
-              {/*  <Link*/}
-              {/*    className={({isActive}) =>*/}
-              {/*      isActive ? 'navigation-active' : 'navigation-not-active'}*/}
-              {/*    // href="/information"*/}
-              {/*  >*/}
-              {/*    Information*/}
-              {/*  </Link>*/}
-              {/*</li>*/}
+              <li>
+                <Link
+                  className='navigation-active'
+                  href="/animalsList"
+                >
+                  Looking for home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className='navigation-active'
+                  href="/information"
+                >
+                  Information
+                </Link>
+              </li>
             </motion.ul>
           </nav>}
       </AnimatePresence>

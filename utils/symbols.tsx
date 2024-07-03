@@ -22,7 +22,5 @@ export const openArrow = <svg
   <path
     d="M7 14.5L12 9.5L17 14.5"
     stroke="#000000"
-    // stroke-linecap="round"
-    // stroke-linejoin="round"
   />
 </svg>

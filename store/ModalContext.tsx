@@ -3,12 +3,12 @@
 import React, {createContext, ReactNode, useState} from "react";
 
 interface ModalContextType {
-  dataType: string,
-  modalState: boolean,
-  modalData: null | {},
-  formMethod: string,
-  modalOpen: () => void,
-  modalClose: () => void,
+  dataType: string;
+  modalState: boolean;
+  modalData: null | {};
+  formMethod: string;
+  modalOpen: () => void;
+  modalClose: () => void;
 }
 
 export const ModalContext = createContext<ModalContextType | undefined>(undefined)

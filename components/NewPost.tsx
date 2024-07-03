@@ -1,47 +1,51 @@
 'use client';
 
 import "@/styles/newPost.scss"
-import {useEffect, useState} from "react";
-import Input from "./Input.js";
-import Button from "./Button.js";
-import Image from "./Image.js";
+import React, {useContext, useEffect, useState} from "react";
+import Input from "./Input";
+import Button from "./Button";
+import Image from "./Image";
+import {ModalContext} from "@/store/ModalContext";
 
-export default function NewPost({formMethod, data, onClose}) {
-  const [image, setImage] = useState(null)
+const NewPost = () => {
+  const [image, setImage] =
+    useState<{} | null>(null)
 
-  const [animalTypeValue, setAnimalTypeValue] = useState(
-    data ? data.animalType : '')
-  const [animalTypeError, setAnimalTypeError] = useState(false)
-  const animalTypeInputsChange = (event) => setAnimalTypeValue(
-    event.target.value)
+  const {modalClose, modalData, formMethod} = useContext(ModalContext)
 
-  const [titleValue, setTitleValue] = useState(
-    data ? data.title : '')
-  const [titleError, setTitleError] = useState(false)
-  const titleInputsChange = (event) => setTitleValue(
-    event.target.value)
+  const [animalTypeValue, setAnimalTypeValue] =
+    useState<string>(modalData ? modalData.animalType : '')
+  const [animalTypeError, setAnimalTypeError] =
+    useState<boolean>(false)
+  const animalTypeInputsChange = (event: React.FormEvent) =>
+    setAnimalTypeValue(event.target.value)
 
-  const [textValue, setTextValue] = useState(
-    data ? data.text : '')
-  const [textError, setTextError] = useState(false)
-  const textInputsChange = (event) => setTextValue(
-    event.target.value)
+  const [titleValue, setTitleValue] =
+    useState<string>(modalData ? modalData.title : '')
+  const [titleError, setTitleError] =
+    useState<boolean>(false)
+  const titleInputsChange = (event: React.FormEvent) =>
+    setTitleValue(event.target.value)
 
-  const [contactsValue, setContactsValue] = useState(
-    data ? data.contacts : '')
-  const [contactsError, setContactsError] = useState(false)
-  const contactsInputsChange = (event) => setContactsValue(
-    event.target.value)
+  const [textValue, setTextValue] =
+    useState<string>(modalData ? modalData.text : '')
+  const [textError, setTextError] =
+    useState<boolean>(false)
+  const textInputsChange = (event: React.FormEvent) =>
+    setTextValue(event.target.value)
 
-  // const submit = useSubmit()
-  // const navigation = useNavigation()
-  // const isSubmitting = navigation.state === 'submitting'
+  const [contactsValue, setContactsValue] =
+    useState<string>(modalData ? modalData.contacts : '')
+  const [contactsError, setContactsError] =
+    useState<boolean>(false)
+  const contactsInputsChange = (event: React.FormEvent) =>
+    setContactsValue(event.target.value)
 
-  const handleImageChange = (event) => {
+  const handleImageChange = (event: React.FormEvent) => {
     setImage(event.target.files[0])
   }
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
 
     if (animalTypeValue.trim().length < 3) {
@@ -63,8 +67,8 @@ export default function NewPost({formMethod, data, onClose}) {
     if (animalTypeValue.trim().length > 2 && titleValue.trim().length > 2 &&
       textValue.trim().length > 2 && contactsValue.trim().length > 2) {
 
-      submit(event.currentTarget, {method: formMethod, action: "/"})
-      onClose()
+      // submit(event.currentTarget, {method: formMethod, action: "/"})
+      modalClose()
     }
   }
 
@@ -94,8 +98,8 @@ export default function NewPost({formMethod, data, onClose}) {
       method={formMethod}
     >
       <h2 className="form-header">
-        {!data ? 'New Post.' : 'Edit Post'} {data &&
-        <input readOnly value={data.id} name='post-id' className="post-id" />}
+        {!modalData ? 'New Post.' : 'Edit Post'} {modalData &&
+        <input readOnly value={modalData.id} name='post-id' className="post-id" />}
       </h2>
 
       <Input
@@ -142,9 +146,9 @@ export default function NewPost({formMethod, data, onClose}) {
         onChange={contactsInputsChange}
         error={contactsError ? 'Should contain at least 3 symbols' : null}
       />
-      {data && !image ?
-        <Image imgSrc={data.image.link ? data.image.link : "/pets-default.jpg"} /> :
-        !data && !image ? null :
+      {modalData && !image ?
+        <Image imgSrc={modalData.image.link ? modalData.image.link : "/pets-default.jpg"} /> :
+        !modalData && !image ? null :
           <Image imgSrc={URL.createObjectURL(image)} />}
       <Input
         name="new-post__image"
@@ -161,7 +165,7 @@ export default function NewPost({formMethod, data, onClose}) {
         >Save</Button>
         <Button
           className="button yellow"
-          onClick={onClose}
+          onClick={modalClose}
           type="button"
           // disabled={isSubmitting}
         >Cancel</Button>
@@ -169,3 +173,5 @@ export default function NewPost({formMethod, data, onClose}) {
     </form>
   )
 }
+
+export default NewPost;
