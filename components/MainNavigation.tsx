@@ -8,10 +8,13 @@ import Link from "next/link";
 import Image from "next/image";
 import {ModalContext} from "@/store/ModalContext";
 import Button from "./Button";
+import {usePathname} from "next/navigation";
 
 const MainNavigation = () => {
   const [navigationState, setNavigationState] = useState<boolean>(false)
   const {modalOpen} = useContext(ModalContext)
+
+  const path = usePathname()
 
   const toggleNavigation = (): void => {
     setNavigationState(prevState => !prevState)
@@ -83,24 +86,24 @@ const MainNavigation = () => {
             >
               <li>
                 <Link
-                  className='navigation-active'
                   href="/"
+                  className={path === '/' ? 'navigation-active' : 'navigation-not-active'}
                 >
                   Main
                 </Link>
               </li>
               <li>
                 <Link
-                  className='navigation-active'
                   href="/animalsList"
+                  className={path.startsWith('/animalsList') ? 'navigation-active' : 'navigation-not-active'}
                 >
                   Looking for home
                 </Link>
               </li>
               <li>
                 <Link
-                  className='navigation-active'
                   href="/information"
+                  className={path.startsWith('/information') ? 'navigation-active' : 'navigation-not-active'}
                 >
                   Information
                 </Link>
