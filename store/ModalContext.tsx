@@ -19,7 +19,7 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({children}) => 
   const [formMethod, setFormMethod] = useState<string>('')
   const [dataType, setDataType] = useState<string>('')
 
-  const handleModalOpen = (data: null | {} = null, dataType: string = 'post', formMethod: string = 'post'): void => {
+  const handleModalOpen = (data= null, dataType = 'post', formMethod = 'post') => {
     setDataType(dataType)
     setModalState(true)
     setModalData(data)

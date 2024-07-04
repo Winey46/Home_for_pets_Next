@@ -2,6 +2,7 @@
 
 import {motion} from "framer-motion";
 import React, {MouseEventHandler} from "react";
+import {useFormStatus} from "react-dom";
 
 interface ButtonProps {
   className: string;
@@ -9,7 +10,8 @@ interface ButtonProps {
   handleClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const Button = ({children, scrollTo, className, handleClick}: ButtonProps) => {
+const Button = ({children, scrollTo, className, handleClick, ...props}: ButtonProps) => {
+  const {pending} = useFormStatus()
 
   const handleScroll = (): void => {
     document.querySelector(`#${scrollTo}`)
@@ -17,8 +19,13 @@ const Button = ({children, scrollTo, className, handleClick}: ButtonProps) => {
   }
 
   return (
-    <motion.button className={className} onClick={scrollTo ? handleScroll : handleClick}>
-      {children}
+    <motion.button
+      className={className}
+      onClick={scrollTo ? handleScroll : handleClick}
+      {...props}
+      disabled={pending}
+    >
+      {pending ? 'Submitting...' : children}
     </motion.button>
   )
 }

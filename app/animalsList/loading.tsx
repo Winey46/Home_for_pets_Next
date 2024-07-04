@@ -1,10 +1,10 @@
-const LoadingPage = () => {
+const LoadingAnimalsPage = () => {
   return (
     <>
       <div className="spinner"></div>
-      <p>Loading...</p>
+      <p>Fetching animals...</p>
     </>
   )
 }
 
-export default LoadingPage;
+export default LoadingAnimalsPage;

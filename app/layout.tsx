@@ -16,7 +16,6 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
     <html lang="en">
       <body>
         <ModalProvider>
-          <ModalWindow />
           <div id="root">
             <MainNavigation />
             <main className="main__wrapper">

@@ -9,6 +9,7 @@ import Image from "next/image";
 import {ModalContext} from "@/store/ModalContext";
 import Button from "./Button";
 import {usePathname} from "next/navigation";
+import ModalWindow from "@/components/ModalWindow";
 
 const MainNavigation = () => {
   const [navigationState, setNavigationState] = useState<boolean>(false)
@@ -73,6 +74,8 @@ const MainNavigation = () => {
           </div>
         </div>
       </div>
+
+      <ModalWindow />
 
       <AnimatePresence>
         {navigationState &&

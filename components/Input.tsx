@@ -1,4 +1,7 @@
-import React from "react";
+'use client';
+
+import React, {useContext, useState} from "react";
+import {ModalContext} from "@/store/ModalContext";
 
 interface InputProps {
   label: string,
@@ -20,6 +23,12 @@ const Input: React.FC<InputProps> = (
     textarea,
     ...props
   }) => {
+  // const {modalData} = useContext(ModalContext)
+  //
+  // const [value, setValue] = useState(modalData ? modalData.animalType : '')
+  // const [error, setError] = useState<boolean>(false)
+  // const inputsChange = (event: React.FormEvent) => setAnimalTypeValue(event.target.value)
+
   return (
     <div className="input-wrapper">
       <label className="label" htmlFor={name}>{label}</label>

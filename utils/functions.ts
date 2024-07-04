@@ -1,4 +1,4 @@
-export function timeAndDate() {
+export function getDate() {
   const time = `[${new Date().getHours()} : ${new Date().getMinutes()}]`
 
   const formatter = new Intl.DateTimeFormat('ru-RU',
