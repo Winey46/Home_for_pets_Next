@@ -1,4 +1,4 @@
-import Button from "./Button";
+import Button from "./ui/Button";
 import {useContext} from "react";
 
 export default function Filters() {

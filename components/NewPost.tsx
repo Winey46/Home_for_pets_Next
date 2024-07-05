@@ -4,7 +4,7 @@ import "@/styles/newPost.scss"
 import React, {useContext, useState} from "react";
 import {useFormState} from "react-dom";
 import Input from "./Input";
-import Button from "./Button";
+import Button from "./ui/Button";
 import Image from "./Image";
 import {ModalContext} from "@/store/ModalContext";
 import {postAnimal} from "@/lib/actions";
@@ -23,7 +23,7 @@ const NewPost = () => {
   return (
     <form
       className="form"
-      onSubmit={modalClose}
+      onSubmit={!state ? modalClose : undefined}
       action={formAction}
     >
       <h2 className="form-header">

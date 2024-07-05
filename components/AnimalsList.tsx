@@ -1,7 +1,16 @@
 import AnimalCart from "@/components/AnimalCart";
 
+interface PetsType {
+  id: string;
+  title: string;
+  type: string;
+  image: {
+    link: string;
+  };
+}
+
 const AnimalsList = ({animals}) => {
-  const pets = []
+  const pets: PetsType[] = []
 
   for (let key in animals) {
     pets.push({

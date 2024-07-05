@@ -4,11 +4,10 @@ import React from "react";
 import MainNavigation from "@/components/MainNavigation";
 import {ModalProvider} from "@/store/ModalContext";
 import Footer from "@/components/Footer";
-import ModalWindow from "@/components/ModalWindow";
 
 export const metadata: Metadata = {
   title: "Searching pets service.",
-  description: "We are searching pets service",
+  description: "We are searching pets.",
 };
 
 export default function RootLayout({children}: Readonly<{ children: React.ReactNode; }>) {

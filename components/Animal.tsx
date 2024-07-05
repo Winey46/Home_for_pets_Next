@@ -1,6 +1,6 @@
 'use client';
 
-import Button from "@/components/Button";
+import Button from "@/components/ui/Button";
 import {useContext} from "react";
 import {ModalContext} from "@/store/ModalContext";
 

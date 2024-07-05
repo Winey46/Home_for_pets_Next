@@ -2,16 +2,16 @@
 
 import React, {createContext, ReactNode, useState} from "react";
 
-interface ModalContextType {
-  dataType: string;
-  modalState: boolean;
-  modalData: null | {};
-  formMethod: string;
-  modalOpen: () => void;
-  modalClose: () => void;
+interface ModalContextProps {
+  dataType?: string;
+  modalState?: boolean;
+  modalData?: {};
+  formMethod?: string;
+  modalOpen?: () => void;
+  modalClose?: () => void;
 }
 
-export const ModalContext = createContext<ModalContextType | undefined>(undefined)
+export const ModalContext = createContext<ModalContextProps>()
 
 export const ModalProvider: React.FC<{ children: ReactNode }> = ({children}) => {
   const [modalState, setModalState] = useState<boolean>(false)
