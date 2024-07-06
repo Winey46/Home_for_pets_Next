@@ -5,7 +5,7 @@ import React from "react";
 import {useFormStatus} from "react-dom";
 import {ButtonProps} from "@/utils/types";
 
-const Button: React.FC = ({children, scrollTo, className, handleClick, ...props}: ButtonProps) => {
+const Button: React.FC = ({children, className, handleClick}: ButtonProps) => {
   const {pending} = useFormStatus()
 
   // const handleScroll = (): void => {
@@ -17,8 +17,14 @@ const Button: React.FC = ({children, scrollTo, className, handleClick, ...props}
     <motion.button
       className={className}
       onClick={handleClick}
-      {...props}
       disabled={pending}
+      variants={{
+        initial: {scale: 1},
+        animate: {scale: 1.1}
+      }}
+      initial="initial"
+      whileHover="animate"
+      transition={{type: 'spring', stiffness: 500}}
     >
       {pending ? 'Submitting...' : children}
     </motion.button>

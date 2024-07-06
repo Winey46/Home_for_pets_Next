@@ -2,7 +2,6 @@ import React, {MouseEventHandler} from "react";
 
 export interface ButtonProps {
   className?: string;
-  scrollTo?: string;
-  handleClick?: MouseEventHandler<HTMLButtonElement>;
+  handleClick?: () => void;
   children?: React.ReactNode;
 }

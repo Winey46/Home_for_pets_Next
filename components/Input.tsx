@@ -30,8 +30,13 @@ const Input: React.FC<InputProps> = (
   // const inputsChange = (event: React.FormEvent) => setAnimalTypeValue(event.target.value)
 
   return (
-    <div className="input-wrapper">
-      <label className="label" htmlFor={name}>{label}</label>
+    <div className="w-[80%] my-0 mx-[100px]">
+      <label
+        className="block mb-2 text-[1.2rem] font-[500]"
+        htmlFor={name}
+      >
+        {label}
+      </label>
       {!textarea ?
         <input
           name={name}
@@ -41,8 +46,8 @@ const Input: React.FC<InputProps> = (
           name={name}
           {...props} />
       }
-      <div className="control-error">
-        {error && <p className="error-text">{error}</p>}
+      <div className="text-red-500">
+        {error && <p className="mt-[5px] mx-[5px]">{error}</p>}
       </div>
     </div>
   )

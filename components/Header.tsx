@@ -1,24 +1,33 @@
 'use client';
 
-import React, {useContext, useState} from "react";
+import React, {useState} from "react";
 import {openArrow} from "@/utils/symbols";
 import {AnimatePresence, motion} from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-// import {ModalContext} from "@/store/ModalContext";
 import Button from "./ui/Button";
 import {usePathname} from "next/navigation";
-import ModalWindow from "@/components/ModalWindow";
+import Modal from "@/components/ui/Modal";
+import NewPost from "@/components/NewPost";
 
-const MainNavigation: React.FC = () => {
-  const [navigationState, setNavigationState] =
-    useState<boolean>(false)
-  // const {modalOpen} = useContext(ModalContext)
+const Header: React.FC = () => {
+  const [isOpened, setIsOpened] = useState<boolean>(false)
+  const [navigationState, setNavigationState] = useState<boolean>(false)
 
   const path: string = usePathname()
 
   const toggleNavigation = (): void => {
     setNavigationState(prevState => !prevState)
+  }
+
+  const handleModalOpen = (): void => {
+    setIsOpened(true)
+    document.body.style.overflow = 'hidden'
+  }
+
+  const handleModalClose = (): void => {
+    setIsOpened(false)
+    document.body.style.overflow = ''
   }
 
   return (
@@ -48,15 +57,8 @@ const MainNavigation: React.FC = () => {
           </div>
           <div className="flex items-center gap-[75px] ml-auto">
             <Button
-              className="button yellow"
-              handleClick={() => modalOpen(null, 'post')}
-              variants={{
-                initial: {scale: 1},
-                animate: {scale: 1.1}
-              }}
-              initial="initial"
-              whileHover="animate"
-              transition={{type: 'spring', stiffness: 500}}
+              className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] bg-amber-400 hover:bg-amber-500 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"
+              handleClick={handleModalOpen}
             >
               Add Post+
             </Button>
@@ -77,8 +79,6 @@ const MainNavigation: React.FC = () => {
           </div>
         </div>
       </div>
-
-      <ModalWindow />
 
       <AnimatePresence>
         {navigationState &&
@@ -101,7 +101,9 @@ const MainNavigation: React.FC = () => {
               <li>
                 <Link
                   href="/animalsList"
-                  className={path.startsWith('/animalsList') ? 'text-purple-800 hover:text-purple-900' : 'hover:text-amber-300'}
+                  className={path.startsWith('/animalsList') ?
+                    'text-purple-800 hover:text-purple-900' :
+                    'hover:text-amber-300'}
                 >
                   Looking for home
                 </Link>
@@ -109,7 +111,9 @@ const MainNavigation: React.FC = () => {
               <li>
                 <Link
                   href="/information"
-                  className={path.startsWith('/information') ? 'text-purple-800 hover:text-amber-300' : 'hover:text-amber-300'}
+                  className={path.startsWith('/information') ?
+                    'text-purple-800 hover:text-amber-300' :
+                    'hover:text-amber-300'}
                 >
                   Information
                 </Link>
@@ -118,8 +122,12 @@ const MainNavigation: React.FC = () => {
           </nav>}
       </AnimatePresence>
 
+      {isOpened &&
+        <Modal modalClose={handleModalClose}>
+          <NewPost modalClose={handleModalClose} />
+        </Modal>}
     </header>
   )
 }
 
-export default MainNavigation;
+export default Header;

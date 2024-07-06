@@ -1,9 +1,8 @@
 import type {Metadata} from "next";
 import "./globals.scss";
 import React from "react";
-import MainNavigation from "@/components/MainNavigation";
-import {ModalProvider} from "@/store/ModalContext";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 
 export const metadata: Metadata = {
   title: "Searching pets service.",
@@ -14,15 +13,13 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
   return (
     <html lang="en">
       <body>
-        <ModalProvider>
-          <div id="root">
-            <MainNavigation />
-            <main className="main__wrapper">
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </ModalProvider>
+        <div id="root">
+          <Header />
+          <main className="main__wrapper">
+            {children}
+          </main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

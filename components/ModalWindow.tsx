@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useContext} from "react";
-import Modal from "@/components/Modal";
+import Modal from "@/components/ui/Modal";
 import {ModalContext} from "@/store/ModalContext";
 import NewPost from "@/components/NewPost";
 
