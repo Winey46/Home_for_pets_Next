@@ -1,7 +1,6 @@
 'use client';
 
-import React, {useContext, useState} from "react";
-import {ModalContext} from "@/store/ModalContext";
+import React from "react";
 
 interface InputProps {
   label: string,

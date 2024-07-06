@@ -1,30 +1,32 @@
-import '@/styles/footer.scss'
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 
 const Footer: React.FC = function Footer() {
   return (
-    <footer id="footer" className="footer">
+    <footer
+      id="footer"
+      className="w-full flex items-center justify-evenly bg-zinc-700 min-h-[175px] shadow-lg mt-[10px] max-md:flex-col"
+    >
       <Link
-        className="footer-logo__wrapper"
+        className="flex items-center justify-center gap-[5px] text-[1.25rem] text-neutral-100 hover:text-amber-300"
         href="/"
       >
         <Image
           src="/pets-logo.png"
           alt="pets_logo"
-          className="footer-logo"
+          className="h-[30px] w-auto"
           width={50}
           height={50}
         />
-        <span className="footer-logo__text">Home for Pets</span>
+        <span className="text-neutral-200 hover:text-amber-300">Home for Pets</span>
       </Link>
-      <p className="footer-text">
+      <p className="text-neutral-200">
         © 2024 Creative Web Production.
         <br />Home for Pets. All rights reserved.
       </p>
       <a
-        className="footer-contacts"
+        className="text-neutral-200 hover:text-amber-300"
         href="mailto:home4pets46@gmail.com"
       >
         home4pets46@gmail.com
