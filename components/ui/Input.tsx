@@ -1,18 +1,7 @@
 'use client';
 
 import React from "react";
-
-interface InputProps {
-  label: string,
-  name: string,
-  placeholder: string,
-  type: string,
-  error: string | null,
-  textarea: boolean,
-  className: string,
-  defaultValue: string,
-  onChange: () => void
-}
+import {InputProps} from "@/utils/types";
 
 const Input: React.FC<InputProps> = (
   {
@@ -20,14 +9,9 @@ const Input: React.FC<InputProps> = (
     name,
     error,
     textarea,
+    handleChange,
     ...props
   }) => {
-  // const {modalData} = useContext(ModalContext)
-  //
-  // const [value, setValue] = useState(modalData ? modalData.animalType : '')
-  // const [error, setError] = useState<boolean>(false)
-  // const inputsChange = (event: React.FormEvent) => setAnimalTypeValue(event.target.value)
-
   return (
     <div className="w-[80%] my-0 mx-[100px]">
       <label
@@ -39,6 +23,7 @@ const Input: React.FC<InputProps> = (
       {!textarea ?
         <input
           name={name}
+          onChange={handleChange}
           {...props}
         /> :
         <textarea

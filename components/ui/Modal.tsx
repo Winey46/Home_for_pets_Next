@@ -2,8 +2,9 @@
 
 import {motion} from "framer-motion";
 import React from "react";
+import {ModalProps} from "@/utils/types";
 
-const Modal: React.FC = ({children, modalClose}) => {
+const Modal = ({children, modalClose}: ModalProps) => {
   return (
     <>
       <div

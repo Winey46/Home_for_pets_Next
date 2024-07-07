@@ -5,7 +5,7 @@ import React from "react";
 import {useFormStatus} from "react-dom";
 import {ButtonProps} from "@/utils/types";
 
-const Button: React.FC = ({children, className, handleClick}: ButtonProps) => {
+const Button = ({children, className, handleClick}: ButtonProps) => {
   const {pending} = useFormStatus()
 
   // const handleScroll = (): void => {

@@ -3,9 +3,9 @@ import Image from "next/image";
 
 export default function Heading() {
   return (
-    <div id="heading" className="w-[960px] flex my-175px max-md:w-[610px] max-sm:w-[360px]">
+    <div id="heading" className="w-[960px] flex my-[175px] max-md:w-[610px] max-sm:w-[360px]">
       <div className="flex flex-col justify-center items-center w-1/2">
-        <h1 className="text-center text-[3.5rem] max-md:text-[1.75rem]">
+        <h1 className="text-center text-[3.5rem] max-md:text-[1.75rem] mb-8">
           We are searching pets service.
         </h1>
         <div className="flex gap-[25px] max-md:flex-col">
