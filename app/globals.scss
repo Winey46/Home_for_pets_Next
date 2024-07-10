@@ -55,6 +55,10 @@ ul {
   padding: 0;
 }
 
+.min-height {
+  min-height: calc(100vh - 76px - 185px);
+}
+
 .backdrop {
   position: fixed;
   top: 0;

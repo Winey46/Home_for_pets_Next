@@ -2,7 +2,11 @@
 
 import {motion} from "framer-motion";
 import React from "react";
-import {ModalProps} from "@/utils/types";
+
+interface ModalProps {
+  modalClose?: () => void;
+  children?: React.ReactNode;
+}
 
 const Modal = ({children, modalClose}: ModalProps) => {
   return (
@@ -13,8 +17,7 @@ const Modal = ({children, modalClose}: ModalProps) => {
       >
         <p className="py-[5px] px-[50px] text-neutral-100 text-[1.2rem] hover:cursor-pointer">Close</p>
       </div>
-      <motion.dialog
-        open
+      <motion.div
         className="bg-neutral-100 fixed top-[7vh] max-w-[86vw] max-h-[86vh] rounded-[10px] shadow-lg overflow-y-auto p-[10px] z-10 max-md:max-h-[76vh] max-sm:max-h-[72vh]"
         initial={{opacity: 0, y: 200}}
         animate={{opacity: 1, y: 0}}
@@ -23,9 +26,9 @@ const Modal = ({children, modalClose}: ModalProps) => {
         <div className="flex items-center justify-center h-full w-full">
           {children}
         </div>
-      </motion.dialog>
+      </motion.div>
     </>
   )
 }
 
-export default Modal
+export default Modal;

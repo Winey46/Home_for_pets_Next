@@ -1,29 +1,35 @@
 'use server';
 
-export async function getAllAnimals() {
-  const response = await fetch(
-    'https://find-pets-d8559-default-rtdb.europe-west1.firebasedatabase.app/animals.json', {
-      next: {revalidate: 60}
-    })
+import axios, {AxiosResponse} from "axios";
 
-  if (!response.ok) {
+export async function getAllAnimals() {
+  try {
+    const response: AxiosResponse = await axios.get(
+      'https://find-pets-d8559-default-rtdb.europe-west1.firebasedatabase.app/animals.json', {
+        next: {revalidate: 60}
+      })
+
+    return response.data
+
+  } catch (error) {
+    console.error(error)
     throw new Error('Failed to fetch data')
   }
-
-  return response.json()
 }
 
-export async function getAnimal(animalId) {
+export async function getAnimal(animalId: string) {
   const url =
     `https://find-pets-d8559-default-rtdb.europe-west1.firebasedatabase.app/animals/${animalId}.json`
 
-  const response = await fetch(url, {
-    next: {revalidate: 300}
-  })
+  try {
+    const response: AxiosResponse = await axios.get(url, {
+      next: {revalidate: 300}
+    })
 
-  if (!response.ok) {
+    return response.data
+
+  } catch (error) {
+    console.error(error)
     throw new Error('Failed to fetch animal details')
   }
-
-  return response.json()
 }

@@ -1,65 +1,93 @@
+'use client';
+
 import Button from "./ui/Button";
-import {useContext} from "react";
+import {useRouter} from "next/navigation";
+import {useState} from "react";
 
 export default function Filters() {
-  // const {
-  //   catFilter,
-  //   dogFilter,
-  //   birdFilter,
-  //   setCatFilter,
-  //   setDogFilter,
-  //   setBirdFilter,
-  // } = useContext(FiltersContext)
+  const [catFilter, setCatFilter] = useState(false)
+  const [dogFilter, setDogFilter] = useState(false)
+  const [birdFilter, setBirdFilter] = useState(false)
+
+  const router = useRouter()
+
+  const filtersHandle = () => {
+    if (catFilter && !dogFilter && !birdFilter) {
+      router.push('/animalsList?type=cat')
+    } else if (!catFilter && dogFilter && !birdFilter) {
+      router.push('/animalsList?type=dog')
+    } else if (!catFilter && !dogFilter && birdFilter) {
+      router.push('/animalsList?type=bird')
+    } else if (catFilter && dogFilter && !birdFilter) {
+      router.push('/animalsList?type=cat&type=dog')
+    } else if (catFilter && !dogFilter && birdFilter) {
+      router.push('/animalsList?type=cat&type=bird')
+    } else if (!catFilter && dogFilter && birdFilter) {
+      router.push('/animalsList?type=dog&type=bird')
+    } else if (catFilter && dogFilter && birdFilter) {
+      router.push('/animalsList?type=cat&type=dog&type=bird')
+    } else router.push('/animalsList')
+  }
+
+  const filtersReset = () => {
+    setCatFilter(false)
+    setDogFilter(false)
+    setBirdFilter(false)
+
+    router.push('/animalsList')
+  }
 
   return (
-    <div className="filters">
-      <ul className="filters-list">
+    <div className="flex flex-col items-center w-[250px] h-fit bg-purple-600 rounded-[5px] max-xl:mb-[5px]">
+      <ul className="w-full mt-[15px] flex flex-col items-center text-neutral-100">
         Animal type
-        <li className="filters-list__element">
+        <li className="w-[80%]">
           <input
             type="checkbox"
             name="checkbox-cat"
-            // onChange={(event) => setCatFilter(event.target.checked)}
-            // checked={catFilter}
+            onChange={(event) => setCatFilter(event.target.checked)}
+            checked={catFilter}
           />
           <label
             htmlFor="checkbox-cat"
-            className="input-label"
+            className="text-neutral-100"
           >Cat</label>
         </li>
-        <li className="filters-list__element">
+        <li className="w-[80%]">
           <input
             type="checkbox"
             name="checkbox-dog"
-            // onChange={(event) => setDogFilter(event.target.checked)}
-            // checked={dogFilter}
+            onChange={(event) => setDogFilter(event.target.checked)}
+            checked={dogFilter}
           />
           <label
             htmlFor="checkbox-dog"
-            className="input-label"
+            className="text-neutral-100"
           >Dog</label>
         </li>
-        <li className="filters-list__element">
+        <li className="w-[80%]">
           <input
             type="checkbox"
             name="checkbox-parrot"
-            // onChange={(event) => setBirdFilter(event.target.checked)}
-            // checked={birdFilter}
+            onChange={(event) => setBirdFilter(event.target.checked)}
+            checked={birdFilter}
           />
           <label
             htmlFor="checkbox-parrot"
-            className="input-label"
+            className="text-neutral-100"
           >Bird</label>
         </li>
       </ul>
-      <div className="buttons-wrapper">
+      <div className="flex gap-[25px] mb-[15px]">
         <Button
-          // onClick={filtersHandle}
-          className="button yellow"
+          handleClick={filtersHandle}
+          className="flex justify-center items-center py-4 px-6 rounded-[5px] text-[1rem] bg-amber-400 hover:bg-amber-500 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"
         >Ok</Button>
         <Button
-          // onClick={filtersReset}
-          // className={(catFilter || dogFilter || birdFilter) ? "button yellow" : "button disabled"}
+          handleClick={filtersReset}
+          className={(catFilter || dogFilter || birdFilter) ?
+            "button flex justify-center items-center py-4 px-6 rounded-[5px] text-[1rem] bg-amber-400 hover:bg-amber-500 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]" :
+            "button flex justify-center items-center py-4 px-6 rounded-[5px] text-[1rem] bg-gray-300 hover:bg-amber-500 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"}
         >Reset</Button>
       </div>
     </div>

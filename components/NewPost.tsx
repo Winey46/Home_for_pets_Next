@@ -1,16 +1,21 @@
 'use client';
 
-import React, {useState} from "react";
-import {useFormState} from "react-dom";
+import React, {useState, useEffect} from "react";
 import Input from "./ui/Input";
 import Button from "./ui/Button";
 import ImagePreview from "@/components/ui/ImagePreview";
-import {postAnimal} from "@/lib/actions";
-import {NewPostProps} from "@/utils/types";
+import { postAnimal} from "@/lib/actions";
+import {deleteImage, getDate, uploadImage} from "@/utils/helpers";
+import {PostDataType} from "@/utils/types";
 
-const NewPost = ({modalClose}: NewPostProps) => {
+interface NewPostProps {
+  modalClose: () => void;
+  postData?: PostDataType;
+}
+
+const NewPost = ({modalClose, postData}: NewPostProps) => {
   const [image, setImage] = useState<File | null>(null)
-  const [state, formAction] = useFormState(postAnimal, null)
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target.files && event.target.files[0]) {
@@ -18,40 +23,148 @@ const NewPost = ({modalClose}: NewPostProps) => {
     }
   }
 
+  const [animalTypeValue, setAnimalTypeValue] =
+    useState<string>(postData ? postData.animalType : '')
+  const [animalTypeError, setAnimalTypeError] = useState<boolean>(false)
+  const animalTypeInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => setAnimalTypeValue(
+    event.target.value)
+
+  const [titleValue, setTitleValue] =
+    useState<string>(postData ? postData.title : '')
+  const [titleError, setTitleError] = useState<boolean>(false)
+  const titleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => setTitleValue(event.target.value)
+
+  const [textValue, setTextValue] =
+    useState<string>(postData ? postData.text : '')
+  const [textError, setTextError] = useState<boolean>(false)
+  const textInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => setTextValue(event.target.value)
+
+  const [contactsValue, setContactsValue] =
+    useState<string>(postData ? postData.contacts : '')
+  const [contactsError, setContactsError] = useState<boolean>(false)
+  const contactsInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => setContactsValue(event.target.value)
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
+    event.preventDefault()
+
+    if (animalTypeValue.trim().length < 3) {
+      setAnimalTypeError(true)
+    }
+
+    if (titleValue.trim().length < 3) {
+      setTitleError(true)
+    }
+
+    if (textValue.trim().length < 3) {
+      setTextError(true)
+    }
+
+    if (contactsValue.trim().length < 3) {
+      setContactsError(true)
+    }
+
+    if (animalTypeValue.trim().length > 2 &&
+      titleValue.trim().length > 2 &&
+      textValue.trim().length > 2 &&
+      contactsValue.trim().length > 2) {
+
+      setIsSubmitting(true)
+
+      const data: PostDataType = {
+        animalType: animalTypeValue,
+        title: titleValue,
+        text: textValue,
+        date: getDate(),
+        contacts: contactsValue,
+        imageLink: null,
+        imageName: null,
+      }
+
+      if (postData) {
+        data.id = postData.id
+      }
+
+      if (image && image.name.length > 0) {
+        uploadImage(image)
+          .then(imageResponse => {
+            data.imageName = imageResponse.imageName
+            data.imageLink = imageResponse.imageLink
+          })
+
+        if (postData) {
+          deleteImage(postData.imageName)
+            .then(() => postAnimal(data, 'PUT'))
+            .then(() => modalClose())
+            .finally(() => setIsSubmitting(false))
+        } else {
+          postAnimal(data, 'POST')
+            .then(() => modalClose())
+            .finally(() => setIsSubmitting(false))
+        }
+      } else if (!image && postData) {
+        postAnimal(data, 'PUT')
+          .then(() => modalClose())
+          .finally(() => setIsSubmitting(false))
+      } else {
+        postAnimal(data, 'POST')
+          .then(() => modalClose())
+          .finally(() => setIsSubmitting(false))
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (animalTypeValue.trim().length >= 3) {
+      setAnimalTypeError(false)
+    }
+
+    if (titleValue.trim().length >= 3) {
+      setTitleError(false)
+    }
+
+    if (textValue.trim().length >= 3) {
+      setTextError(false)
+    }
+
+    if (contactsValue.trim().length >= 3) {
+      setContactsError(false)
+    }
+  }, [animalTypeValue, titleValue, textValue, contactsValue]);
+
   return (
     <form
       className="w-[960px] flex flex-col items-center gap-6 self-start max-md:w-[610px] max-sm:w-[360px]"
-      onSubmit={!state ? modalClose : undefined}
-      action={formAction}
+      onSubmit={handleSubmit}
     >
       <h2 className="text-[2rem] my-[5px]">
-        New Post.
-        {/*{!modalData ? 'New Post.' : 'Edit Post'}*/}
-        {/*{modalData &&*/}
-        {/*  <input readOnly value={modalData.id} name='post-id' className="post-id" />}*/}
+        {postData ? 'Edit Post.' : 'New Post.'}
       </h2>
       <Input
-        className={state && state.animalType ?
+        className={animalTypeError ?
           "w-full h-12 border-[1px] border-red-600 rounded-[5px] bg-transparent focus:outline-none placeholder:text-[1rem]" :
           "w-full h-12 border-b-[1px] border-b-purple-800 bg-transparent"}
         name="animal-type"
         label="Animal Type *"
         placeholder="Enter type of your animal"
         type="text"
-        error={state ? state.animalType : null}
+        defaultValue={animalTypeValue}
+        handleChange={animalTypeInputChange}
+        error={animalTypeError ? 'Should contain at least 3 symbols' : null}
       />
       <Input
-        className={state && state.title ?
+        className={titleError ?
           "w-full h-12 border-[1px] border-b-red-600 rounded-[5px] bg-transparent focus:outline-none placeholder:text-[1rem]" :
           "w-full h-12 border-b-[1px] border-b-purple-800 bg-transparent"}
         name="new-post__title"
         label="Title *"
         placeholder="Enter your title"
         type="text"
-        error={state ? state.title : null}
+        defaultValue={titleValue}
+        handleChange={titleInputChange}
+        error={titleError ? 'Should contain at least 3 symbols' : null}
       />
       <Input
-        className={state && state.text ?
+        className={textError ?
           "w-full h-12 border-[1px] border-b-red-600 rounded-[5px] bg-transparent focus:outline-none placeholder:text-[1rem]" :
           "w-full h-12 border-b-[1px] border-b-purple-800 bg-transparent"}
         textarea
@@ -59,20 +172,25 @@ const NewPost = ({modalClose}: NewPostProps) => {
         label="Text *"
         placeholder="Enter your message"
         type="text"
-        error={state ? state.text : null}
+        defaultValue={textValue}
+        handleTextareaChange={textInputChange}
+        error={textError ? 'Should contain at least 3 symbols' : null}
       />
       <Input
-        className={state && state.contacts ?
+        className={contactsError ?
           "w-full h-12 border-[1px] border-b-red-600 rounded-[5px] bg-transparent focus:outline-none placeholder:text-[1rem]" :
           "w-full h-12 border-b-[1px] border-b-purple-800 bg-transparent"}
         name="new-post__contacts"
         label="Contacts *"
         placeholder="Enter your contacts"
         type="text"
-        error={state ? state.contacts : null}
+        defaultValue={contactsValue}
+        handleChange={contactsInputChange}
+        error={contactsError ? 'Should contain at least 3 symbols' : null}
       />
 
-      {image && <ImagePreview imgSrc={image} />}
+      {image && <ImagePreview imgSrc={URL.createObjectURL(image)} />}
+      {postData && postData.imageLink && !image && <ImagePreview imgSrc={postData.imageLink} />}
 
       <Input
         name="new-post__image"
@@ -84,7 +202,8 @@ const NewPost = ({modalClose}: NewPostProps) => {
         <Button
           className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] text-neutral-100 bg-purple-600 hover:bg-purple-700 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"
           type="submit"
-        >Save</Button>
+          disabled={isSubmitting}
+        >{isSubmitting ? 'Submitting' : 'Save'}</Button>
         <Button
           className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] bg-amber-400 hover:bg-amber-500 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"
           handleClick={modalClose}

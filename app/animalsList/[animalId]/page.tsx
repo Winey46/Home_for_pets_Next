@@ -1,29 +1,16 @@
-import "@/styles/animalDetails.scss"
 import {Suspense} from "react";
 import {getAnimal} from "@/lib/animals";
-import AnimalDetails from "@/components/Animal";
+import AnimalDetails from "@/components/AnimalDetails";
 
-const Animal = async ({animalId}) => {
+const Animal = async ({animalId}: { animalId: string }) => {
   const result = await getAnimal(animalId)
+
+  result.id = animalId
 
   return <AnimalDetails data={result} />
 }
 
-const AnimalDetailsPage = ({params}) => {
-
-  // const startDeleteHandler = () => {
-  //   const proceed = window.confirm(
-  //     'Are you sure you want to delete the post?')
-  //
-  //   if (proceed) {
-  //     submit(null, {method: 'delete'})
-  //   }
-  // }
-  //
-  // if (isSubmitting) {
-  //   return <div className="spinner"></div>
-  // }
-
+const AnimalDetailsPage = ({params}: { params: { animalId: string } }) => {
   return (
     <Suspense>
       <Animal animalId={params.animalId} />

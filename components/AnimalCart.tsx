@@ -5,31 +5,37 @@ import {motion, AnimatePresence} from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 
-export default function AnimalCart({to, src, title}) {
-  const [postTitleToggle, setPostTitleToggle] = useState(false)
+interface AnimalCartProps {
+  to: string;
+  imgSrc: string | null;
+  title: string;
+}
+
+export default function AnimalCart({to, imgSrc, title}: AnimalCartProps) {
+  const [postTitleHover, setPostTitleHover] = useState<boolean>(false)
 
   return (
-    <li className="animals-post">
+    <li className="flex flex-col w-[300px] h-[300px] hover:cursor-pointer max-lg:w-[295px] max-lg:h-[295px] max-sm:w-[170px] max-sm:h-[170]">
       <Link
         href={to}
-        className="animals-post__preview"
-        onMouseEnter={() => setPostTitleToggle(true)}
-        onMouseLeave={() => setPostTitleToggle(false)}
+        className="flex flex-col"
+        onMouseEnter={() => setPostTitleHover(true)}
+        onMouseLeave={() => setPostTitleHover(false)}
       >
-        <div className="animals-image__wrapper">
+        <div className="flex flex-col justify-center h-[300px] w-full rounded-[5px] max-lg:h-[295px] max-sm:h-[170px]">
           <img
-            className="animals-image"
-            src={src}
+            className="w-auto h-full object-cover rounded-[5px]"
+            src={imgSrc ? imgSrc : '/pets-default.jpg'}
             alt="animal_image"
             // width={300}
             // height={300}
           />
         </div>
         <AnimatePresence>
-          {postTitleToggle &&
-            <div className="animals-post__header">
+          {postTitleHover &&
+            <div className="relative bottom-[101px] w-full h-[100px] flex flex-col items-center justify-center bg-[linear-gradient(to_bottom,rgba(0,0,0,0),rgba(0,0,0,0.75))] rounded-br-[5px] rounded-bl-[5px] overflow-hidden">
               <motion.p
-                className="animals-post__title"
+                className="text-center m-0 w-[90%] text-neutral-100"
                 variants={{
                   hidden: {x: -500},
                   visible: {x: 0}

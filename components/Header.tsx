@@ -10,7 +10,7 @@ import {usePathname} from "next/navigation";
 import Modal from "@/components/ui/Modal";
 import NewPost from "@/components/NewPost";
 
-const Header: React.FC = () => {
+const Header = () => {
   const [isOpened, setIsOpened] = useState<boolean>(false)
   const [navigationState, setNavigationState] = useState<boolean>(false)
 
@@ -41,7 +41,7 @@ const Header: React.FC = () => {
             <Image
               src="/pets-logo.png"
               alt="pets_logo"
-              className="header-logo"
+              className="h-[30px] w-auto"
               width={35}
               height={35}
             />
@@ -57,7 +57,7 @@ const Header: React.FC = () => {
           </div>
           <div className="flex items-center gap-[75px] ml-auto">
             <Button
-              className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] bg-amber-400 hover:bg-amber-500 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"
+              className="flex justify-center items-center py-4 px-6 rounded-[5px] text-[1rem] bg-amber-400 hover:bg-amber-500 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"
               handleClick={handleModalOpen}
             >
               Add Post+

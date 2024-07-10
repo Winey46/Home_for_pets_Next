@@ -1,17 +1,17 @@
 'use client';
 
-import React from "react";
 import {InputProps} from "@/utils/types";
 
-const Input: React.FC<InputProps> = (
+const Input = (
   {
     label,
     name,
     error,
     textarea,
     handleChange,
+    handleTextareaChange,
     ...props
-  }) => {
+  }: InputProps) => {
   return (
     <div className="w-[80%] my-0 mx-[100px]">
       <label
@@ -28,6 +28,7 @@ const Input: React.FC<InputProps> = (
         /> :
         <textarea
           name={name}
+          onChange={handleTextareaChange}
           {...props} />
       }
       <div className="text-red-500">

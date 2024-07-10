@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <div
+    <section
       id="about"
       className="flex flex-col items-center justify-center w-full bg-amber-400 rounded-[10px] mb-[250px] max-md:w-[610px] max-md:mb-[100px] max-sm:w-[360px]"
     >
@@ -15,6 +15,6 @@ export default function About() {
           something we would give to our own pets, with love and care.
         </p>
       </div>
-    </div>
+    </section>
   )
 }
