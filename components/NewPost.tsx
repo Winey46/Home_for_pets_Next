@@ -4,13 +4,13 @@ import React, {useState, useEffect} from "react";
 import Input from "./ui/Input";
 import Button from "./ui/Button";
 import ImagePreview from "@/components/ui/ImagePreview";
-import { postAnimal} from "@/lib/actions";
+import {postAnimal} from "@/lib/actions";
 import {deleteImage, getDate, uploadImage} from "@/utils/helpers";
-import {PostDataType} from "@/utils/types";
+import {PostDataInterface} from "@/utils/types";
 
 interface NewPostProps {
   modalClose: () => void;
-  postData?: PostDataType;
+  postData?: PostDataInterface;
 }
 
 const NewPost = ({modalClose, postData}: NewPostProps) => {
@@ -70,7 +70,7 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
 
       setIsSubmitting(true)
 
-      const data: PostDataType = {
+      const data: PostDataInterface = {
         animalType: animalTypeValue,
         title: titleValue,
         text: textValue,
@@ -90,25 +90,23 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
             data.imageName = imageResponse.imageName
             data.imageLink = imageResponse.imageLink
           })
-
-        if (postData) {
+        if (postData && postData.imageName) {
           deleteImage(postData.imageName)
             .then(() => postAnimal(data, 'PUT'))
-            .then(() => modalClose())
-            .finally(() => setIsSubmitting(false))
+            .then(() => modalClose()).finally(() => setIsSubmitting(false))
+        } else if (postData) {
+          postAnimal(data, 'PUT')
+            .then(() => modalClose()).finally(() => setIsSubmitting(false))
         } else {
           postAnimal(data, 'POST')
-            .then(() => modalClose())
-            .finally(() => setIsSubmitting(false))
+            .then(() => modalClose()).finally(() => setIsSubmitting(false))
         }
       } else if (!image && postData) {
         postAnimal(data, 'PUT')
-          .then(() => modalClose())
-          .finally(() => setIsSubmitting(false))
+          .then(() => modalClose()).finally(() => setIsSubmitting(false))
       } else {
         postAnimal(data, 'POST')
-          .then(() => modalClose())
-          .finally(() => setIsSubmitting(false))
+          .then(() => modalClose()).finally(() => setIsSubmitting(false))
       }
     }
   }

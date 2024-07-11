@@ -1,6 +1,6 @@
 import React from "react";
 
-export interface InputProps {
+export interface InputInterface {
   label?: string;
   name?: string;
   placeholder?: string;
@@ -13,7 +13,7 @@ export interface InputProps {
   handleTextareaChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-export interface PostDataType {
+export interface PostDataInterface {
   id?: string;
   animalType: string;
   title: string;
@@ -22,4 +22,11 @@ export interface PostDataType {
   contacts: string;
   imageLink: string | null;
   imageName: string | null;
+}
+
+export interface PostPreviewInterface {
+  animalType: string;
+  id: string;
+  title: string;
+  imageLink: string | null;
 }

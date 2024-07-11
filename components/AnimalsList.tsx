@@ -2,21 +2,21 @@
 
 import AnimalCart from "@/components/AnimalCart";
 import {useSearchParams} from "next/navigation";
-import {PostDataType} from "@/utils/types";
+import {PostDataInterface, PostPreviewInterface} from "@/utils/types";
 import {useEffect, useState} from "react";
 
 interface AnimalsListProps {
-  animals: { [key: string]: PostDataType; }
+  animals: { [key: string]: PostDataInterface; }
 }
 
 const AnimalsList = ({animals}: AnimalsListProps) => {
-  const [pets, setPets] = useState<PostDataType[]>([])
+  const [pets, setPets] = useState<PostPreviewInterface[]>([])
 
   const params = useSearchParams()
   const postQuery = params.getAll('type')
 
   useEffect(() => {
-    const temporaryPets: PostDataType[] = []
+    const temporaryPets: PostPreviewInterface[] = []
 
     for (let key in animals) {
       temporaryPets.push({
@@ -39,6 +39,12 @@ const AnimalsList = ({animals}: AnimalsListProps) => {
       setPets(temporaryPets)
     }
   }, [animals]);
+
+  if (!pets.length) {
+    return <p className="w-[924px] flex justify-center items-center text-3xl h-[500px] text-center px-[7px] max-lg:w-[610px] max-sm:w-[360px]">
+      There are no available pets.
+    </p>
+  }
 
   return (
     <div className="w-[924px] flex justify-center px-[7px] max-lg:w-[610px] max-sm:w-[360px]">

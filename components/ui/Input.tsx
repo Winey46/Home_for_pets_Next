@@ -1,6 +1,6 @@
 'use client';
 
-import {InputProps} from "@/utils/types";
+import {InputInterface} from "@/utils/types";
 
 const Input = (
   {
@@ -11,7 +11,7 @@ const Input = (
     handleChange,
     handleTextareaChange,
     ...props
-  }: InputProps) => {
+  }: InputInterface) => {
   return (
     <div className="w-[80%] my-0 mx-[100px]">
       <label

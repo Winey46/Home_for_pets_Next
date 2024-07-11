@@ -4,17 +4,20 @@ import Button from "@/components/ui/Button";
 import {useState} from "react";
 import Modal from "@/components/ui/Modal";
 import NewPost from "@/components/NewPost";
-import {PostDataType} from "@/utils/types";
+import {PostDataInterface} from "@/utils/types";
 import {deleteAnimal} from "@/lib/actions";
 import {deleteImage} from "@/utils/helpers";
+import {useRouter} from "next/navigation";
+
 
 interface AnimalDetailsProps {
-  data: PostDataType
+  data: PostDataInterface
 }
 
 const AnimalDetails = ({data}: AnimalDetailsProps) => {
   const [imageIsOpened, setImageIsOpened] = useState<boolean>(false)
   const [editIsOpened, setEditIsOpened] = useState<boolean>(false)
+  const router = useRouter()
 
   const handleModalOpen = (): void => {
     setImageIsOpened(true)
@@ -40,9 +43,13 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
     const proceed = window.confirm(
       'Are you sure that you want to delete the post?')
 
-    if (proceed && data.imageName && data.id) {
+    if (data.imageName) {
       deleteImage(data.imageName)
-        .then(() => deleteAnimal(data.id))
+        .then(() => console.log('deleted'))
+    }
+    if (proceed && data.id) {
+      deleteAnimal(data.id)
+        .then(() => router.push('/animalsList'))
     }
   }
 

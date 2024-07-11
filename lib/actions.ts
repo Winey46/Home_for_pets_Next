@@ -3,9 +3,9 @@
 import {redirect} from "next/navigation";
 import axios from "axios";
 import {revalidatePath} from "next/cache";
-import {PostDataType} from "@/utils/types";
+import {PostDataInterface} from "@/utils/types";
 
-export async function postAnimal(data: PostDataType, method: string) {
+export async function postAnimal(data: PostDataInterface, method: string) {
   let url: string = 'https://find-pets-d8559-default-rtdb.europe-west1.firebasedatabase.app/animals.json'
 
   if (method === 'PUT') {
@@ -16,7 +16,6 @@ export async function postAnimal(data: PostDataType, method: string) {
     if (method === 'POST') {
       await axios.post(url, data)
     }
-
     if (method === 'PUT') {
       await axios.put(url, data)
     }
@@ -29,7 +28,6 @@ export async function postAnimal(data: PostDataType, method: string) {
     revalidatePath('/animalsList')
     return redirect('/animalsList')
   }
-
   if (method === 'PUT') {
     return revalidatePath(`/animalsList/${data.id}`)
   }
