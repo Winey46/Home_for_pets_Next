@@ -142,7 +142,7 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
       <Input
         className={animalTypeError ?
           "w-full h-12 border-[1px] border-red-600 rounded-[5px] bg-transparent focus:outline-none placeholder:text-[1rem]" :
-          "w-full h-12 border-b-[1px] border-b-purple-800 bg-transparent"}
+          "w-full h-12 border-b-[1px] border-b-[#6204e8;] bg-transparent"}
         name="animal-type"
         label="Animal Type *"
         placeholder="Enter type of your animal"
@@ -154,7 +154,7 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
       <Input
         className={titleError ?
           "w-full h-12 border-[1px] border-b-red-600 rounded-[5px] bg-transparent focus:outline-none placeholder:text-[1rem]" :
-          "w-full h-12 border-b-[1px] border-b-purple-800 bg-transparent"}
+          "w-full h-12 border-b-[1px] border-b-[#6204e8;] bg-transparent"}
         name="new-post__title"
         label="Title *"
         placeholder="Enter your title"
@@ -166,7 +166,7 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
       <Input
         className={textError ?
           "w-full h-12 border-[1px] border-b-red-600 rounded-[5px] bg-transparent focus:outline-none placeholder:text-[1rem]" :
-          "w-full h-12 border-b-[1px] border-b-purple-800 bg-transparent"}
+          "w-full h-12 border-b-[1px] border-b-[#6204e8;] bg-transparent"}
         textarea
         name="new-post__text"
         label="Text *"
@@ -179,7 +179,7 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
       <Input
         className={contactsError ?
           "w-full h-12 border-[1px] border-b-red-600 rounded-[5px] bg-transparent focus:outline-none placeholder:text-[1rem]" :
-          "w-full h-12 border-b-[1px] border-b-purple-800 bg-transparent"}
+          "w-full h-12 border-b-[1px] border-b-[#6204e8;] bg-transparent"}
         name="new-post__contacts"
         label="Contacts *"
         placeholder="Enter your contacts"
@@ -200,12 +200,12 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
       />
       <div className="flex m-[15px] gap-[50px]">
         <Button
-          className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] text-neutral-100 bg-purple-600 hover:bg-purple-700 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"
+          className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] text-neutral-100 bg-[#833de7;] hover:bg-[#6204e8] max-lg:text-[0.9rem] max-lg:py-[0.6rem] max-lg:px-[0.8rem]"
           type="submit"
           disabled={isSubmitting}
         >{isSubmitting ? 'Submitting' : 'Save'}</Button>
         <Button
-          className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] bg-amber-400 hover:bg-amber-500 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"
+          className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] bg-[#fbc43c] hover:bg-[#ffb100] max-lg:text-[0.9rem] max-lg:py-[0.6rem] max-lg:px-[0.8rem]"
           handleClick={modalClose}
           type="button"
         >Cancel</Button>
