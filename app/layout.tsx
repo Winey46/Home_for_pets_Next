@@ -13,13 +13,14 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
   return (
     <html lang="en">
     <body>
-    <div id="root">
-      <Header />
-      <main className="flex flex-col items-center max-md:w-[610px] max-sm:w-[360px] min-height">
-        {children}
-      </main>
-      <Footer />
-    </div>
+      <div id="modal" className="flex justify-center"></div>
+      <div id="root">
+        <Header />
+        <main className="flex flex-col items-center max-md:w-[610px] max-sm:w-[360px] min-height">
+          {children}
+        </main>
+        <Footer />
+      </div>
     </body>
     </html>
   );

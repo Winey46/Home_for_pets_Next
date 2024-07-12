@@ -1,17 +1,80 @@
-/* Error: Can't find stylesheet to import.
- *   ,
- * 5 | @import '@/styles/colors.scss';
- *   |         ^^^^^^^^^^^^^^^^^^^^^^
- *   '
- *   globals.scss 5:9  root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: "Error: Can't find stylesheet to import.\a   \2577 \a 5 \2502  @import '@/styles/colors.scss';\a   \2502          ^^^^^^^^^^^^^^^^^^^^^^\a   \2575 \a   globals.scss 5:9  root stylesheet";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+  box-sizing: border-box;
 }
+
+body {
+  margin: 0;
+}
+
+#root {
+  font-family: "Roboto", Inter, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: #111111;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #fbc43c;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e6e6e6;
+}
+
+.main-color-1 {
+  color: #833de7;
+}
+
+.main-color-1:hover {
+  color: #6204e8;
+}
+
+.main-color-2 {
+  color: #fbc43c;
+}
+
+.main-color-1:hover {
+  color: #ffb100;
+}
+
+.background-grey {
+  background-color: #f2f2f2;
+}
+
+.min-height {
+  min-height: calc(100vh - 76px - 185px);
+}
+
+.spinner {
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(farthest-side, #833de7 94%, rgba(0, 0, 0, 0)) top/8px 8px no-repeat, conic-gradient(rgba(0, 0, 0, 0) 30%, #833de7);
+  -webkit-mask: radial-gradient(farthest-side, rgba(0, 0, 0, 0) calc(100% - 8px), #000 0);
+  animation: l13 1s infinite linear;
+}
+
+@keyframes l13 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+/*# sourceMappingURL=globals.css.map */
