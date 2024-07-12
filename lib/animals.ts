@@ -1,15 +1,13 @@
 'use server';
 
-import axios, {AxiosResponse} from "axios";
-
 export async function getAllAnimals() {
   try {
-    const response: AxiosResponse = await axios.get(
-      'https://find-pets-d8559-default-rtdb.europe-west1.firebasedatabase.app/animals.json', {
+    const response = await fetch('https://find-pets-d8559-default-rtdb.europe-west1.firebasedatabase.app/animals.json',
+      {
         next: {revalidate: 60}
       })
 
-    return response.data
+    return response.json()
 
   } catch (error) {
     console.error(error)
@@ -22,11 +20,11 @@ export async function getAnimal(animalId: string) {
     `https://find-pets-d8559-default-rtdb.europe-west1.firebasedatabase.app/animals/${animalId}.json`
 
   try {
-    const response: AxiosResponse = await axios.get(url, {
+    const response = await fetch(url, {
       next: {revalidate: 300}
     })
 
-    return response.data
+    return response.json()
 
   } catch (error) {
     console.error(error)

@@ -3,7 +3,7 @@
 import {redirect} from "next/navigation";
 import axios from "axios";
 import {revalidatePath} from "next/cache";
-import {PostDataInterface} from "@/utils/types";
+import {PostDataInterface} from "@/utils/interfaces";
 
 export async function postAnimal(data: PostDataInterface, method: string) {
   let url: string = 'https://find-pets-d8559-default-rtdb.europe-west1.firebasedatabase.app/animals.json'

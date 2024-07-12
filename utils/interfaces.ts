@@ -20,13 +20,13 @@ export interface PostDataInterface {
   text: string;
   date: string;
   contacts: string;
-  imageLink: string | null;
-  imageName: string | null;
+  imageLink?: string | null;
+  imageName?: string | null;
 }
 
 export interface PostPreviewInterface {
   animalType: string;
   id: string;
   title: string;
-  imageLink: string | null;
+  imageLink?: string | null;
 }

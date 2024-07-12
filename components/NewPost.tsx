@@ -6,7 +6,7 @@ import Button from "./ui/Button";
 import ImagePreview from "@/components/ui/ImagePreview";
 import {postAnimal} from "@/lib/actions";
 import {deleteImage, getDate, uploadImage} from "@/utils/helpers";
-import {PostDataInterface} from "@/utils/types";
+import {PostDataInterface} from "@/utils/interfaces";
 
 interface NewPostProps {
   modalClose: () => void;
@@ -68,46 +68,48 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
       textValue.trim().length > 2 &&
       contactsValue.trim().length > 2) {
 
-      setIsSubmitting(true)
+      const addPost = async () => {
+        setIsSubmitting(true)
 
-      const data: PostDataInterface = {
-        animalType: animalTypeValue,
-        title: titleValue,
-        text: textValue,
-        date: getDate(),
-        contacts: contactsValue,
-        imageLink: null,
-        imageName: null,
-      }
-
-      if (postData) {
-        data.id = postData.id
-      }
-
-      if (image && image.name.length > 0) {
-        uploadImage(image)
-          .then(imageResponse => {
-            data.imageName = imageResponse.imageName
-            data.imageLink = imageResponse.imageLink
-          })
-        if (postData && postData.imageName) {
-          deleteImage(postData.imageName)
-            .then(() => postAnimal(data, 'PUT'))
-            .then(() => modalClose()).finally(() => setIsSubmitting(false))
-        } else if (postData) {
-          postAnimal(data, 'PUT')
-            .then(() => modalClose()).finally(() => setIsSubmitting(false))
-        } else {
-          postAnimal(data, 'POST')
-            .then(() => modalClose()).finally(() => setIsSubmitting(false))
+        const data: PostDataInterface = {
+          animalType: animalTypeValue,
+          title: titleValue,
+          text: textValue,
+          date: getDate(),
+          contacts: contactsValue,
         }
-      } else if (!image && postData) {
-        postAnimal(data, 'PUT')
-          .then(() => modalClose()).finally(() => setIsSubmitting(false))
-      } else {
-        postAnimal(data, 'POST')
-          .then(() => modalClose()).finally(() => setIsSubmitting(false))
+
+        if (postData) {
+          data.id = postData.id
+          data.imageLink = postData.imageLink
+          data.imageName = postData.imageName
+        }
+
+        if (image && image.name.length > 0) {
+          const imageResponse = await uploadImage(image)
+          data.imageName = imageResponse.imageName
+          data.imageLink = imageResponse.imageLink
+
+          if (postData && postData.imageName) {
+            await deleteImage(postData.imageName)
+          }
+          if (postData) {
+            await postAnimal(data, 'PUT')
+          }
+          if (!postData) {
+            await postAnimal(data, 'POST')
+          }
+
+        } else if (!image && postData) {
+          await postAnimal(data, 'PUT')
+        } else {
+          await postAnimal(data, 'POST')
+        }
+
+        setIsSubmitting(false)
+        modalClose()
       }
+      addPost()
     }
   }
 

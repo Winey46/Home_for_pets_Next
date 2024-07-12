@@ -2,7 +2,7 @@
 
 import AnimalCart from "@/components/AnimalCart";
 import {useSearchParams} from "next/navigation";
-import {PostDataInterface, PostPreviewInterface} from "@/utils/types";
+import {PostDataInterface, PostPreviewInterface} from "@/utils/interfaces";
 import {useEffect, useState} from "react";
 
 interface AnimalsListProps {
@@ -41,7 +41,7 @@ const AnimalsList = ({animals}: AnimalsListProps) => {
   }, [animals]);
 
   if (!pets.length) {
-    return <p className="w-[924px] flex justify-center items-center text-3xl h-[500px] text-center px-[7px] max-lg:w-[610px] max-sm:w-[360px]">
+    return <p className="w-[924px] flex justify-center items-center text-2xl h-[500px] text-center px-[7px] max-lg:w-[610px] max-sm:w-[360px]">
       There are no available pets.
     </p>
   }

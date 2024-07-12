@@ -7,7 +7,7 @@ import Image from "next/image";
 
 interface AnimalCartProps {
   to: string;
-  imgSrc: string | null;
+  imgSrc?: string | null;
   title: string;
 }
 
