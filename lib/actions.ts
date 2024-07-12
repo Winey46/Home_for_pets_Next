@@ -1,7 +1,6 @@
 'use server';
 
 import {redirect} from "next/navigation";
-import axios from "axios";
 import {revalidatePath} from "next/cache";
 import {PostDataInterface} from "@/utils/interfaces";
 
@@ -13,12 +12,13 @@ export async function postAnimal(data: PostDataInterface, method: string) {
   }
 
   try {
-    if (method === 'POST') {
-      await axios.post(url, data)
-    }
-    if (method === 'PUT') {
-      await axios.put(url, data)
-    }
+    await fetch(url, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
 
   } catch (error) {
     throw new Error('Could not post animal to the database');
@@ -39,7 +39,12 @@ export async function deleteAnimal(id: string | undefined) {
 
   try {
     if (id) {
-      await axios.delete(url)
+      await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
     }
 
   } catch (error) {
