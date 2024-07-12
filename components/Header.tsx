@@ -32,10 +32,10 @@ const Header = () => {
 
   return (
     <header id="header" className="flex flex-col items-center w-full">
-      <div className="flex justify-center w-full h-[75px] border-[1px] border-b-gray-400 shadow-lg bg-neutral-100 max-md:gap-[25] max-md:px-[5%]">
-        <div className="flex w-[960px] max-md:w-[610px] max-sm:w-[360px]">
+      <div className="flex justify-center w-full h-[75px] border-[1px] border-b-gray-400 shadow-lg background-grey max-lg:gap-[25] max-lg:px-[5%]">
+        <div className="flex w-[960px] max-lg:w-[610px] max-sm:w-[360px]">
           <div
-            className="flex items-center justify-center gap-[5px] text-[1.25rem] hover:cursor-pointer hover:text-amber-300"
+            className="flex items-center justify-center gap-[5px] text-[1.25rem] hover:cursor-pointer hover:text-[#fbc43c]"
             onClick={toggleNavigation}
           >
             <Image
@@ -45,7 +45,7 @@ const Header = () => {
               width={35}
               height={35}
             />
-            <span className="max-md:hidden">Home for Pets</span>
+            <span className="max-lg:hidden">Home for Pets</span>
             <AnimatePresence>
               <motion.span
                 className="flex items-center justify-center"
@@ -57,7 +57,7 @@ const Header = () => {
           </div>
           <div className="flex items-center gap-[75px] ml-auto">
             <Button
-              className="flex justify-center items-center py-4 px-6 rounded-[5px] text-[1rem] bg-amber-400 hover:bg-amber-500 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"
+              className="flex justify-center items-center py-4 px-6 rounded-[5px] text-[1rem] bg-[#fbc43c] hover:bg-[#ffb100] max-md:text-[0.9rem] max-lg:py-[0.6rem] max-lg:px-[0.8rem]"
               handleClick={handleModalOpen}
             >
               Add Post+
@@ -84,7 +84,7 @@ const Header = () => {
         {navigationState &&
           <nav className="w-full h-[75px] overflow-hidden">
             <motion.ul
-              className="flex h-[75px] justify-center items-center gap-[100px] m-0 p-0 border-[1px] border-b-gray-400 bg-neutral-100 max-sm:gap-[30px]"
+              className="flex h-[75px] justify-center items-center gap-[100px] border-[1px] border-b-gray-400 bg-[#f2f2f2] max-sm:gap-[30px]"
               initial={{y: -76}}
               animate={{y: 0}}
               exit={{y: -76}}
@@ -93,7 +93,9 @@ const Header = () => {
               <li>
                 <Link
                   href="/"
-                  className={path === '/' ? 'text-purple-800 hover:text-amber-300' : 'hover:text-amber-300'}
+                  className={path === '/' ?
+                    'text-[#833de7] hover:text-[#fbc43c]' :
+                    'hover:text-[#fbc43c]'}
                 >
                   Main
                 </Link>
@@ -102,8 +104,8 @@ const Header = () => {
                 <Link
                   href="/animalsList"
                   className={path.startsWith('/animalsList') ?
-                    'text-purple-800 hover:text-purple-900' :
-                    'hover:text-amber-300'}
+                    'text-[#833de7] hover:text-[#fbc43c]' :
+                    'hover:text-[#fbc43c]'}
                 >
                   Looking for home
                 </Link>
@@ -112,8 +114,8 @@ const Header = () => {
                 <Link
                   href="/information"
                   className={path.startsWith('/information') ?
-                    'text-purple-800 hover:text-amber-300' :
-                    'hover:text-amber-300'}
+                    'text-[#833de7] hover:text-[#fbc43c]' :
+                    'hover:text-[#fbc43c]'}
                 >
                   Information
                 </Link>
