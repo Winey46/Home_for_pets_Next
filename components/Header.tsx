@@ -30,7 +30,7 @@ const Header = () => {
     document.body.style.overflow = ''
   }
 
-  const root = document.querySelector('#modal')
+  const root: Element | null = document.querySelector('#modal')
 
   return (
     <header id="header" className="flex flex-col items-center w-full">

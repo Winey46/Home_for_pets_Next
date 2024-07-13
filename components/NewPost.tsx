@@ -203,7 +203,7 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
           className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] text-neutral-100 bg-[#833de7;] hover:bg-[#6204e8] max-lg:text-[0.9rem] max-lg:py-[0.6rem] max-lg:px-[0.8rem]"
           type="submit"
           disabled={isSubmitting}
-        >{isSubmitting ? 'Submitting' : 'Save'}</Button>
+        >{isSubmitting ? 'Submitting...' : 'Save'}</Button>
         <Button
           className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] bg-[#fbc43c] hover:bg-[#ffb100] max-lg:text-[0.9rem] max-lg:py-[0.6rem] max-lg:px-[0.8rem]"
           handleClick={modalClose}

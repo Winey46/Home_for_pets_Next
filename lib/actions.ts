@@ -4,7 +4,7 @@ import {redirect} from "next/navigation";
 import {revalidatePath} from "next/cache";
 import {PostDataInterface} from "@/utils/interfaces";
 
-export async function postAnimal(data: PostDataInterface, method: string) {
+export async function postAnimal(data: PostDataInterface, method: string){
   let url: string = 'https://find-pets-d8559-default-rtdb.europe-west1.firebasedatabase.app/animals.json'
 
   if (method === 'PUT') {
@@ -25,7 +25,6 @@ export async function postAnimal(data: PostDataInterface, method: string) {
   }
 
   if (method === 'POST') {
-    revalidatePath('/animalsList')
     return redirect('/animalsList')
   }
   if (method === 'PUT') {
@@ -50,6 +49,5 @@ export async function deleteAnimal(id: string | undefined) {
   } catch (error) {
     throw new Error('Could not delete animal from the database');
   }
-  revalidatePath('/animalsList')
   return redirect('/animalsList')
 }

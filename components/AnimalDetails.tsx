@@ -39,7 +39,7 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
     document.body.style.overflow = ''
   }
 
-  function startDeleteHandler() {
+  function deleteHandler() {
     const proceed = window.confirm(
       'Are you sure that you want to delete the post?')
 
@@ -52,6 +52,8 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
         .then(() => router.push('/animalsList'))
     }
   }
+
+  const root: Element | null = document.querySelector('#modal')
 
   return (
     <div className="flex flex-col items-center w-[960px] min-h-[576px] border-[1px] border-gray-400 rounded-[10px] p-[5px] bg-neutral-100 max-lg:w-[610px] max-sm:w-[360px]">
@@ -76,12 +78,12 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
         <Button
           className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] text-neutral-100 bg-purple-600 hover:bg-purple-700 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"
           type="button"
-          handleClick={startDeleteHandler}
+          handleClick={deleteHandler}
         >Delete</Button>
       </div>
 
       {imageIsOpened &&
-        <Modal modalClose={handleModalClose}>
+        <Modal modalClose={handleModalClose} root={root!}>
           <img
             className=" bg-neutral-100 max-w-[85vw] max-h-[80vh] object-contain rounded-[10px]"
             src={data.imageLink ? data.imageLink : '/pets-default.jpg'}
@@ -90,13 +92,11 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
           />
         </Modal>
       }
-
       {editIsOpened &&
-        <Modal modalClose={handleEditClose}>
+        <Modal modalClose={handleEditClose} root={root!}>
           <NewPost modalClose={handleEditClose} postData={data} />
         </Modal>
       }
-
     </div>
   )
 }
