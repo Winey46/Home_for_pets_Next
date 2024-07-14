@@ -5,7 +5,7 @@ import React from "react";
 
 interface ButtonProps {
   className?: string;
-  handleClick?: () => void;
+  handleClick?: (() => void) | ((event: React.FormEvent<HTMLButtonElement>) => void);
   scrollTo?: string;
   children?: React.ReactNode;
   type?: string;

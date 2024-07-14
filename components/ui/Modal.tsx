@@ -7,10 +7,12 @@ import {createPortal} from "react-dom";
 interface ModalProps {
   modalClose?: () => void;
   children?: React.ReactNode;
-  root: Element | DocumentFragment;
+  root: string;
 }
 
 const Modal = ({children, modalClose, root}: ModalProps) => {
+  const tag = document.getElementById(root) as Element
+
   return (
     createPortal(
       <>
@@ -31,7 +33,7 @@ const Modal = ({children, modalClose, root}: ModalProps) => {
           </div>
         </motion.div>
       </>,
-      root
+      tag
     )
   )
 }

@@ -30,8 +30,6 @@ const Header = () => {
     document.body.style.overflow = ''
   }
 
-  const root: Element | null = document.querySelector('#modal')
-
   return (
     <header id="header" className="flex flex-col items-center w-full">
       <div className="flex justify-center w-full h-[75px] border-[1px] border-b-gray-400 shadow-lg background-grey max-lg:gap-[25] max-lg:px-[5%]">
@@ -127,7 +125,7 @@ const Header = () => {
       </AnimatePresence>
 
       {isOpened &&
-        <Modal modalClose={handleModalClose} root={root!}>
+        <Modal modalClose={handleModalClose} root='modal'>
           <NewPost modalClose={handleModalClose} />
         </Modal>}
     </header>

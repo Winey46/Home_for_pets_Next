@@ -45,15 +45,11 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
 
     if (data.imageName) {
       deleteImage(data.imageName)
-        .then(() => console.log('deleted'))
     }
     if (proceed && data.id) {
-      deleteAnimal(data.id)
-        .then(() => router.push('/animalsList'))
+      deleteAnimal(data.id).then(() => console.log('Animal deleted.'))
     }
   }
-
-  const root: Element | null = document.querySelector('#modal')
 
   return (
     <div className="flex flex-col items-center w-[960px] min-h-[576px] border-[1px] border-gray-400 rounded-[10px] p-[5px] bg-neutral-100 max-lg:w-[610px] max-sm:w-[360px]">
@@ -83,7 +79,7 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
       </div>
 
       {imageIsOpened &&
-        <Modal modalClose={handleModalClose} root={root!}>
+        <Modal modalClose={handleModalClose} root='modal'>
           <img
             className=" bg-neutral-100 max-w-[85vw] max-h-[80vh] object-contain rounded-[10px]"
             src={data.imageLink ? data.imageLink : '/pets-default.jpg'}
@@ -93,7 +89,7 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
         </Modal>
       }
       {editIsOpened &&
-        <Modal modalClose={handleEditClose} root={root!}>
+        <Modal modalClose={handleEditClose} root='modal'>
           <NewPost modalClose={handleEditClose} postData={data} />
         </Modal>
       }

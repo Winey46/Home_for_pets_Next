@@ -5,7 +5,6 @@ import Input from "./ui/Input";
 import Button from "./ui/Button";
 import ImagePreview from "@/components/ui/ImagePreview";
 import {postAnimal} from "@/lib/actions";
-import {deleteImage, getDate, uploadImage} from "@/utils/helpers";
 import {PostDataInterface} from "@/utils/interfaces";
 
 interface NewPostProps {
@@ -44,7 +43,7 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
   const [contactsError, setContactsError] = useState<boolean>(false)
   const contactsInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => setContactsValue(event.target.value)
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
+  function handleSubmit(event: React.FormEvent<HTMLButtonElement>): void {
     event.preventDefault()
 
     if (animalTypeValue.trim().length < 3) {
@@ -68,48 +67,11 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
       textValue.trim().length > 2 &&
       contactsValue.trim().length > 2) {
 
-      const addPost = async () => {
-        setIsSubmitting(true)
+      setIsSubmitting(true)
+      event.currentTarget.form?.requestSubmit()
 
-        const data: PostDataInterface = {
-          animalType: animalTypeValue,
-          title: titleValue,
-          text: textValue,
-          date: getDate(),
-          contacts: contactsValue,
-        }
-
-        if (postData) {
-          data.id = postData.id
-          data.imageLink = postData.imageLink
-          data.imageName = postData.imageName
-        }
-
-        if (image && image.name.length > 0) {
-          const imageResponse = await uploadImage(image)
-          data.imageName = imageResponse.imageName
-          data.imageLink = imageResponse.imageLink
-
-          if (postData && postData.imageName) {
-            await deleteImage(postData.imageName)
-          }
-          if (postData) {
-            await postAnimal(data, 'PUT')
-          }
-          if (!postData) {
-            await postAnimal(data, 'POST')
-          }
-
-        } else if (!image && postData) {
-          await postAnimal(data, 'PUT')
-        } else {
-          await postAnimal(data, 'POST')
-        }
-
-        setIsSubmitting(false)
-        modalClose()
-      }
-      addPost()
+      setIsSubmitting(false)
+      modalClose()
     }
   }
 
@@ -134,10 +96,11 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
   return (
     <form
       className="w-[960px] flex flex-col items-center gap-6 self-start max-md:w-[610px] max-sm:w-[360px]"
-      onSubmit={handleSubmit}
+      action={postAnimal}
     >
       <h2 className="text-[2rem] my-[5px]">
         {postData ? 'Edit Post.' : 'New Post.'}
+        {postData && <input readOnly value={postData.id} name='post-id' className="hidden" />}
       </h2>
       <Input
         className={animalTypeError ?
@@ -203,6 +166,7 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
           className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] text-neutral-100 bg-[#833de7;] hover:bg-[#6204e8] max-lg:text-[0.9rem] max-lg:py-[0.6rem] max-lg:px-[0.8rem]"
           type="submit"
           disabled={isSubmitting}
+          handleClick={handleSubmit}
         >{isSubmitting ? 'Submitting...' : 'Save'}</Button>
         <Button
           className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] bg-[#fbc43c] hover:bg-[#ffb100] max-lg:text-[0.9rem] max-lg:py-[0.6rem] max-lg:px-[0.8rem]"

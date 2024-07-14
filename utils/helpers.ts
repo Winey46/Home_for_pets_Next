@@ -13,7 +13,7 @@ export function getDate(): string {
   return `${time} ${formattedDate}`
 }
 
-export async function uploadImage(image: File) {
+export async function uploadImage(image: File | null) {
   const imageRef = ref(storage, `images/${(image.name).slice(0, -4)}-${uuidv4()}`)
 
   const imageResponse = await uploadBytes(imageRef, image)

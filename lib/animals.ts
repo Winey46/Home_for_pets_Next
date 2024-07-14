@@ -3,9 +3,7 @@
 export async function getAllAnimals() {
   try {
     const response = await fetch('https://find-pets-d8559-default-rtdb.europe-west1.firebasedatabase.app/animals.json',
-      {
-        cache: 'no-store'
-      })
+      {cache: 'force-cache'})
 
     return response.json()
 
@@ -21,7 +19,7 @@ export async function getAnimal(animalId: string) {
 
   try {
     const response = await fetch(url, {
-      cache: 'no-store'
+      cache: 'force-cache'
     })
 
     return response.json()
