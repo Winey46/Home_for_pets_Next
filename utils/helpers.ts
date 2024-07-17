@@ -14,14 +14,16 @@ export function getDate(): string {
 }
 
 export async function uploadImage(image: File | null) {
-  const imageRef = ref(storage, `images/${(image.name).slice(0, -4)}-${uuidv4()}`)
+  if (image) {
+    const imageRef = ref(storage, `images/${(image.name).slice(0, -4)}-${uuidv4()}`)
 
-  const imageResponse = await uploadBytes(imageRef, image)
-  const imageUrl = await getDownloadURL(ref(storage, `images/${imageResponse.metadata.name}`))
+    const imageResponse = await uploadBytes(imageRef, image)
+    const imageUrl = await getDownloadURL(ref(storage, `images/${imageResponse.metadata.name}`))
 
-  return {
-    imageLink: imageUrl,
-    imageName: imageResponse.metadata.name
+    return {
+      imageLink: imageUrl,
+      imageName: imageResponse.metadata.name
+    }
   }
 }
 

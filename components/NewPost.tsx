@@ -17,8 +17,10 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    if (event.target.files && event.target.files[0]) {
-      setImage(event.target.files[0])
+    const file: File | null = event.target.files[0]
+
+    if (file) {
+      setImage(file)
     }
   }
 
@@ -102,10 +104,10 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
     >
       <h2 className="text-[2rem] my-[5px]">
         {postData ? 'Edit Post.' : 'New Post.'}
-        {postData && <input readOnly value={postData.id} name='post-id' className="hidden" />}
+        {postData && <input readOnly value={postData.id} name='post-id' className="hidden"/>}
       </h2>
       <Input
-        className={animalTypeError ? "invalid-input" :"input"}
+        className={animalTypeError ? "invalid-input" : "input"}
         name="animal-type"
         label="Animal Type *"
         placeholder="Enter type of your animal"
@@ -115,7 +117,7 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
         error={animalTypeError ? 'Should contain at least 3 symbols' : null}
       />
       <Input
-        className={titleError ? "invalid-input" :"input"}
+        className={titleError ? "invalid-input" : "input"}
         name="new-post__title"
         label="Title *"
         placeholder="Enter your title"
@@ -125,7 +127,7 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
         error={titleError ? 'Should contain at least 3 symbols' : null}
       />
       <Input
-        className={textError ? "invalid-input" :"input"}
+        className={textError ? "invalid-input" : "input"}
         textarea
         name="new-post__text"
         label="Text *"
@@ -136,7 +138,7 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
         error={textError ? 'Should contain at least 3 symbols' : null}
       />
       <Input
-        className={contactsError ? "invalid-input" :"input"}
+        className={contactsError ? "invalid-input" : "input"}
         name="new-post__contacts"
         label="Contacts *"
         placeholder="Enter your contacts"
@@ -146,8 +148,8 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
         error={contactsError ? 'Should contain at least 3 symbols' : null}
       />
 
-      {image && <ImagePreview imgSrc={URL.createObjectURL(image)} />}
-      {postData && postData.imageLink && !image && <ImagePreview imgSrc={postData.imageLink} />}
+      {image && <ImagePreview imgSrc={URL.createObjectURL(image)}/>}
+      {postData && postData.imageLink && !image && <ImagePreview imgSrc={postData.imageLink}/>}
 
       <Input
         name="new-post__image"

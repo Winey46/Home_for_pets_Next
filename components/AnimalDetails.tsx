@@ -7,7 +7,6 @@ import NewPost from "@/components/NewPost";
 import {PostDataInterface} from "@/utils/interfaces";
 import {deleteAnimal} from "@/lib/actions";
 import {deleteImage} from "@/utils/helpers";
-import {useRouter} from "next/navigation";
 
 
 interface AnimalDetailsProps {

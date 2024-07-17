@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const ImagePreview = ({imgSrc}: { imgSrc: string }) => {
   return (
     <>
