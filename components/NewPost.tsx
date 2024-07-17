@@ -46,27 +46,29 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
   function handleSubmit(event: React.FormEvent<HTMLButtonElement>): void {
     event.preventDefault()
 
+    let isSubmit = true
+
     if (animalTypeValue.trim().length < 3) {
       setAnimalTypeError(true)
+      isSubmit = false
     }
 
     if (titleValue.trim().length < 3) {
       setTitleError(true)
+      isSubmit = false
     }
 
     if (textValue.trim().length < 3) {
       setTextError(true)
+      isSubmit = false
     }
 
     if (contactsValue.trim().length < 3) {
       setContactsError(true)
+      isSubmit = false
     }
 
-    if (animalTypeValue.trim().length > 2 &&
-      titleValue.trim().length > 2 &&
-      textValue.trim().length > 2 &&
-      contactsValue.trim().length > 2) {
-
+    if (isSubmit) {
       setIsSubmitting(true)
       event.currentTarget.form?.requestSubmit()
 
@@ -103,9 +105,7 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
         {postData && <input readOnly value={postData.id} name='post-id' className="hidden" />}
       </h2>
       <Input
-        className={animalTypeError ?
-          "w-full h-12 border-[1px] border-red-600 rounded-[5px] bg-transparent focus:outline-none placeholder:text-[1rem]" :
-          "w-full h-12 border-b-[1px] border-b-[#6204e8;] bg-transparent"}
+        className={animalTypeError ? "invalid-input" :"input"}
         name="animal-type"
         label="Animal Type *"
         placeholder="Enter type of your animal"
@@ -115,9 +115,7 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
         error={animalTypeError ? 'Should contain at least 3 symbols' : null}
       />
       <Input
-        className={titleError ?
-          "w-full h-12 border-[1px] border-b-red-600 rounded-[5px] bg-transparent focus:outline-none placeholder:text-[1rem]" :
-          "w-full h-12 border-b-[1px] border-b-[#6204e8;] bg-transparent"}
+        className={titleError ? "invalid-input" :"input"}
         name="new-post__title"
         label="Title *"
         placeholder="Enter your title"
@@ -127,9 +125,7 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
         error={titleError ? 'Should contain at least 3 symbols' : null}
       />
       <Input
-        className={textError ?
-          "w-full h-12 border-[1px] border-b-red-600 rounded-[5px] bg-transparent focus:outline-none placeholder:text-[1rem]" :
-          "w-full h-12 border-b-[1px] border-b-[#6204e8;] bg-transparent"}
+        className={textError ? "invalid-input" :"input"}
         textarea
         name="new-post__text"
         label="Text *"
@@ -140,9 +136,7 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
         error={textError ? 'Should contain at least 3 symbols' : null}
       />
       <Input
-        className={contactsError ?
-          "w-full h-12 border-[1px] border-b-red-600 rounded-[5px] bg-transparent focus:outline-none placeholder:text-[1rem]" :
-          "w-full h-12 border-b-[1px] border-b-[#6204e8;] bg-transparent"}
+        className={contactsError ? "invalid-input" :"input"}
         name="new-post__contacts"
         label="Contacts *"
         placeholder="Enter your contacts"
@@ -163,13 +157,13 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
       />
       <div className="flex m-[15px] gap-[50px]">
         <Button
-          className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] text-neutral-100 bg-[#833de7;] hover:bg-[#6204e8] max-lg:text-[0.9rem] max-lg:py-[0.6rem] max-lg:px-[0.8rem]"
+          className="button purple"
           type="submit"
           disabled={isSubmitting}
           handleClick={handleSubmit}
         >{isSubmitting ? 'Submitting...' : 'Save'}</Button>
         <Button
-          className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] bg-[#fbc43c] hover:bg-[#ffb100] max-lg:text-[0.9rem] max-lg:py-[0.6rem] max-lg:px-[0.8rem]"
+          className="button grey"
           handleClick={modalClose}
           type="button"
         >Cancel</Button>

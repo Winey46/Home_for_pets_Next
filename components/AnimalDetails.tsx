@@ -17,7 +17,6 @@ interface AnimalDetailsProps {
 const AnimalDetails = ({data}: AnimalDetailsProps) => {
   const [imageIsOpened, setImageIsOpened] = useState<boolean>(false)
   const [editIsOpened, setEditIsOpened] = useState<boolean>(false)
-  const router = useRouter()
 
   const handleModalOpen = (): void => {
     setImageIsOpened(true)
@@ -67,12 +66,12 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
       <p className="w-[90%]">Contacts: {data.contacts}</p>
       <div className="flex gap-[50px] mb-4 mt-4">
         <Button
-          className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] bg-amber-400 hover:bg-amber-500 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"
+          className="button yellow"
           type="button"
           handleClick={handleEditOpen}
         >Edit</Button>
         <Button
-          className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] text-neutral-100 bg-purple-600 hover:bg-purple-700 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"
+          className="button purple"
           type="button"
           handleClick={deleteHandler}
         >Delete</Button>

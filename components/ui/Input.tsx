@@ -1,6 +1,6 @@
 'use client';
 
-import {InputInterface} from "@/utils/interfaces";
+import { InputInterface } from "@/utils/interfaces";
 
 const Input = (
   {

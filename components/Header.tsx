@@ -1,12 +1,12 @@
 'use client';
 
-import React, {useState} from "react";
-import {openArrow} from "@/utils/symbols";
-import {AnimatePresence, motion} from "framer-motion";
+import React, { useState } from "react";
+import { openArrow } from "@/utils/symbols";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import Button from "./ui/Button";
-import {usePathname} from "next/navigation";
+import { usePathname } from "next/navigation";
 import Modal from "@/components/ui/Modal";
 import NewPost from "@/components/NewPost";
 
@@ -49,7 +49,7 @@ const Header = () => {
             <AnimatePresence>
               <motion.span
                 className="flex items-center justify-center"
-                animate={{rotate: navigationState ? 0 : 180}}
+                animate={{ rotate: navigationState ? 0 : 180 }}
               >
                 {openArrow}
               </motion.span>
@@ -57,7 +57,7 @@ const Header = () => {
           </div>
           <div className="flex items-center gap-[75px] ml-auto">
             <Button
-              className="flex justify-center items-center py-4 px-6 rounded-[5px] text-[1rem] bg-[#fbc43c] hover:bg-[#ffb100] max-md:text-[0.9rem] max-lg:py-[0.6rem] max-lg:px-[0.8rem]"
+              className="button yellow"
               handleClick={handleModalOpen}
             >
               Add Post+
@@ -85,10 +85,10 @@ const Header = () => {
           <nav className="w-full h-[75px] overflow-hidden">
             <motion.ul
               className="flex h-[75px] justify-center items-center gap-[100px] border-[1px] border-b-gray-400 bg-[#f2f2f2] max-sm:gap-[30px]"
-              initial={{y: -76}}
-              animate={{y: 0}}
-              exit={{y: -76}}
-              transition={{type: 'just', duration: 0.5}}
+              initial={{ y: -76 }}
+              animate={{ y: 0 }}
+              exit={{ y: -76 }}
+              transition={{ type: 'just', duration: 0.5 }}
             >
               <li>
                 <Link

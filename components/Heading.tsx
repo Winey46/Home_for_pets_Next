@@ -11,11 +11,11 @@ export default function Heading() {
         <div className="flex gap-[25px] max-md:flex-col">
           <Link
             href="/animalsList"
-            className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] text-neutral-100 bg-purple-600 hover:bg-purple-700 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"
+            className="button purple"
           >Find a pet</Link>
           <Link
             href="/information"
-            className="flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] bg-amber-400 hover:bg-amber-500 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"
+            className="button yellow"
           >
             More information
           </Link>

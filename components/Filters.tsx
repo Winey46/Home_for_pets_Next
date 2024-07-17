@@ -1,8 +1,8 @@
 'use client';
 
 import Button from "./ui/Button";
-import {useRouter} from "next/navigation";
-import {useState} from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Filters() {
   const [catFilter, setCatFilter] = useState(false)
@@ -38,7 +38,7 @@ export default function Filters() {
   }
 
   return (
-    <div className="flex flex-col items-center w-[250px] h-fit bg-purple-600 rounded-[5px] max-xl:mb-[5px]">
+    <div className="flex flex-col items-center w-[250px] h-fit bg-[#833de7] rounded-[5px] max-xl:mb-[5px]">
       <ul className="w-full mt-[15px] flex flex-col items-center text-neutral-100">
         Animal type
         <li className="w-[80%]">
@@ -78,16 +78,16 @@ export default function Filters() {
           >Bird</label>
         </li>
       </ul>
-      <div className="flex gap-[25px] mb-[15px]">
+      <div className="flex gap-[25px] my-[15px]">
         <Button
           handleClick={filtersHandle}
-          className="flex justify-center items-center py-4 px-6 rounded-[5px] text-[1rem] bg-amber-400 hover:bg-amber-500 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"
+          className="button yellow"
         >Ok</Button>
         <Button
           handleClick={filtersReset}
           className={(catFilter || dogFilter || birdFilter) ?
-            "button flex justify-center items-center py-4 px-6 rounded-[5px] text-[1rem] bg-amber-400 hover:bg-amber-500 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]" :
-            "button flex justify-center items-center py-4 px-6 rounded-[5px] text-[1rem] bg-gray-300 hover:bg-amber-500 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]"}
+            "button yellow" :
+            "button grey"}
         >Reset</Button>
       </div>
     </div>

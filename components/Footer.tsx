@@ -9,7 +9,7 @@ const Footer: React.FC = function Footer() {
       className="w-full flex items-center justify-evenly bg-zinc-700 min-h-[175px] shadow-lg mt-[10px] max-md:flex-col"
     >
       <Link
-        className="flex items-center justify-center gap-[5px] text-[1.25rem] text-neutral-100 hover:text-amber-300"
+        className="flex items-center justify-center gap-[5px] text-[1.25rem] text-neutral-100 hover:text-[#fbc43c]"
         href="/"
       >
         <Image
@@ -19,14 +19,14 @@ const Footer: React.FC = function Footer() {
           width={50}
           height={50}
         />
-        <span className="text-neutral-200 hover:text-amber-300">Home for Pets</span>
+        <span className="text-neutral-200 hover:text-[#fbc43c]">Home for Pets</span>
       </Link>
       <p className="text-neutral-200">
         © 2024 Creative Web Production.
         <br />Home for Pets. All rights reserved.
       </p>
       <a
-        className="text-neutral-200 hover:text-amber-300"
+        className="text-neutral-200 hover:text-[#fbc43c]"
         href="mailto:home4pets46@gmail.com"
       >
         home4pets46@gmail.com

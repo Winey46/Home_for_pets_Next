@@ -14,14 +14,14 @@ export default function Navigation() {
     >
       <ul className="flex items-center gap-[10px] ">
         <li>
-          <Link href="/" className="hover:text-amber-300">Home</Link>
+          <Link href="/" className="hover:text-[#fbc43c]">Home</Link>
         </li>
         {shortArrow}
         <li>
           <Link
             href={path.startsWith("/animalsList") ? "/animalsList" : "/information"}
             className={path === "/animalsList" || path === "/information" ?
-              "text-purple-800 hover:text-amber-300" : "hover:text-amber-300"}
+              "text-[#833de7] hover:text-[#fbc43c]" : "hover:text-[#fbc43c]"}
           >
             {path.startsWith("/animalsList") ? "Animals" : "Information"}
           </Link>
@@ -31,8 +31,8 @@ export default function Navigation() {
           {path.startsWith("/animalsList") && path.length > 12 &&
             <p
               className={path.startsWith("/animalsList") && path.length > 12 ?
-                "text-purple-800 hover:text-amber-300 hover:cursor-pointer" :
-                "hover:text-amber-300 hover:cursor-pointer"}
+                "text-[#833de7] hover:text-[#fbc43c] hover:cursor-pointer" :
+                "hover:text-[#fbc43c] hover:cursor-pointer"}
             >
               Animal Details
             </p>}
