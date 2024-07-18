@@ -13,7 +13,9 @@ export default function Contacts() {
           E-mail: home4pets46@gmail.com
         </a>
         <p className="text-neutral-100 w-full text-[1.25rem] mx-[100px] max-md:text-[1rem]">phone: 955-484-586</p>
-        <p className="text-neutral-100 w-full text-[1.25rem] mx-[100px] max-md:text-[1rem]">address: Lorem ipsum street 46</p>
+        <p className="text-neutral-100 w-full text-[1.25rem] mx-[100px] max-md:text-[1rem]">
+          address: Lorem ipsum street 46
+        </p>
       </div>
     </section>
   )

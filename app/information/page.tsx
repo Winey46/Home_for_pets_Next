@@ -1,4 +1,4 @@
-import {information} from "@/utils/information-text";
+import {information} from "@/utils/texts";
 
 const InformationPage = () => {
   return (

@@ -32,7 +32,7 @@ const Header = () => {
 
   return (
     <header id="header" className="flex flex-col items-center w-full">
-      <div className="flex justify-center w-full h-[75px] border-[1px] border-b-gray-400 shadow-lg background-grey max-lg:gap-[25] max-lg:px-[5%]">
+      <div className="flex justify-center w-full h-[75px] border-[1px] border-b-gray-400 shadow-lg bg-[#f2f2f2] backg max-lg:gap-[25] max-lg:px-[5%]">
         <div className="flex w-[960px] max-lg:w-[610px] max-sm:w-[360px]">
           <div
             className="flex items-center justify-center gap-[5px] text-[1.25rem] hover:cursor-pointer hover:text-[#fbc43c]"
