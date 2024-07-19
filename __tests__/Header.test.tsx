@@ -36,19 +36,8 @@ describe('Header component unit tests', () => {
     const logo = screen.getByTestId('header-logo')
     await userEvent.click(logo)
 
-    screen.debug()
-
     const links = screen.getAllByRole('listitem')
     expect(links).toHaveLength(3)
   })
-
-  // test('should render dialog if the button was clicked', async () => {
-  //   render(<Header/>)
-  //
-  //   const button = screen.getByText('Add Post', {exact: false})
-  //   await userEvent.click(button)
-  //
-  //   screen.debug()
-  // })
 
 })
