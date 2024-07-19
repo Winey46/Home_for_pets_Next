@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom';
 import {render, screen} from "@testing-library/react";
-import {describe} from "node:test";
 import Footer from "@/components/Footer";
 
 describe('Footer component unit tests', () => {

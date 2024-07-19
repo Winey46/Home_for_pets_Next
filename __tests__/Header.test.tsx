@@ -1,8 +1,11 @@
 import '@testing-library/jest-dom';
-import {getByRole, getByText, render, screen} from "@testing-library/react";
-import {describe} from "node:test";
+import {render, screen} from "@testing-library/react";
 import {userEvent} from "@testing-library/user-event";
 import Header from "@/components/Header";
+
+jest.mock("next/navigation", () => ({
+  usePathname: jest.fn(() => '/'),
+}))
 
 describe('Header component unit tests', () => {
 
@@ -27,14 +30,25 @@ describe('Header component unit tests', () => {
     expect(button).toBeInTheDocument()
   })
 
-  test('should render "Main" link if the logo was clicked', () => {
+  test('should render the list of links if the logo was clicked', async () => {
     render(<Header/>)
 
-    const logo = screen.getByText('Home for Pets', {exact: false})
-    userEvent.click(logo)
+    const logo = screen.getByTestId('header-logo')
+    await userEvent.click(logo)
 
-    const link = screen.getByRole('link', {name: 'Main'})
-    expect(link).toBeInTheDocument()
+    screen.debug()
+
+    const links = screen.getAllByRole('listitem')
+    expect(links).toHaveLength(3)
   })
+
+  // test('should render dialog if the button was clicked', async () => {
+  //   render(<Header/>)
+  //
+  //   const button = screen.getByText('Add Post', {exact: false})
+  //   await userEvent.click(button)
+  //
+  //   screen.debug()
+  // })
 
 })

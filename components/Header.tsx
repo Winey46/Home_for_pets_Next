@@ -35,6 +35,7 @@ const Header = () => {
       <div className="flex justify-center w-full h-[75px] border-[1px] border-b-gray-400 shadow-lg bg-[#f2f2f2] backg max-lg:gap-[25] max-lg:px-[5%]">
         <div className="flex w-[960px] max-lg:w-[610px] max-sm:w-[360px]">
           <div
+            data-testid="header-logo"
             className="flex items-center justify-center gap-[5px] text-[1.25rem] hover:cursor-pointer hover:text-[#fbc43c]"
             onClick={toggleNavigation}
           >
@@ -103,7 +104,7 @@ const Header = () => {
               <li>
                 <Link
                   href="/animalsList"
-                  className={path.startsWith('/animalsList') ?
+                  className={path.includes('/animalsList') ?
                     'text-[#833de7] hover:text-[#fbc43c]' :
                     'hover:text-[#fbc43c]'}
                 >
@@ -127,7 +128,9 @@ const Header = () => {
       {isOpened &&
         <Modal modalClose={handleModalClose} root='modal'>
           <NewPost modalClose={handleModalClose} />
-        </Modal>}
+        </Modal>
+      }
+
     </header>
   )
 }
