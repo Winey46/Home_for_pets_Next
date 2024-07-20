@@ -27,16 +27,18 @@ export default function Navigation() {
           </Link>
         </li>
         {path.startsWith("/animalsList") && path.length > 12 && shortArrow}
-        <li>
-          {path.startsWith("/animalsList") && path.length > 12 &&
+
+        {path.startsWith("/animalsList") && path.length > 12 &&
+          <li>
             <p
               className={path.startsWith("/animalsList") && path.length > 12 ?
                 "text-[#833de7] hover:text-[#fbc43c] hover:cursor-pointer" :
                 "hover:text-[#fbc43c] hover:cursor-pointer"}
             >
               Animal Details
-            </p>}
-        </li>
+            </p>
+          </li>
+        }
       </ul>
     </nav>
   )
