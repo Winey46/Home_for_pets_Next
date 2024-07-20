@@ -7,6 +7,7 @@ import NewPost from "@/components/NewPost";
 import {PostDataInterface} from "@/utils/interfaces";
 import {deleteAnimal} from "@/lib/actions";
 import {deleteImage} from "@/utils/helpers";
+import PortalProvider from "@/components/ui/PortalProvider";
 
 
 interface AnimalDetailsProps {
@@ -50,7 +51,8 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
   }
 
   return (
-    <div className="flex flex-col items-center w-[960px] min-h-[576px] border-[1px] border-gray-400 rounded-[10px] p-[5px] bg-neutral-100 max-lg:w-[610px] max-sm:w-[360px]">
+    <div
+      className="flex flex-col items-center w-[960px] min-h-[576px] border-[1px] border-gray-400 rounded-[10px] p-[5px] bg-neutral-100 max-lg:w-[610px] max-sm:w-[360px]">
       <h2 className="mb-4 mt-4 font-bold w-full text-center max-lg:w-[95%]">{data.title}</h2>
       <time className="w-[90%] text-[0.8rem]">{data.date}</time>
       <div className="flex justify-center w-[90%] rounded-[10px]">
@@ -77,19 +79,23 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
       </div>
 
       {imageIsOpened &&
-        <Modal modalClose={handleModalClose} root='modal'>
-          <img
-            className=" bg-neutral-100 max-w-[85vw] max-h-[80vh] object-contain rounded-[10px]"
-            src={data.imageLink ? data.imageLink : '/pets-default.jpg'}
-            alt={data.animalType}
-            onClick={handleModalOpen}
-          />
-        </Modal>
+        <PortalProvider root='modal'>
+          <Modal modalClose={handleModalClose}>
+            <img
+              className=" bg-neutral-100 max-w-[85vw] max-h-[80vh] object-contain rounded-[10px]"
+              src={data.imageLink ? data.imageLink : '/pets-default.jpg'}
+              alt={data.animalType}
+              onClick={handleModalOpen}
+            />
+          </Modal>
+        </PortalProvider>
       }
       {editIsOpened &&
-        <Modal modalClose={handleEditClose} root='modal'>
-          <NewPost modalClose={handleEditClose} postData={data} />
-        </Modal>
+        <PortalProvider root='modal'>
+          <Modal modalClose={handleEditClose}>
+            <NewPost modalClose={handleEditClose} postData={data}/>
+          </Modal>
+        </PortalProvider>
       }
     </div>
   )

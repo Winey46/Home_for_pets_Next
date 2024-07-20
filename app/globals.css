@@ -115,4 +115,14 @@ body {
   font-size: 1rem;
 }
 
+.error-status {
+  font-size: 3rem;
+  color: #833de7;
+  margin: 0;
+}
+
+.error-text {
+  margin-bottom: 25px;
+}
+
 /*# sourceMappingURL=globals.css.map */

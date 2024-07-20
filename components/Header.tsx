@@ -8,6 +8,7 @@ import Button from "./ui/Button";
 import Modal from "@/components/ui/Modal";
 import NewPost from "@/components/NewPost";
 import MainNavigation from "@/components/MainNavigation";
+import PortalProvider from "@/components/ui/PortalProvider";
 
 const Header = () => {
   const [isOpened, setIsOpened] = useState<boolean>(false)
@@ -84,11 +85,12 @@ const Header = () => {
         {navigationState && <MainNavigation/>}
       </AnimatePresence>
 
-
       {isOpened &&
-        <Modal modalClose={handleModalClose} root='modal'>
-          <NewPost modalClose={handleModalClose}/>
-        </Modal>
+        <PortalProvider root='modal'>
+          <Modal modalClose={handleModalClose}>
+            <NewPost modalClose={handleModalClose}/>
+          </Modal>
+        </PortalProvider>
       }
 
     </header>
