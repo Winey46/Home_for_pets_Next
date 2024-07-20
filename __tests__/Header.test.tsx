@@ -46,7 +46,7 @@ describe('Header component unit tests', () => {
     expect(links).toHaveLength(3)
   })
 
-  test('should have "Add Post+" button', async () => {
+  test('should render the modal if the "Add Post" button was clicked', async () => {
     render(<Header/>)
 
     const addPostBtn = screen.getByText('Add Post', {exact: false})

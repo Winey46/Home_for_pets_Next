@@ -153,7 +153,8 @@ const NewPost = ({modalClose, postData}: NewPostProps) => {
 
       <Input
         name="new-post__image"
-        label="Choose image"
+        label="Choose an image"
+        placeholder="Choose an image"
         type="file"
         handleChange={handleImageChange}
       />

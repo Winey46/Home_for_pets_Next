@@ -9,7 +9,6 @@ import {deleteAnimal} from "@/lib/actions";
 import {deleteImage} from "@/utils/helpers";
 import PortalProvider from "@/components/ui/PortalProvider";
 
-
 interface AnimalDetailsProps {
   data: PostDataInterface
 }
@@ -38,15 +37,15 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
     document.body.style.overflow = ''
   }
 
-  function deleteHandler() {
+  async function deleteHandler() {
     const proceed = window.confirm(
       'Are you sure that you want to delete the post?')
 
     if (data.imageName) {
-      deleteImage(data.imageName)
+      await deleteImage(data.imageName)
     }
     if (proceed && data.id) {
-      deleteAnimal(data.id).then(() => console.log('Animal deleted.'))
+      await deleteAnimal(data.id)
     }
   }
 
@@ -90,6 +89,7 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
           </Modal>
         </PortalProvider>
       }
+
       {editIsOpened &&
         <PortalProvider root='modal'>
           <Modal modalClose={handleEditClose}>
@@ -97,6 +97,7 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
           </Modal>
         </PortalProvider>
       }
+
     </div>
   )
 }

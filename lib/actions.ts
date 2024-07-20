@@ -79,5 +79,6 @@ export async function deleteAnimal(id: string | undefined) {
   } catch (error) {
     throw new Error('Could not delete animal from the database');
   }
-  revalidatePath(`/animalsList/${id}`)
+  revalidatePath('/animalsList')
+  return redirect('/animalsList')
 }
