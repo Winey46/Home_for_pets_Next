@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-const ErrorPage = ({error}) => {
+const ErrorPage = ({error}: Error) => {
   return (
     <>
       <h1 className="error-status">An error occurred!</h1>
