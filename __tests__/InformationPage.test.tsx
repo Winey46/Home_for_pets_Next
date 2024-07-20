@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom';
 import {render, screen} from "@testing-library/react";
 import InformationPage from "@/app/information/page";
-import {information} from "@/utils/texts";
 
 describe('Information component unit tests', () => {
 

@@ -2,9 +2,10 @@ import '@testing-library/jest-dom';
 import {render, screen} from "@testing-library/react";
 import About from '../components/About';
 import {describe} from "node:test";
-import {about} from "../utils/texts";
+import {about} from "@/utils/texts";
 
 describe('About component unit tests', () => {
+
   test('should have our mission text', () => {
     render(<About/>)
 

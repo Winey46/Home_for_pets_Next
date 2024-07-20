@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom';
 import {render, screen} from "@testing-library/react";
-import {describe} from "node:test";
 import Heading from "@/components/Heading";
 
 describe('Heading component unit tests', () => {

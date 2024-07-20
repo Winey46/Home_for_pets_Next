@@ -2,10 +2,16 @@ import '@testing-library/jest-dom';
 import {render, screen} from "@testing-library/react";
 import {userEvent} from "@testing-library/user-event";
 import Header from "@/components/Header";
+import {ReactNode} from "react";
 
 jest.mock("next/navigation", () => ({
   usePathname: jest.fn(() => '/'),
 }))
+
+jest.mock('react-dom', () => ({
+  ...jest.requireActual('react-dom'),
+  createPortal: (children: ReactNode) => <p>State works!</p>
+}));
 
 describe('Header component unit tests', () => {
 
@@ -40,4 +46,13 @@ describe('Header component unit tests', () => {
     expect(links).toHaveLength(3)
   })
 
+  test('should have "Add Post+" button', async () => {
+    render(<Header/>)
+
+    const addPostBtn = screen.getByText('Add Post', {exact: false})
+    await userEvent.click(addPostBtn)
+
+    const stateWorksText = screen.getByText('State works', {exact: false})
+    expect(stateWorksText).toBeInTheDocument()
+  })
 })
