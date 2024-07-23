@@ -9,10 +9,13 @@ import Modal from "@/components/ui/Modal";
 import NewPost from "@/components/NewPost";
 import MainNavigation from "@/components/MainNavigation";
 import PortalProvider from "@/components/ui/PortalProvider";
+import Link from "next/link";
+import SignIn from "@/components/SignIn";
 
 const Header = () => {
   const [isOpened, setIsOpened] = useState<boolean>(false)
   const [navigationState, setNavigationState] = useState<boolean>(false)
+  const [signInState, setSignInState] = useState<boolean>(false)
 
   const toggleNavigation = (): void => {
     setNavigationState(prevState => !prevState)
@@ -28,56 +31,67 @@ const Header = () => {
     document.body.style.overflow = ''
   }
 
+  const handleSignInOpen = (): void => {
+    setSignInState(true)
+    document.body.style.overflow = 'hidden'
+  }
+
+  const handleSignInClose = (): void => {
+    setSignInState(false)
+    document.body.style.overflow = ''
+  }
+
   return (
     <header id="header" className="flex flex-col items-center w-full">
       <div
         className="flex justify-center w-full h-[75px] border-[1px] border-b-gray-400 shadow-lg bg-[#f2f2f2] backg max-lg:gap-[25] max-lg:px-[5%]">
-        {/*<div className="flex w-[960px] max-lg:w-[610px] max-sm:w-[360px]">*/}
-        <div className="flex justify-between items-center w-[960px] max-lg:w-full max-lg:px-1.5">
-          <div
-            data-testid="header-logo"
-            className="flex items-center justify-center gap-[5px] text-[1.25rem] hover:cursor-pointer hover:text-[#fbc43c]"
-            onClick={toggleNavigation}
-          >
-            <Image
-              src="/pets-logo.png"
-              alt="pets_logo"
-              className="h-[30px] w-auto"
-              width={35}
-              height={35}
-            />
-            <span className="max-lg:hidden">Home for Pets</span>
-            <AnimatePresence>
-              <motion.span
-                className="flex items-center justify-center"
-                animate={{rotate: navigationState ? 0 : 180}}
+        <div className="flex w-[960px] max-lg:w-[610px] max-sm:w-[360px]">
+          <div className="flex justify-between items-center w-[960px] max-lg:w-full max-lg:px-1.5">
+            <div
+              data-testid="header-logo"
+              className="flex items-center justify-center gap-[5px] text-[1.25rem] hover:cursor-pointer hover:text-[#fbc43c]"
+              onClick={toggleNavigation}
+            >
+              <Image
+                src="/pets-logo.png"
+                alt="pets_logo"
+                className="h-[30px] w-auto"
+                width={35}
+                height={35}
+              />
+              <span className="max-lg:hidden">Home for Pets</span>
+              <AnimatePresence>
+                <motion.span
+                  className="flex items-center justify-center"
+                  animate={{rotate: navigationState ? 0 : 180}}
+                >
+                  {openArrow}
+                </motion.span>
+              </AnimatePresence>
+            </div>
+            <div className="flex items-center gap-[75px]">
+              <Button
+                className="button yellow"
+                handleClick={handleModalOpen}
               >
-                {openArrow}
-              </motion.span>
-            </AnimatePresence>
+                Add Post+
+              </Button>
+              <div className="flex items-center gap-[25px]">
+                <Button
+                  className="button purple px-[1rem] py-[0.5rem]"
+                  handleClick={handleSignInOpen}
+                >
+                  Sign in
+                </Button>
+                <Link
+                  href="/signUp"
+                  className="link"
+                >
+                  Sign up
+                </Link>
+              </div>
+            </div>
           </div>
-          {/*<div className="flex items-center gap-[75px]">*/}
-          <Button
-            className="button yellow"
-            handleClick={handleModalOpen}
-          >
-            Add Post+
-          </Button>
-          {/*<div className="flex items-center gap-[25px]">*/}
-          {/*  <Button*/}
-          {/*    className="button purple px-[1rem] py-[0.5rem]"*/}
-          {/*    onClick={() => onOpen(null, 'sign-in')}*/}
-          {/*  >*/}
-          {/*    Sign in*/}
-          {/*  </Button>*/}
-          {/*  <Link*/}
-          {/*    href="/signUp"*/}
-          {/*    className="link"*/}
-          {/*  >*/}
-          {/*    Sign up*/}
-          {/*  </Link>*/}
-          {/*</div>*/}
-          {/*</div>*/}
         </div>
       </div>
 
@@ -93,6 +107,13 @@ const Header = () => {
         </PortalProvider>
       }
 
+      {signInState &&
+        <PortalProvider root='modal'>
+          <Modal modalClose={handleSignInClose}>
+            <SignIn/>
+          </Modal>
+        </PortalProvider>
+      }
     </header>
   )
 }

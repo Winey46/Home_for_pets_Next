@@ -19,11 +19,15 @@ export default function Navigation() {
         {shortArrow}
         <li>
           <Link
-            href={path.startsWith("/animalsList") ? "/animalsList" : "/information"}
-            className={path === "/animalsList" || path === "/information" ?
+            href={path.startsWith("/animalsList") ? "/animalsList" :
+              path === "/signUp" ? "/signUp" :
+                "/information"}
+            className={path === "/animalsList" || path === "/information" || path === "/signUp" ?
               "text-[#833de7] hover:text-[#fbc43c]" : "hover:text-[#fbc43c]"}
           >
-            {path.startsWith("/animalsList") ? "Animals" : "Information"}
+            {path.startsWith("/animalsList") ? "Animals" :
+              path === "/signUp" ? "SignUp" :
+                "Information"}
           </Link>
         </li>
         {path.startsWith("/animalsList") && path.length > 12 && shortArrow}

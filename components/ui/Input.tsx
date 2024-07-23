@@ -1,5 +1,3 @@
-'use client';
-
 import { InputInterface } from "@/utils/interfaces";
 
 const Input = (
@@ -13,9 +11,9 @@ const Input = (
     ...props
   }: InputInterface) => {
   return (
-    <div className="w-[80%] my-0 mx-[100px]">
+    <div className="w-[80%] my-4 mx-[100px]">
       <label
-        className="block mb-2 text-[1.2rem] font-[500]"
+        className="block mb-1 text-[1.2rem] font-[500]"
         htmlFor={name}
       >
         {label}
