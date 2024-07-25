@@ -1,8 +1,20 @@
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
-import Link from "next/link";
+import {useRouter} from "next/navigation";
 
-export default function SignIn() {
+interface SignInProps {
+  signInClose: () => void;
+}
+
+export default function SignIn({signInClose}: SignInProps) {
+  const router = useRouter()
+
+  const handleSignUp = (): void => {
+    router.push("/signUp")
+
+    signInClose()
+  }
+
   return (
     <div className="w-[960px] flex flex-col my-6 items-center max-lg:w-[610px] max-sm:w-[360px]">
       <h2 className="w-80% text-center">Sign In</h2>
@@ -21,12 +33,13 @@ export default function SignIn() {
       <div className="w-[80%]">
         <Button className="self-start button yellow">Sign in</Button>
       </div>
-      <p className="w-[80%] text-end">Not a member yet? <Link
-        href="/app/signUp/page"
-        className="text-[#833de7] underline hover:text-[#fbc43c]"
+      <p className="w-[80%] text-end">
+        Not a member yet? <span
+        className="text-[#833de7] underline hover:text-[#fbc43c] hover:cursor-pointer"
+        onClick={handleSignUp}
       >
         Sign Up here
-      </Link>
+      </span>
       </p>
     </div>
   )

@@ -62,7 +62,7 @@ export default function Page() {
       {signInState &&
         <PortalProvider root='modal'>
           <Modal modalClose={handleSignInClose}>
-            <SignIn/>
+            <SignIn signInClose={handleSignInClose}/>
           </Modal>
         </PortalProvider>
       }
