@@ -1,9 +1,12 @@
 'use server';
 
+import process from "node:process";
+
 export async function getAllAnimals() {
+  const url: string = String(process.env.ANIMALS_DB_CONNECTION_STRING) + '.json'
+
   try {
-    const response = await fetch('https://find-pets-d8559-default-rtdb.europe-west1.firebasedatabase.app/animals.json',
-      {cache: 'force-cache'})
+    const response = await fetch(url, {cache: 'force-cache'})
 
     return response.json()
 
@@ -14,13 +17,10 @@ export async function getAllAnimals() {
 }
 
 export async function getAnimal(animalId: string) {
-  const url =
-    `https://find-pets-d8559-default-rtdb.europe-west1.firebasedatabase.app/animals/${animalId}.json`
+  const url: string = String(process.env.ANIMALS_DB_CONNECTION_STRING) + `/${animalId}.json`
 
   try {
-    const response = await fetch(url, {
-      cache: 'force-cache'
-    })
+    const response = await fetch(url, {cache: 'force-cache'})
 
     return response.json()
 
