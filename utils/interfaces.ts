@@ -1,4 +1,5 @@
 import React from "react";
+import {ObjectId} from "mongoose";
 
 export interface InputInterface {
   label?: string;
@@ -29,4 +30,12 @@ export interface PostPreviewInterface {
   id: string;
   title: string;
   imageLink?: string | null;
+}
+
+export interface UserInterface {
+  _id: ObjectId;
+  name: string;
+  email: string;
+  password: string;
+  __v: number;
 }

@@ -1,15 +1,11 @@
 'use client';
 
 import React, {useState} from "react";
-import {openArrow} from "@/utils/symbols";
-import {AnimatePresence, motion} from "framer-motion";
-import Image from "next/image";
-import Button from "./ui/Button";
+import {AnimatePresence} from "framer-motion";
 import Modal from "@/components/ui/Modal";
 import NewPost from "@/components/NewPost";
 import MainNavigation from "@/components/MainNavigation";
 import PortalProvider from "@/components/ui/PortalProvider";
-import Link from "next/link";
 import SignIn from "@/components/SignIn";
 import HeaderContent from "@/components/HeaderContent";
 
@@ -44,12 +40,12 @@ const Header = () => {
 
   return (
     <header id="header" className="flex flex-col items-center w-full">
-      <HeaderContent
-        toggleNavigation={toggleNavigation}
-        navigation={navigationState}
-        modalOpen={handleModalOpen}
-        signInOpen={handleSignInOpen}
-      />
+        <HeaderContent
+          toggleNavigation={toggleNavigation}
+          navigation={navigationState}
+          modalOpen={handleModalOpen}
+          signInOpen={handleSignInOpen}
+        />
 
       <AnimatePresence>
         {navigationState && <MainNavigation/>}

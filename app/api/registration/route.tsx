@@ -1,5 +1,5 @@
-import {dbConnect} from "@/lib/database";
 import bcrypt from "bcrypt";
+import {dbConnect} from "@/lib/database";
 import {createUser} from "@/lib/users";
 
 export const POST = async (req) => {
