@@ -28,6 +28,7 @@ export const authOptions: NextAuthOptions = {
     GoggleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_SECRET,
+      allowDangerousEmailAccountLinking: true,
     }),
     Credentials({
       name: "email and password",
@@ -78,7 +79,7 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async signIn({ account, profile }) {
-      if (account.provider === "google" && profile) {
+      if (account.provider === "google") {
         try {
           await dbConnect()
 

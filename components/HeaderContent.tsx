@@ -1,11 +1,11 @@
 'use client';
 
 import Image from "next/image";
-import {AnimatePresence, motion} from "framer-motion";
-import {openArrow} from "@/utils/symbols";
+import { AnimatePresence, motion } from "framer-motion";
+import { openArrow } from "@/utils/symbols";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
-import {signOut, useSession} from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 interface HeaderContentProps {
   toggleNavigation: () => void;
@@ -14,7 +14,7 @@ interface HeaderContentProps {
   signInOpen: () => void;
 }
 
-export default function HeaderContent({toggleNavigation, navigation, modalOpen, signInOpen}: HeaderContentProps) {
+export default function HeaderContent({ toggleNavigation, navigation, modalOpen, signInOpen }: HeaderContentProps) {
   const session = useSession()
 
   if (session.data) {
@@ -42,7 +42,7 @@ export default function HeaderContent({toggleNavigation, navigation, modalOpen, 
             <AnimatePresence>
               <motion.span
                 className="flex items-center justify-center"
-                animate={{rotate: navigation ? 0 : 180}}
+                animate={{ rotate: navigation ? 0 : 180 }}
               >
                 {openArrow}
               </motion.span>
@@ -59,7 +59,7 @@ export default function HeaderContent({toggleNavigation, navigation, modalOpen, 
               {session?.data ?
                 <>
                   <Link href="/userProfile">{session?.data?.user?.name}</Link>
-                  <Link href="#" onClick={() => signOut({callbackUrl: '/'})}>Sign Out</Link>
+                  <Link href="#" onClick={() => signOut({ callbackUrl: '/' })}>Sign Out</Link>
                 </> :
                 <Button
                   className="button purple px-[1rem] py-[0.5rem]"
@@ -68,14 +68,6 @@ export default function HeaderContent({toggleNavigation, navigation, modalOpen, 
                   Sign in
                 </Button>
               }
-              {/*{!session.data &&*/}
-              {/*  <Link*/}
-              {/*    href="/signUp"*/}
-              {/*    className="link hover:text-[#fbc43c]"*/}
-              {/*  >*/}
-              {/*    Sign up*/}
-              {/*  </Link>*/}
-              {/*}*/}
             </div>
           </div>
         </div>
