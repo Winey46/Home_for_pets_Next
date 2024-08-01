@@ -4,7 +4,7 @@ import Credentials from "next-auth/providers/credentials";
 import { dbConnect } from "@/lib/database";
 import { User } from "@/models/user.model";
 import bcrypt from "bcrypt";
-import type { NextAuthOptions, User as NextAuthUser,Profile } from "next-auth";
+import type { NextAuthOptions, User as NextAuthUser } from "next-auth";
 import process from "node:process";
 import { createUser } from "@/lib/users";
 

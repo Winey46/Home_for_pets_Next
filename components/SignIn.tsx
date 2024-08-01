@@ -89,11 +89,10 @@ export default function SignIn({ signInClose }: SignInProps) {
       />
       <div className="w-[80%] flex flex-col my-6">
         <Button className="button yellow self-start" type="button" handleClick={handleSubmit}>Sign in</Button>
-        <Button className="button purple self-end" handleClick={() => signIn('google', { callbackUrl })}>
+        <Button className="button purple self-end" type="button" handleClick={() => signIn('google', { callbackUrl })}>
           Sign in with Google
         </Button>
       </div>
-
       <p className="w-[80%] text-end">
         Not a member yet? <span
           className="text-[#833de7] underline hover:text-[#fbc43c] hover:cursor-pointer"

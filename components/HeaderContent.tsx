@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { openArrow } from "@/utils/symbols";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 interface HeaderContentProps {
   toggleNavigation: () => void;
@@ -17,9 +17,7 @@ interface HeaderContentProps {
 export default function HeaderContent({ toggleNavigation, navigation, modalOpen, signInOpen }: HeaderContentProps) {
   const session = useSession()
 
-  if (session.data) {
-    console.log(session.data)
-  }
+    console.log(session)
 
   return (
     <div
@@ -49,12 +47,16 @@ export default function HeaderContent({ toggleNavigation, navigation, modalOpen,
             </AnimatePresence>
           </div>
           <div className="flex items-center gap-[75px]">
-            <Button
-              className="button yellow"
-              handleClick={modalOpen}
-            >
-              Add Post+
-            </Button>
+
+            {session?.status === 'authenticated' &&
+              <Button
+                className="button yellow"
+                handleClick={modalOpen}
+              >
+                Add Post+
+              </Button>
+            }
+
             <div className="flex items-center gap-[25px]">
               {session?.data ?
                 <>

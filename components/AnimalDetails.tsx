@@ -1,21 +1,25 @@
 'use client';
 
 import Button from "@/components/ui/Button";
-import {useState} from "react";
+import { useState } from "react";
 import Modal from "@/components/ui/Modal";
 import NewPost from "@/components/NewPost";
-import {PostDataInterface} from "@/utils/interfaces";
-import {deleteAnimal} from "@/lib/actions";
-import {deleteImage} from "@/utils/helpers";
+import { ISessionUser, PostDataInterface } from "@/utils/interfaces";
+import { deleteAnimal } from "@/lib/actions";
+import { deleteImage } from "@/utils/helpers";
 import PortalProvider from "@/components/ui/PortalProvider";
+import { useSession } from "next-auth/react";
 
 interface AnimalDetailsProps {
   data: PostDataInterface
 }
 
-const AnimalDetails = ({data}: AnimalDetailsProps) => {
+const AnimalDetails = ({ data }: AnimalDetailsProps) => {
   const [imageIsOpened, setImageIsOpened] = useState<boolean>(false)
   const [editIsOpened, setEditIsOpened] = useState<boolean>(false)
+
+  const session = useSession()
+  const sessionUser = session?.data?.user as ISessionUser
 
   const handleModalOpen = (): void => {
     setImageIsOpened(true)
@@ -64,18 +68,21 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
       </div>
       <p className="w-[90%]">{data.text}</p>
       <p className="w-[90%]">Contacts: {data.contacts}</p>
-      <div className="flex gap-[50px] mb-4 mt-4">
-        <Button
-          className="button yellow"
-          type="button"
-          handleClick={handleEditOpen}
-        >Edit</Button>
-        <Button
-          className="button purple"
-          type="button"
-          handleClick={deleteHandler}
-        >Delete</Button>
-      </div>
+
+      {session?.status === 'authenticated' && data.userId === sessionUser.id &&
+        <div className="flex gap-[50px] mb-4 mt-4">
+          <Button
+            className="button yellow"
+            type="button"
+            handleClick={handleEditOpen}
+          >Edit</Button>
+          <Button
+            className="button purple"
+            type="button"
+            handleClick={deleteHandler}
+          >Delete</Button>
+        </div>
+      }
 
       {imageIsOpened &&
         <PortalProvider root='modal'>
@@ -93,7 +100,7 @@ const AnimalDetails = ({data}: AnimalDetailsProps) => {
       {editIsOpened &&
         <PortalProvider root='modal'>
           <Modal modalClose={handleEditClose}>
-            <NewPost modalClose={handleEditClose} postData={data}/>
+            <NewPost modalClose={handleEditClose} postData={data} />
           </Modal>
         </PortalProvider>
       }

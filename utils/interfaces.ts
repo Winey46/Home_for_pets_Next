@@ -15,6 +15,7 @@ export interface InputInterface {
 }
 
 export interface PostDataInterface {
+  userId?: string;
   id?: string;
   animalType: string;
   title: string;
@@ -38,4 +39,11 @@ export interface UserInterface {
   email: string;
   password: string;
   __v: number;
+}
+
+export interface ISessionUser {
+  email?: string;
+  name?: string;
+  image?: string;
+  id?: string;
 }

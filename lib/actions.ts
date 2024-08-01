@@ -1,23 +1,29 @@
 'use server';
 
-import {deleteImage, getDate, uploadImage} from "@/utils/helpers";
-import {redirect} from "next/navigation";
-import {revalidatePath} from "next/cache";
-import {PostDataInterface} from "@/utils/interfaces";
+import { deleteImage, getDate, uploadImage } from "@/utils/helpers";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { ISessionUser, PostDataInterface } from "@/utils/interfaces";
 import process from "node:process";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function postAnimal(formData: FormData) {
-  let url: string = String(process.env.ANIMALS_DB_CONNECTION_STRING) + '.json'
+  const session = await getServerSession(authOptions)
+  const sessionUser = session?.user as ISessionUser
+
+  let url: string = process.env.ANIMALS_DB_CONNECTION_STRING + '.json'
   let method = 'POST'
 
   const id = formData.get('post-id') as string
 
   if (id) {
-    url = String(process.env.ANIMALS_DB_CONNECTION_STRING) + `/${id}.json`
+    url = process.env.ANIMALS_DB_CONNECTION_STRING + `/${id}.json`
     method = 'PUT'
   }
 
   const data: PostDataInterface = {
+    userId: sessionUser.id,
     animalType: formData.get('animal-type') as string,
     title: formData.get('new-post__title') as string,
     text: formData.get('new-post__text') as string,
@@ -64,7 +70,7 @@ export async function postAnimal(formData: FormData) {
 }
 
 export async function deleteAnimal(id: string | undefined) {
-  const url = String(process.env.ANIMALS_DB_CONNECTION_STRING) + `/${id}.json`
+  const url = process.env.ANIMALS_DB_CONNECTION_STRING + `/${id}.json`
 
   try {
     if (id) {
