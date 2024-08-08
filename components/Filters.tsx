@@ -38,7 +38,7 @@ export default function Filters() {
   }
 
   return (
-    <div className="flex flex-col items-center w-[250px] h-fit bg-[#833de7] rounded-[5px] max-xl:mb-[5px]">
+    <div className="flex flex-col items-center w-[210px] h-fit bg-[#833de7] rounded-[5px] max-xl:mb-[5px]">
       <ul className="w-full mt-[15px] flex flex-col items-center text-neutral-100">
         Animal type
         <li className="w-[80%]">

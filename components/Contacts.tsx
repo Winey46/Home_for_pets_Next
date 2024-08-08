@@ -2,7 +2,7 @@ export default function Contacts() {
   return (
     <section
       id="contacts"
-      className="flex flex-col items-center justify-center w-full mb-[250px] bg-[#833de7] rounded-[10px] max-md:w-[610px] max-md:mb-[100px] max-sm:w-[360px]"
+      className="flex flex-col items-center justify-center w-full mb-[250px] bg-[#833de7] rounded-[10px]"
     >
       <div className="flex flex-col items-center w-[80%] my-[75px]">
         <h2 className="text-[3rem] text-neutral-100 max-md:text-[1.5rem]">Our Contacts:</h2>

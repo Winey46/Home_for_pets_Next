@@ -5,7 +5,7 @@ const MainPageNavigation: React.FC = () => {
   return (
     <nav
       id="home-navigation"
-      className="self-start my-[25px] flex items-center gap-[30px] max-md:justify-center max-md:items-center max-md:w-[610px] max-md:my-[15px] max-sm:w-[360px]"
+      className="px-[10%] self-start my-[25px] flex items-center gap-[30px] max-md:self-center max-md:my-[15px]"
     >
       <Button className="hover:cursor-pointer hover:text-[#ffb100]" scrollTo='#about'>
         About

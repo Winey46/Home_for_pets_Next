@@ -1,15 +1,15 @@
 'use client';
 
 import AnimalCart from "@/components/AnimalCart";
-import {useSearchParams} from "next/navigation";
-import {PostDataInterface, PostPreviewInterface} from "@/utils/interfaces";
-import {useEffect, useState} from "react";
+import { useSearchParams } from "next/navigation";
+import { PostDataInterface, PostPreviewInterface } from "@/utils/interfaces";
+import { useEffect, useState } from "react";
 
 interface AnimalsListProps {
   animals: { [key: string]: PostDataInterface; }
 }
 
-const AnimalsList = ({animals}: AnimalsListProps) => {
+const AnimalsList = ({ animals }: AnimalsListProps) => {
   const [pets, setPets] = useState<PostPreviewInterface[]>([])
 
   const params = useSearchParams()
@@ -41,23 +41,22 @@ const AnimalsList = ({animals}: AnimalsListProps) => {
   }, [animals]);
 
   if (!pets.length) {
-    return <p className="w-[924px] flex justify-center items-center text-2xl h-[500px] text-center px-[7px] max-lg:w-[610px] max-sm:w-[360px]">
+    return <p className="w-[910px] flex justify-center items-center text-2xl h-[500px] text-center px-[7px] max-lg:w-[610px] max-sm:w-[360px]">
       There are no available pets.
     </p>
   }
 
   return (
-    <div className="w-[924px] flex justify-center px-[7px] max-lg:w-[610px] max-sm:w-[360px]">
-      <ul className="flex flex-wrap gap-[5px] w-[910px] max-sm:w-[360px]">
+    <div className="max-w-[910px] flex justify-center max-xl:w-full">
+      <ul className="flex flex-wrap gap-[5px]">
         {pets.map(animal => (
-            <AnimalCart
-              key={animal.id}
-              to={`/animalsList/${animal.id}`}
-              imgSrc={animal.imageLink}
-              title={animal.title}
-            />
-          )
-        )}
+          <AnimalCart
+            key={animal.id}
+            to={`/animalsList/${animal.id}`}
+            imgSrc={animal.imageLink}
+            title={animal.title}
+          />
+        ))}
       </ul>
     </div>
   )

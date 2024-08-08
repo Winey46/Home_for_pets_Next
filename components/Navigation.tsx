@@ -1,17 +1,14 @@
 'use client';
 
-import {shortArrow} from "@/utils/symbols";
+import { shortArrow } from "@/utils/symbols";
 import Link from "next/link";
-import {usePathname} from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function Navigation() {
   const path = usePathname()
 
   return (
-    <nav
-      id="navigation"
-      className="flex my-[25px] w-[960px] max-lg:my-[15px] max-lg:justify-center max-lg:w-[610px] max-sm:w-[360px]"
-    >
+    <nav id="navigation" className="flex my-[25px] w-[80%] max-w-[1000px] max-lg:my-[15px] max-lg:justify-center">
       <ul className="flex items-center gap-[10px] ">
         <li>
           <Link href="/" className="hover:text-[#fbc43c]">Home</Link>
