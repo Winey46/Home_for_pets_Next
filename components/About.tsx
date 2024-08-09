@@ -1,4 +1,4 @@
-import {about} from "@/utils/texts";
+import { about } from "@/utils/texts";
 
 export default function About() {
   return (

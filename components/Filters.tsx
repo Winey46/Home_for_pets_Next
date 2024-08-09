@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Filters() {
-  const [catFilter, setCatFilter] = useState(false)
-  const [dogFilter, setDogFilter] = useState(false)
-  const [birdFilter, setBirdFilter] = useState(false)
+  const [catFilter, setCatFilter] = useState<boolean>(false)
+  const [dogFilter, setDogFilter] = useState<boolean>(false)
+  const [birdFilter, setBirdFilter] = useState<boolean>(false)
+  const [myPostsFilter, setMyPostsFilter] = useState<boolean>(false)
 
   const router = useRouter()
 
@@ -26,6 +27,8 @@ export default function Filters() {
       router.push('/animalsList?type=dog&type=bird')
     } else if (catFilter && dogFilter && birdFilter) {
       router.push('/animalsList?type=cat&type=dog&type=bird')
+    } else if (myPostsFilter) {
+      router.push('/animalsList?myposts=true')
     } else router.push('/animalsList')
   }
 
@@ -33,6 +36,7 @@ export default function Filters() {
     setCatFilter(false)
     setDogFilter(false)
     setBirdFilter(false)
+    setMyPostsFilter(false)
 
     router.push('/animalsList')
   }
@@ -78,7 +82,21 @@ export default function Filters() {
           >Bird</label>
         </li>
       </ul>
-      <div className="flex gap-[25px] my-[15px]">
+
+      <div className="w-[80%] mt-4">
+        <input
+          type="checkbox"
+          name="checkbox-myposts"
+          onChange={(event) => setMyPostsFilter(event.target.checked)}
+          checked={myPostsFilter}
+        />
+        <label
+          htmlFor="checkbox-myposts"
+          className="text-neutral-100"
+        >Show only my posts</label>
+      </div>
+
+      <div className="flex gap-[25px] my-4">
         <Button
           handleClick={filtersHandle}
           className="button yellow"

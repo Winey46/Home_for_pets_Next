@@ -1,7 +1,6 @@
-import React from "react";
 import Button from "@/components/ui/Button";
 
-const MainPageNavigation: React.FC = () => {
+const MainPageNavigation = () => {
   return (
     <nav
       id="home-navigation"

@@ -26,11 +26,12 @@ export interface PostDataInterface {
   imageName?: string | null;
 }
 
-export interface PostPreviewInterface {
+export interface IPostPreview {
   animalType: string;
   id: string;
   title: string;
   imageLink?: string | null;
+  userId?: string;
 }
 
 export interface UserInterface {
