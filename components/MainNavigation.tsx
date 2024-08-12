@@ -7,9 +7,9 @@ export default function MainNavigation() {
   const path: string = usePathname()
 
   return (
-    <nav className="w-full h-[75px] overflow-hidden">
+    <nav className="flex justify-center w-full h-[75px] overflow-hidden border-b-[1px] border-b-gray-400">
       <motion.ul
-        className="flex h-[75px] justify-center items-center gap-[100px] border-[1px] border-b-gray-400 bg-[#f2f2f2] max-sm:gap-[30px]"
+        className="flex h-[75px] max-w-[1140px] justify-center items-center gap-[100px] max-sm:gap-[30px] px-[5%]"
         initial={{y: -76}}
         animate={{y: 0}}
         exit={{y: -76}}

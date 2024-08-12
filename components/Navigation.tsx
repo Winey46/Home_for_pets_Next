@@ -8,7 +8,7 @@ export default function Navigation() {
   const path = usePathname()
 
   return (
-    <nav id="navigation" className="flex my-[25px] w-[90%] max-w-[1000px] max-lg:my-[15px] max-lg:justify-center">
+    <nav id="navigation" className="flex my-[25px] w-full px-[5%] max-w-[1000px] max-lg:my-[15px] max-lg:justify-center">
       <ul className="flex items-center gap-[10px] ">
         <li>
           <Link href="/" className="hover:text-[#fbc43c]">Home</Link>
@@ -18,12 +18,14 @@ export default function Navigation() {
           <Link
             href={path.startsWith("/animalsList") ? "/animalsList" :
               path === "/signUp" ? "/signUp" :
+              path === "/userProfile" ? "/userProfile" :
                 "/information"}
-            className={path === "/animalsList" || path === "/information" || path === "/signUp" ?
+            className={path === "/animalsList" || path === "/information" || path === "/signUp" || path === "/userProfile" ?
               "text-[#833de7] hover:text-[#fbc43c]" : "hover:text-[#fbc43c]"}
           >
             {path.startsWith("/animalsList") ? "Animals" :
               path === "/signUp" ? "SignUp" :
+              path === "/userProfile" ? "Profile" :
                 "Information"}
           </Link>
         </li>

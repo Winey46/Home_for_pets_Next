@@ -39,7 +39,7 @@ const Header = () => {
   }
 
   return (
-    <header id="header" className="flex flex-col items-center w-full">
+    <header id="header" className="flex flex-col items-center w-full bg-[#f2f2f2] shadow-lg">
         <HeaderContent
           toggleNavigation={toggleNavigation}
           navigation={navigationState}

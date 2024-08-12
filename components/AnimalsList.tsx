@@ -53,7 +53,7 @@ const AnimalsList = ({ animals }: AnimalsListProps) => {
   }, [animals, sessionUser]);
 
   if (!pets.length) {
-    return <p className="w-[910px] flex justify-center items-center text-2xl h-[500px] text-center px-[7px] max-lg:w-[610px] max-sm:w-[360px]">
+    return <p className="max-w-[910px] flex justify-center items-center text-2xl h-[500px] text-center px-[7px] max-lg:w-[610px] max-sm:w-[360px]">
       There are no available pets.
     </p>
   }

@@ -4,7 +4,7 @@ const MainPageNavigation = () => {
   return (
     <nav
       id="home-navigation"
-      className="px-[10%] self-start my-[25px] flex items-center gap-[30px] max-md:self-center max-md:my-[15px]"
+      className="px-[2%] self-start my-[25px] flex items-center gap-[30px] max-md:self-center max-md:my-[15px]"
     >
       <Button className="hover:cursor-pointer hover:text-[#ffb100]" scrollTo='#about'>
         About
