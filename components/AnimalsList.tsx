@@ -15,6 +15,7 @@ const AnimalsList = ({ animals }: AnimalsListProps) => {
 
   const session = useSession()
   const sessionUser = session?.data?.user as ISessionUser
+  
   const params = useSearchParams()
   const postQuery = params.getAll('type')
   const myPostsQuery = params.get('myposts')
@@ -46,11 +47,7 @@ const AnimalsList = ({ animals }: AnimalsListProps) => {
     }
 
     if (myPostsQuery) {
-      setPets(prevState => prevState.filter(animal => {
-        console.log('userId: ', animal.userId)
-        console.log('sessionId: ', sessionUser?.id)
-        return animal.userId === sessionUser?.id
-      }))
+      setPets(prevState => prevState.filter(animal => animal.userId === sessionUser?.id))
     }
 
   }, [animals, sessionUser]);

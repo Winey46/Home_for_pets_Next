@@ -1,8 +1,9 @@
 'use client';
 
-import Button from "./ui/Button";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Button from "./ui/Button";
 
 export default function Filters() {
   const [catFilter, setCatFilter] = useState<boolean>(false)
@@ -11,25 +12,36 @@ export default function Filters() {
   const [myPostsFilter, setMyPostsFilter] = useState<boolean>(false)
 
   const router = useRouter()
+  const session = useSession()
 
   const filtersHandle = () => {
-    if (catFilter && !dogFilter && !birdFilter) {
-      router.push('/animalsList?type=cat')
-    } else if (!catFilter && dogFilter && !birdFilter) {
-      router.push('/animalsList?type=dog')
-    } else if (!catFilter && !dogFilter && birdFilter) {
-      router.push('/animalsList?type=bird')
-    } else if (catFilter && dogFilter && !birdFilter) {
-      router.push('/animalsList?type=cat&type=dog')
-    } else if (catFilter && !dogFilter && birdFilter) {
-      router.push('/animalsList?type=cat&type=bird')
-    } else if (!catFilter && dogFilter && birdFilter) {
-      router.push('/animalsList?type=dog&type=bird')
-    } else if (catFilter && dogFilter && birdFilter) {
-      router.push('/animalsList?type=cat&type=dog&type=bird')
-    } else if (myPostsFilter) {
-      router.push('/animalsList?myposts=true')
-    } else router.push('/animalsList')
+    let url: string = '/animalsList'
+
+    if (catFilter || dogFilter || birdFilter || myPostsFilter) {
+      url = url + '?'
+
+      if (catFilter) {
+        if (url.includes('type')) url = url + '&' + 'type=cat'
+        else url = url + 'type=cat'
+      }
+
+      if (dogFilter) {
+        if (url.includes('type')) url = url + '&' + 'type=dog'
+        else url = url + 'type=dog'
+      }
+
+      if (birdFilter) {
+        if (url.includes('type')) url = url + '&' + 'type=bird'
+        else url = url + 'type=bird'
+      }
+
+      if (myPostsFilter) {
+        if (url.includes('type')) url = url + '&' + 'myposts=true'
+        else url = url + 'myposts=true'
+      }
+    }
+
+    router.push(url)
   }
 
   const filtersReset = () => {
@@ -82,20 +94,20 @@ export default function Filters() {
           >Bird</label>
         </li>
       </ul>
-
-      <div className="w-[80%] mt-4">
-        <input
-          type="checkbox"
-          name="checkbox-myposts"
-          onChange={(event) => setMyPostsFilter(event.target.checked)}
-          checked={myPostsFilter}
-        />
-        <label
-          htmlFor="checkbox-myposts"
-          className="text-neutral-100"
-        >Show only my posts</label>
-      </div>
-
+      {session?.status === 'authenticated' &&
+        <div className="w-[80%] mt-4">
+          <input
+            type="checkbox"
+            name="checkbox-myposts"
+            onChange={(event) => setMyPostsFilter(event.target.checked)}
+            checked={myPostsFilter}
+          />
+          <label
+            htmlFor="checkbox-myposts"
+            className="text-neutral-100"
+          >Show only my posts</label>
+        </div>
+      }
       <div className="flex gap-[25px] my-4">
         <Button
           handleClick={filtersHandle}
@@ -103,7 +115,7 @@ export default function Filters() {
         >Ok</Button>
         <Button
           handleClick={filtersReset}
-          className={(catFilter || dogFilter || birdFilter) ?
+          className={(catFilter || dogFilter || birdFilter || myPostsFilter) ?
             "button yellow" :
             "button grey"}
         >Reset</Button>
