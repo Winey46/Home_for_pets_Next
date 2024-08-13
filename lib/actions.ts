@@ -4,7 +4,7 @@ import { deleteImage, getDate, uploadImage } from "@/utils/helpers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { ISessionUser, PostDataInterface } from "@/utils/interfaces";
-import process from "node:process";
+// import process from "node:process";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
