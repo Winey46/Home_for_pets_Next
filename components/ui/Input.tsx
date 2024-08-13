@@ -11,9 +11,9 @@ const Input = (
     ...props
   }: InputInterface) => {
   return (
-    <div className="w-[80%] my-4 mx-[100px]">
+    <div className="w-full">
       <label
-        className="block mb-1 text-[1.2rem] font-[500]"
+        className="block text-[1.2rem] font-[500]"
         htmlFor={name}
       >
         {label}

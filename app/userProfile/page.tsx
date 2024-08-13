@@ -32,29 +32,36 @@ export default async function UserProfilePage() {
     <div className="flex flex-col items-center w-full px-[5%] py-[2%] min-h-[576px] border-[1px] border-gray-600 rounded-[10px] bg-neutral-100">
       {session?.user && (
         <>
-          <h2 className="text-xl font-[500]">{session?.user?.name}</h2>
-          <p className="self-start">Email: {session?.user?.email}</p>
-          <form className="self-start">
+          <h2 className="text-xl font-[500] mb-6">{session?.user?.name}</h2>
+          <form className="self-start flex flex-col gap-4 w-full items-center">
+            <Input
+              className="input mb-12"
+              name="profile_email"
+              label="Email *"
+              placeholder="Your new password"
+              type="text"
+              defaultValue={session?.user?.email}
+            />
             <Input
               className="input"
               name="profile_password"
-              label="New Password"
-              placeholder="Enter your password"
+              label="Password *"
+              placeholder="Your new password"
               type="text"
             />
             <Input
               className="input"
               name="profile_confirm_password"
-              label="Confirm Password"
-              placeholder="Repeat your password"
+              label="Password confirmation *"
+              placeholder="Confirm your new password"
               type="text"
             />
-            <Button className="button purple">Change password</Button>
+            <Button className="button purple">Save</Button>
           </form>
         </>
       )}
-      <h3 className="text-lg font-[500]">My Posts:</h3>
-      <ul className="flex flex-wrap gap-[5px]">
+      <h3 className="text-lg font-[500] self-start">My Posts:</h3>
+      <ul className="w-full flex flex-wrap gap-[5px] bg-white rounded-[10px]">
         {filteredPets.map((animal) => (
           <AnimalCart
             key={animal.id}

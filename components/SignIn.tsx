@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Input from "@/components/ui/Input";
@@ -11,64 +11,66 @@ interface SignInProps {
 }
 
 export default function SignIn({ signInClose }: SignInProps) {
-  const [emailValue, setEmailValue] = useState<string>('')
-  const [emailError, setEmailError] = useState<boolean>(false)
-  const emailInputChange = (event: ChangeEvent<HTMLInputElement>): void => setEmailValue(event.target.value)
+  const [emailValue, setEmailValue] = useState<string>("");
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const emailInputChange = (event: ChangeEvent<HTMLInputElement>): void =>
+    setEmailValue(event.target.value);
 
-  const [passwordValue, setPasswordValue] = useState<string>('')
-  const [passwordError, setPasswordError] = useState<boolean>(false)
-  const passwordInputChange = (event: ChangeEvent<HTMLInputElement>): void => setPasswordValue(event.target.value)
+  const [passwordValue, setPasswordValue] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+  const passwordInputChange = (event: ChangeEvent<HTMLInputElement>): void =>
+    setPasswordValue(event.target.value);
 
-  const router = useRouter()
-  const path = usePathname()
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || path
+  const router = useRouter();
+  const path = usePathname();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || path;
 
   const handleSignUp = (): void => {
-    router.push("/signUp")
-    signInClose()
-  }
+    router.push("/signUp");
+    signInClose();
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLButtonElement>) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    let isSubmit = true
+    let isSubmit = true;
 
-    if (!emailValue.includes('@')) {
-      setEmailError(true)
-      isSubmit = false
+    if (!emailValue.includes("@")) {
+      setEmailError(true);
+      isSubmit = false;
     }
 
     if (passwordValue.trim().length < 6) {
-      setPasswordError(true)
-      isSubmit = false
+      setPasswordError(true);
+      isSubmit = false;
     }
 
     if (isSubmit) {
-      const response = await signIn('credentials', {
+      const response = await signIn("credentials", {
         email: emailValue,
         password: passwordValue,
         redirect: false,
-      })
+      });
 
       if (response.error) {
-        console.log(response)
-      } else signInClose()
+        console.log(response);
+      } else signInClose();
     }
-  }
+  };
 
   useEffect(() => {
-    if (emailValue.includes('@')) {
-      setEmailError(false)
+    if (emailValue.includes("@")) {
+      setEmailError(false);
     }
     if (passwordValue.trim().length >= 6) {
-      setPasswordError(false)
+      setPasswordError(false);
     }
-  }, [emailValue, passwordValue])
+  }, [emailValue, passwordValue]);
 
   return (
-    <div className="w-[960px] flex flex-col my-6 items-center max-lg:w-[610px] max-sm:w-[360px]">
-      <h2 className="w-80% text-center">Sign In</h2>
+    <div className="flex flex-col my-6 items-center w-[1024px] gap-6 mx-[5%]">
+      <h2 className="w-full text-center text-xl font-[500]">Sign In</h2>
       <Input
         className={emailError ? "invalid-input" : "input"}
         name="signin-email"
@@ -87,14 +89,25 @@ export default function SignIn({ signInClose }: SignInProps) {
         handleChange={passwordInputChange}
         error={passwordError && "Should contain at least 6 symbols"}
       />
-      <div className="w-[80%] flex flex-col my-6">
-        <Button className="button yellow self-start" type="button" handleClick={handleSubmit}>Sign in</Button>
-        <Button className="button purple self-end" type="button" handleClick={() => signIn('google', { callbackUrl })}>
+      <div className="flex flex-col w-full">
+        <Button
+          className="button yellow self-start"
+          type="button"
+          handleClick={handleSubmit}
+        >
+          Sign in
+        </Button>
+        <Button
+          className="button purple self-end"
+          type="button"
+          handleClick={() => signIn("google", { callbackUrl })}
+        >
           Sign in with Google
         </Button>
       </div>
-      <p className="w-[80%] text-end">
-        Not a member yet? <span
+      <p className="w-full text-end">
+        Not a member yet?{" "}
+        <span
           className="text-[#833de7] underline hover:text-[#fbc43c] hover:cursor-pointer"
           onClick={handleSignUp}
         >
@@ -102,5 +115,5 @@ export default function SignIn({ signInClose }: SignInProps) {
         </span>
       </p>
     </div>
-  )
+  );
 }

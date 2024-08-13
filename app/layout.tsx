@@ -17,10 +17,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-          <div id="modal" className="flex justify-center"></div>
+          <div id="modal" className="flex justify-center items-center"></div>
           <div id="root">
             <Header />
-            <main className="flex flex-col items-center w-full px-[2%] max-w-[1024px] min-h-[650px]">
+            <main className="flex flex-col items-center w-full max-w-[1024px] min-h-[650px]">
               {children}
             </main>
             <Footer />
