@@ -2,8 +2,8 @@ import bcrypt from "bcrypt";
 import {dbConnect} from "@/lib/database";
 import {createUser} from "@/lib/users";
 
-export const POST = async (req) => {
-  const {name, email, password} = await req.json()
+export const POST = async (request) => {
+  const {name, email, password} = await request.json()
 
   await dbConnect()
 

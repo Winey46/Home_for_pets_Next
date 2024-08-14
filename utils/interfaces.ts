@@ -14,7 +14,7 @@ export interface InputInterface {
   handleTextareaChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-export interface PostDataInterface {
+export interface IPostData {
   userId?: string;
   id?: string;
   animalType: string;
@@ -24,6 +24,7 @@ export interface PostDataInterface {
   contacts: string;
   imageLink?: string | null;
   imageName?: string | null;
+  image?: File | null;
 }
 
 export interface IPostPreview {

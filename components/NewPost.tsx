@@ -4,19 +4,23 @@ import React, { useState, useEffect } from "react";
 import Input from "./ui/Input";
 import Button from "./ui/Button";
 import ImagePreview from "@/components/ui/ImagePreview";
-import { postAnimal } from "@/lib/actions";
-import { PostDataInterface } from "@/utils/interfaces";
+import { IPostData } from "@/utils/interfaces";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { createPost } from "@/lib/create-post";
 
 interface NewPostProps {
   modalClose: () => void;
-  postData?: PostDataInterface;
+  postData?: IPostData;
 }
 
 const NewPost = ({ modalClose, postData }: NewPostProps) => {
   const [image, setImage] = useState<File | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  // const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleImageChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const file: File | null = event.target.files[0];
 
     if (file) {
@@ -55,6 +59,12 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
     event: React.ChangeEvent<HTMLInputElement>
   ): void => setContactsValue(event.target.value);
 
+  const router = useRouter();
+
+  const { mutateAsync, isPending, isError, error, } = useMutation({
+    mutationFn: createPost,
+  });
+
   function handleSubmit(event: React.FormEvent<HTMLButtonElement>): void {
     event.preventDefault();
 
@@ -81,10 +91,14 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
     }
 
     if (isSubmit) {
-      setIsSubmitting(true);
-      event.currentTarget.form?.requestSubmit();
+      const formData = new FormData();
+      formData.append("animalType", animalTypeValue);
+      formData.append("title", titleValue);
+      formData.append("text", textValue);
+      formData.append("contacts", contactsValue);
+      formData.append("image", image);
 
-      setIsSubmitting(false);
+      mutateAsync(formData).then((res) => res.status === 201 && router.push("/animalsList"));
       modalClose();
     }
   }
@@ -109,8 +123,8 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
 
   return (
     <form
+      id="new-post__form"
       className="w-[1024px] flex flex-col items-center gap-6 self-start max-md:w-[610px] max-sm:w-[360px] mx-[5%]"
-      action={postAnimal}
     >
       <h2 className="text-[2rem] my-[5px]">
         {postData ? "Edit Post." : "New Post."}
@@ -180,10 +194,10 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
       <Button
         className="button purple mb-8"
         type="submit"
-        disabled={isSubmitting}
+        disabled={isPending}
         handleClick={handleSubmit}
       >
-        {isSubmitting ? "Submitting..." : "Save Post"}
+        {isPending ? "Submitting..." : "Save Post"}
       </Button>
     </form>
   );
