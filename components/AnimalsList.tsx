@@ -1,77 +1,68 @@
-'use client';
+"use client";
 
 import AnimalCart from "@/components/AnimalCart";
 import { useSearchParams } from "next/navigation";
-import { PostDataInterface, IPostPreview, ISessionUser } from "@/utils/interfaces";
+import { IPostData, ISessionUser } from "@/utils/interfaces";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
 interface AnimalsListProps {
-  animals: { [key: string]: PostDataInterface; }
+  animals: IPostData[];
 }
 
 const AnimalsList = ({ animals }: AnimalsListProps) => {
-  const [pets, setPets] = useState<IPostPreview[]>([])
+  const [filteredAnimals, setFilteredAnimals] = useState<IPostData[]>(animals);
 
-  const session = useSession()
-  const sessionUser = session?.data?.user as ISessionUser
-  
-  const params = useSearchParams()
-  const postQuery = params.getAll('type')
-  const myPostsQuery = params.get('myposts')
+  const session = useSession();
+  const sessionUser = session?.data?.user as ISessionUser;
+
+  const params = useSearchParams();
+  const postQuery = params.getAll("type");
+  const myPostsQuery = params.get("myposts");
 
   useEffect(() => {
-    const temporaryPets: IPostPreview[] = []
-
-    for (let key in animals) {
-      temporaryPets.push({
-        id: key,
-        title: animals[key].title,
-        animalType: animals[key].animalType,
-        imageLink: animals[key].imageLink,
-        userId: animals[key].userId
-      })
-    }
-    temporaryPets.reverse()
-
-    if (!postQuery.length && !myPostsQuery) {
-      setPets(temporaryPets)
-    }
+    setFilteredAnimals(animals);
 
     if (postQuery.length) {
-      setPets(prevState => prevState.filter(animal =>
-        animal.animalType.toLowerCase() === postQuery[0] ||
-        animal.animalType.toLowerCase() === postQuery[1] ||
-        animal.animalType.toLowerCase() === postQuery[2]
-      ))
+      setFilteredAnimals((prevState) =>
+        prevState.filter(
+          (animal) =>
+            animal.animalType.toLowerCase() === postQuery[0] ||
+            animal.animalType.toLowerCase() === postQuery[1] ||
+            animal.animalType.toLowerCase() === postQuery[2]
+        )
+      );
     }
 
     if (myPostsQuery) {
-      setPets(prevState => prevState.filter(animal => animal.userId === sessionUser?.id))
+      setFilteredAnimals((prevState) =>
+        prevState.filter((animal) => animal.userId === sessionUser?.id)
+      );
     }
-
   }, [animals, sessionUser]);
 
-  if (!pets.length) {
-    return <p className="max-w-[910px] flex justify-center items-center text-2xl h-[500px] text-center px-[7px] max-lg:w-[610px] max-sm:w-[360px]">
-      There are no available pets.
-    </p>
+  if (!animals.length) {
+    return (
+      <p className="max-w-[910px] w-full flex justify-center items-center text-2xl h-[500px] text-center px-[7px]">
+        There are no available pets.
+      </p>
+    );
   }
 
   return (
     <div className="max-w-[910px] flex justify-center max-xl:w-full">
       <ul className="flex flex-wrap gap-[5px]">
-        {pets.map(animal => (
+        {filteredAnimals.map((animal) => (
           <AnimalCart
-            key={animal.id}
-            to={`/animalsList/${animal.id}`}
+            key={animal._id.toString()}
+            to={`/animalsList/${animal._id.toString()}`}
             imgSrc={animal.imageLink}
             title={animal.title}
           />
         ))}
       </ul>
     </div>
-  )
-}
+  );
+};
 
 export default AnimalsList;

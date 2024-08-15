@@ -1,31 +1,31 @@
-'use server';
-
-import process from "node:process";
-
 export async function getAllAnimals() {
-  const url: string = String(process.env.ANIMALS_DB_CONNECTION_STRING) + '.json'
+  // const url: string = process.env.ANIMALS_DB_CONNECTION_STRING + '.json'
 
   try {
-    const response = await fetch(url, {cache: 'force-cache'})
+    // const response = await fetch(url, {cache: 'force-cache'})
+    const response = await fetch("http://localhost:3000/api/posts");
 
-    return response.json()
+    const data = await response.json();
 
+    return data;
   } catch (error) {
-    console.error(error)
-    throw new Error('Failed to fetch data')
+    console.error(error);
+    throw new Response(error.message || "Failed to fetch data", {
+      status: 500,
+    });
   }
 }
 
 export async function getAnimal(animalId: string) {
-  const url: string = String(process.env.ANIMALS_DB_CONNECTION_STRING) + `/${animalId}.json`
+  const url: string =
+    String(process.env.ANIMALS_DB_CONNECTION_STRING) + `/${animalId}.json`;
 
   try {
-    const response = await fetch(url, {cache: 'force-cache'})
+    const response = await fetch(url, { cache: "force-cache" });
 
-    return response.json()
-
+    return response.json();
   } catch (error) {
-    console.error(error)
-    throw new Error('Failed to fetch animal details')
+    console.error(error);
+    throw new Error("Failed to fetch animal details");
   }
 }

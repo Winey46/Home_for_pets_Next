@@ -16,7 +16,7 @@ export interface InputInterface {
 
 export interface IPostData {
   userId?: string;
-  id?: string;
+  _id?: string;
   animalType: string;
   title: string;
   text: string;
@@ -25,14 +25,6 @@ export interface IPostData {
   imageLink?: string | null;
   imageName?: string | null;
   image?: File | null;
-}
-
-export interface IPostPreview {
-  animalType: string;
-  id: string;
-  title: string;
-  imageLink?: string | null;
-  userId?: string;
 }
 
 export interface UserInterface {

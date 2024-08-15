@@ -5,7 +5,6 @@ import { authOptions } from "../../auth/[...nextauth]/route";
 import { getDate, uploadImage } from "@/utils/helpers";
 import { createPost } from "@/lib/posts";
 import { revalidatePath } from "next/cache";
-import { NextResponse } from "next/server";
 
 export const POST = async (request) => {
   const formData = await request.formData();
@@ -39,5 +38,5 @@ export const POST = async (request) => {
 
   revalidatePath("/animalsList");
 
-  return new NextResponse("Post has been created", { status: 201 });
+  return new Response("Post has been created", { status: 201 });
 };
