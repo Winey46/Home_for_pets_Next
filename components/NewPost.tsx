@@ -7,7 +7,7 @@ import ImagePreview from "@/components/ui/ImagePreview";
 import { IPostData } from "@/utils/interfaces";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { createPost } from "@/lib/create-post";
+import { createPost, editPost } from "@/lib/create-post";
 
 interface NewPostProps {
   modalClose: () => void;
@@ -16,7 +16,6 @@ interface NewPostProps {
 
 const NewPost = ({ modalClose, postData }: NewPostProps) => {
   const [image, setImage] = useState<File | null>(null);
-  // const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleImageChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -61,7 +60,7 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
 
   const router = useRouter();
 
-  const { mutateAsync, isPending, isError, error, } = useMutation({
+  const { mutateAsync, isPending, isError, error } = useMutation({
     mutationFn: createPost,
   });
 
@@ -98,7 +97,14 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
       formData.append("contacts", contactsValue);
       formData.append("image", image);
 
-      mutateAsync(formData).then((res) => res.status === 201 && router.push("/animalsList"));
+      if (!postData) {
+        mutateAsync(formData)
+        .then((res) => res.status === 201 && router.push("/animalsList"));
+      }
+      if (postData) {
+        editPost(formData, postData._id)
+        .then((res) => res.status === 200 && router.refresh());
+      }
       modalClose();
     }
   }
@@ -128,14 +134,14 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
     >
       <h2 className="text-[2rem] my-[5px]">
         {postData ? "Edit Post." : "New Post."}
-        {postData && (
+        {/* {postData && (
           <input
             readOnly
-            value={postData.id}
+            value={postData._id}
             name="post-id"
             className="hidden"
           />
-        )}
+        )} */}
       </h2>
       <Input
         className={animalTypeError ? "invalid-input" : "input"}

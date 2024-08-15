@@ -2,6 +2,7 @@ import Filters from "@/components/Filters";
 import AnimalsList from "@/components/AnimalsList";
 import { getAllAnimals } from "@/lib/animals";
 import { Suspense } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const AnimalsListPage = async () => {
   const animals = await getAllAnimals()
@@ -13,7 +14,7 @@ const AnimalsListPage = async () => {
         <AnimalsList animals={animals} />
       </Suspense>
     </div>
-  )
-}
+  );
+};
 
 export default AnimalsListPage;

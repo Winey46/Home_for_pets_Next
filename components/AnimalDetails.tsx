@@ -4,14 +4,14 @@ import Button from "@/components/ui/Button";
 import { useState } from "react";
 import Modal from "@/components/ui/Modal";
 import NewPost from "@/components/NewPost";
-import { ISessionUser, PostDataInterface } from "@/utils/interfaces";
-import { deleteAnimal } from "@/lib/actions";
+import { ISessionUser, IPostData } from "@/utils/interfaces";
+import { deleteAnimal } from "@/lib/animals";
 import { deleteImage } from "@/utils/helpers";
 import PortalProvider from "@/components/ui/PortalProvider";
 import { useSession } from "next-auth/react";
 
 interface AnimalDetailsProps {
-  data: PostDataInterface;
+  data: IPostData;
 }
 
 const AnimalDetails = ({ data }: AnimalDetailsProps) => {
@@ -47,29 +47,34 @@ const AnimalDetails = ({ data }: AnimalDetailsProps) => {
     );
 
     if (data.imageName) {
-      await deleteImage(data.imageName);
+    await deleteImage(data.imageName);
     }
-    if (proceed && data.id) {
-      await deleteAnimal(data.id);
+    if (proceed && data._id) {
+      console.log(data._id);
+      await deleteAnimal(data._id);
     }
   }
 
   return (
-    <div className="flex flex-col items-center w-[960px] min-h-[576px] border-[1px] border-gray-400 rounded-[10px] p-[5px] bg-neutral-100 max-lg:w-[610px] max-sm:w-[360px]">
+    <div className="flex flex-col items-center w-full min-h-[576px] border-[1px] border-gray-400 rounded-[10px] p-[5px] bg-neutral-100">
       <h2 className="y-4 font-bold w-[90%] text-center max-lg:w-[95%]">
         {data.title}
       </h2>
-      <time className="w-[90%] text-[0.8rem]">{data.date}</time>
+      <time className="w-full px-[5%] text-[0.8rem]">{data.date}</time>
       <div className="flex justify-center w-[90%] rounded-[10px] bg-white">
         <img
-          className="max-w-[90%] max-h-[50vh] object-contain"
+          className="w-full px-[5%] max-h-[50vh] object-contain"
           src={data.imageLink ? data.imageLink : "/pets-default.jpg"}
           alt={data.animalType}
           onClick={handleModalOpen}
         />
       </div>
-      <p className="w-[90%] mt-8 overflow-auto text-justify">{data.text}</p>
-      <p className="w-[90%] mt-8 text-justify">Contacts: {data.contacts}</p>
+      <p className="w-full px-[5%] mt-8 overflow-auto text-justify">
+        {data.text}
+      </p>
+      <p className="w-full px-[5%] mt-8 text-justify">
+        Contacts: {data.contacts}
+      </p>
 
       {session?.status === "authenticated" &&
         data.userId === sessionUser.id && (

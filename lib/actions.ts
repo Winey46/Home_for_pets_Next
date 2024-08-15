@@ -68,23 +68,3 @@ export async function postAnimal(formData: FormData) {
   revalidatePath('/animalsList')
   return redirect('/animalsList')
 }
-
-export async function deleteAnimal(id: string | undefined) {
-  const url = process.env.ANIMALS_DB_CONNECTION_STRING + `/${id}.json`
-
-  try {
-    if (id) {
-      await fetch(url, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-    }
-
-  } catch (error) {
-    throw new Error('Could not delete animal from the database');
-  }
-  revalidatePath('/animalsList')
-  return redirect('/animalsList')
-}

@@ -24,16 +24,15 @@ export const POST = async (request) => {
 
   try {
     const imageResponse = await uploadImage(image);
-    newPost.imageName = imageResponse.imageName
-    newPost.imageLink = imageResponse.imageLink
+    newPost.imageName = imageResponse.imageName;
+    newPost.imageLink = imageResponse.imageLink;
 
     await dbConnect();
 
     await createPost(newPost);
-
   } catch (error) {
     console.log(error);
-    return new Error(error.message || "Failed to create post");
+    return new Response("Failed to create post", { status: 500 });
   }
 
   revalidatePath("/animalsList");

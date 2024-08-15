@@ -4,7 +4,6 @@ import AnimalDetails from "@/components/AnimalDetails";
 
 const Animal = async ({animalId}: { animalId: string }) => {
   const result = await getAnimal(animalId)
-  result.id = animalId
 
   return <AnimalDetails data={result} />
 }
