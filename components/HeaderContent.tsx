@@ -22,8 +22,6 @@ export default function HeaderContent({
 }: HeaderContentProps) {
   const session = useSession();
 
-  const userImage = session?.data?.user?.image;
-
   return (
     <div className="flex justify-center w-full h-[75px] border-b-[1px] border-b-gray-400">
       <div className="flex justify-between items-center max-w-[1024px] w-full px-[2%]">
@@ -62,7 +60,7 @@ export default function HeaderContent({
                 <Link className="flex items-center" href="/userProfile">
                   <img
                     className="rounded-[50%]"
-                    src={userImage ? userImage : "/dog-image.jpg"}
+                    src={session?.data?.user?.image ? session?.data?.user?.image : "/dog-image.jpg"}
                     alt="user_photo"
                     width={50}
                     height={50}

@@ -4,7 +4,8 @@ import AnimalCart from "@/components/AnimalCart";
 import { getAllAnimals } from "@/lib/animals";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import { IPostPreview, ISessionUser } from "@/utils/interfaces";
+import { ISessionUser } from "@/utils/interfaces";
+import Image from "next/image";
 
 export default async function UserProfilePage() {
   const session = await getServerSession(authOptions);
@@ -12,28 +13,16 @@ export default async function UserProfilePage() {
   const animals = await getAllAnimals();
   const sessionUser = session?.user as ISessionUser;
 
-  const pets: IPostPreview[] = [];
-
-  for (let key in animals) {
-    pets.push({
-      id: key,
-      title: animals[key].title,
-      animalType: animals[key].animalType,
-      imageLink: animals[key].imageLink,
-      userId: animals[key].userId,
-    });
-  }
-
-  pets.reverse();
-
-  const filteredPets = pets.filter((pet) => pet.userId === sessionUser?.id);
+  const filteredPets = animals.filter(
+    (animal) => animal.userId === sessionUser?.id
+  );
 
   return (
     <div className="flex flex-col items-center w-full px-[5%] py-[2%] min-h-[576px] border-[1px] border-gray-600 rounded-[10px] bg-neutral-100">
-      {session?.user && (
-        <>
-          <h2 className="text-xl font-[500] mb-6">{session?.user?.name}</h2>
-          <form className="self-start flex flex-col gap-4 w-full items-center">
+      <div className="flex w-full">
+        {session?.user && (
+          <form className="flex flex-col gap-4 w-[70%] items-center px-[5%]">
+            <h2 className="text-xl font-[500] mb-6">{session?.user?.name}</h2>
             <Input
               className="input mb-12"
               name="profile_email"
@@ -58,18 +47,35 @@ export default async function UserProfilePage() {
             />
             <Button className="button purple">Save</Button>
           </form>
-        </>
-      )}
+        )}
+        <div className="flex flex-col items-center w-[30%]">
+          <h3 className="text-xl">Avatar:</h3>
+          <Image
+            className="w-full my-8 rounded-[50%]"
+            src="/avatar-logo.png"
+            alt="avatar_logo"
+            width={256}
+            height={256}
+          />
+          <Input name="avatar-image" label="Choose an image" type="file" />
+        </div>
+      </div>
       <h3 className="text-lg font-[500] self-start">My Posts:</h3>
       <ul className="w-full flex flex-wrap gap-[5px] bg-white rounded-[10px]">
-        {filteredPets.map((animal) => (
-          <AnimalCart
-            key={animal.id}
-            to={`/animalsList/${animal.id}`}
-            imgSrc={animal.imageLink}
-            title={animal.title}
-          />
-        ))}
+        {filteredPets.length ? (
+          filteredPets.map((animal) => (
+            <AnimalCart
+              key={animal._id}
+              to={`/animalsList/${animal._id}`}
+              imgSrc={animal.imageLink}
+              title={animal.title}
+            />
+          ))
+        ) : (
+          <p className="max-w-[910px] w-full flex justify-center items-center text-2xl h-[310px] text-center px-[2%]">
+            There are no available pets.
+          </p>
+        )}
       </ul>
     </div>
   );

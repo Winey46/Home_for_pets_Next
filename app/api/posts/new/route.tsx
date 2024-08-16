@@ -3,8 +3,8 @@ import { IPostData, ISessionUser } from "@/utils/interfaces";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { getDate, uploadImage } from "@/utils/helpers";
-import { createPost } from "@/lib/posts";
 import { revalidatePath } from "next/cache";
+import { Post } from "@/models/post.model";
 
 export const POST = async (request) => {
   const formData = await request.formData();
@@ -29,7 +29,7 @@ export const POST = async (request) => {
 
     await dbConnect();
 
-    await createPost(newPost);
+    await Post.create(newPost);
   } catch (error) {
     console.log(error);
     return new Response("Failed to create post", { status: 500 });

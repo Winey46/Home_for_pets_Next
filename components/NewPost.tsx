@@ -98,12 +98,9 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
       formData.append("image", image);
 
       if (!postData) {
-        mutateAsync(formData)
-        .then((res) => res.status === 201 && router.push("/animalsList"));
-      }
-      if (postData) {
-        editPost(formData, postData._id)
-        .then((res) => res.status === 200 && router.refresh());
+        mutateAsync(formData).then((res) => res.status === 201 && router.push("/animalsList"));
+      } else {
+        editPost(formData, postData._id).then((res) => res.status === 200 && router.refresh());
       }
       modalClose();
     }
@@ -134,14 +131,6 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
     >
       <h2 className="text-[2rem] my-[5px]">
         {postData ? "Edit Post." : "New Post."}
-        {/* {postData && (
-          <input
-            readOnly
-            value={postData._id}
-            name="post-id"
-            className="hidden"
-          />
-        )} */}
       </h2>
       <Input
         className={animalTypeError ? "invalid-input" : "input"}
