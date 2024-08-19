@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 interface AnimalCartProps {
   to: string;
@@ -22,17 +23,18 @@ export default function AnimalCart({ to, imgSrc, title }: AnimalCartProps) {
         onMouseLeave={() => setPostTitleHover(false)}
       >
         <div className="flex flex-col justify-center h-full w-full rounded-[5px]">
-          <img
+          <Image
             className="w-full h-full object-cover rounded-[5px]"
             src={imgSrc ? imgSrc : '/pets-default.jpg'}
             alt="animal_image"
-          // width={300}
-          // height={300}
+            width={300}
+            height={300}
           />
         </div>
         <AnimatePresence>
           {postTitleHover &&
-            <div className="relative bottom-[101px] w-full h-[100px] flex flex-col items-center justify-center bg-[linear-gradient(to_bottom,rgba(0,0,0,0),rgba(0,0,0,0.75))] rounded-br-[5px] rounded-bl-[5px] overflow-hidden">
+            <div
+              className="relative bottom-[101px] w-full h-[100px] flex flex-col items-center justify-center bg-[linear-gradient(to_bottom,rgba(0,0,0,0),rgba(0,0,0,0.75))] rounded-br-[5px] rounded-bl-[5px] overflow-hidden">
               <motion.p
                 className="text-center m-0 w-[90%] text-neutral-100"
                 variants={{

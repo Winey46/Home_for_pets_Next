@@ -58,7 +58,7 @@ export default function HeaderContent({
             {session?.data ? (
               <>
                 <Link className="flex items-center" href="/userProfile">
-                  <img
+                  <Image
                     className="rounded-[50%]"
                     src={session?.data?.user?.image ? session?.data?.user?.image : "/dog-image.jpg"}
                     alt="user_photo"

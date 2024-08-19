@@ -5,6 +5,7 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
+import Image from "next/image";
 
 interface SignInProps {
   signInClose: () => void;
@@ -98,10 +99,16 @@ export default function SignIn({ signInClose }: SignInProps) {
           Sign in
         </Button>
         <Button
-          className="button purple self-end"
+          className="button purple self-end gap-2"
           type="button"
           handleClick={() => signIn("google", { callbackUrl })}
         >
+          <Image
+            src="/Google-logo.png"
+            alt="Google_logo"
+            width={35}
+            height={35}
+          />
           Sign in with Google
         </Button>
       </div>

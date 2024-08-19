@@ -10,6 +10,7 @@ export const POST = async (request) => {
   const formData = await request.formData();
 
   const session = await getServerSession(authOptions);
+  // if(!session)...
   const sessionUser = session?.user as ISessionUser;
 
   const newPost: IPostData = {
@@ -19,6 +20,7 @@ export const POST = async (request) => {
     text: formData.get("text"),
     title: formData.get("title"),
     userId: sessionUser.id,
+    // image:{...}
   };
   const image = formData.get("image");
 

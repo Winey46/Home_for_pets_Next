@@ -16,10 +16,7 @@ interface NewPostProps {
 
 const NewPost = ({ modalClose, postData }: NewPostProps) => {
   const [image, setImage] = useState<File | null>(null);
-
-  const handleImageChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const file: File | null = event.target.files[0];
 
     if (file) {

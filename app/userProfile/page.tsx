@@ -18,8 +18,8 @@ export default async function UserProfilePage() {
   );
 
   return (
-    <div className="flex flex-col items-center w-full px-[5%] py-[2%] min-h-[576px] border-[1px] border-gray-600 rounded-[10px] bg-neutral-100">
-      <div className="flex w-full">
+    <div className="flex flex-col max-w-[1024px] items-center w-[98%] py-[2%] min-h-[576px] border-[1px] border-gray-600 rounded-[10px] bg-neutral-100">
+      <div className="flex w-full min-h-[450px] max-w-[910px]">
         {session?.user && (
           <form className="flex flex-col gap-4 w-[70%] items-center px-[5%]">
             <h2 className="text-xl font-[500] mb-6">{session?.user?.name}</h2>
@@ -57,11 +57,11 @@ export default async function UserProfilePage() {
             width={256}
             height={256}
           />
-          <Input name="avatar-image" label="Choose an image" type="file" />
+          {/* <Input name="avatar-image" type="file" /> */}
         </div>
       </div>
-      <h3 className="text-lg font-[500] self-start">My Posts:</h3>
-      <ul className="w-full flex flex-wrap gap-[5px] bg-white rounded-[10px]">
+      <h3 className="px-[50px] text-lg font-[500] self-start">My Posts:</h3>
+      <ul className="max-w-[920px] w-full flex flex-wrap gap-[5px] bg-white rounded-[10px] px-[5px]">
         {filteredPets.length ? (
           filteredPets.map((animal) => (
             <AnimalCart
