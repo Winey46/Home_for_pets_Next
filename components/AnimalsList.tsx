@@ -50,7 +50,7 @@ const AnimalsList = ({ animals }: AnimalsListProps) => {
   }
 
   return (
-    <div className="max-w-[910px] flex justify-center max-xl:w-full">
+    <div className="max-w-[910px] flex max-xl:w-full">
       <ul className="flex flex-wrap gap-[5px]">
         {filteredAnimals.map((animal) => (
           <AnimalCart

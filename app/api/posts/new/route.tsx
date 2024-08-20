@@ -3,15 +3,18 @@ import { IPostData, ISessionUser } from "@/utils/interfaces";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { getDate, uploadImage } from "@/utils/helpers";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { Post } from "@/models/post.model";
 
 export const POST = async (request) => {
   const formData = await request.formData();
 
   const session = await getServerSession(authOptions);
-  // if(!session)...
   const sessionUser = session?.user as ISessionUser;
+  if (!session)
+    new Response("Only authenticated users can create posts", {
+      status: 401,
+    });
 
   const newPost: IPostData = {
     animalType: formData.get("animalType"),
@@ -20,8 +23,20 @@ export const POST = async (request) => {
     text: formData.get("text"),
     title: formData.get("title"),
     userId: sessionUser.id,
-    // image:{...}
+    imageName: null,
+    imageLink: null,
   };
+
+  if (
+    newPost.animalType.trim().length < 3 ||
+    newPost.title.trim().length < 3 ||
+    newPost.text.trim().length < 3 ||
+    newPost.contacts.trim().length < 3
+  ) {
+    return new Response("Inputs should contain at least 3 symbols", {
+      status: 400,
+    });
+  }
   const image = formData.get("image");
 
   try {
@@ -37,7 +52,7 @@ export const POST = async (request) => {
     return new Response("Failed to create post", { status: 500 });
   }
 
-  revalidatePath("/animalsList");
+  revalidateTag("animals");
 
   return new Response("Post has been created", { status: 201 });
 };

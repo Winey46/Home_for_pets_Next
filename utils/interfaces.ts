@@ -1,5 +1,5 @@
 import React from "react";
-import {ObjectId} from "mongoose";
+import { ObjectId } from "mongoose";
 
 export interface InputInterface {
   label?: string;
@@ -11,7 +11,9 @@ export interface InputInterface {
   className?: string;
   defaultValue?: string;
   handleChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleTextareaChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  handleTextareaChange?: (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => void;
 }
 
 export interface IPostData {
@@ -20,7 +22,7 @@ export interface IPostData {
   animalType: string;
   title: string;
   text: string;
-  date: string;
+  date?: string;
   contacts: string;
   imageLink?: string | null;
   imageName?: string | null;
@@ -32,7 +34,7 @@ export interface UserInterface {
   name: string;
   email: string;
   password: string;
-  __v: number;
+  // __v: number;
 }
 
 export interface ISessionUser {

@@ -38,7 +38,8 @@ export async function uploadImage(image: File | null) {
       imageName: imageResponse.metadata.name,
     };
   } catch (error) {
-    throw new Error(error.message || "Failed to save image");
+    console.error(error)
+    throw new Error("Failed to save image");
   }
 }
 

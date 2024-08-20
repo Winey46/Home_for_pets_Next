@@ -5,7 +5,7 @@ import Input from "./ui/Input";
 import Button from "./ui/Button";
 import ImagePreview from "@/components/ui/ImagePreview";
 import { IPostData } from "@/utils/interfaces";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { createPost, editPost } from "@/lib/create-post";
 
@@ -16,7 +16,9 @@ interface NewPostProps {
 
 const NewPost = ({ modalClose, postData }: NewPostProps) => {
   const [image, setImage] = useState<File | null>(null);
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleImageChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const file: File | null = event.target.files[0];
 
     if (file) {
@@ -57,11 +59,16 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
 
   const router = useRouter();
 
-  const { mutateAsync, isPending, isError, error } = useMutation({
+  const path = usePathname();
+
+  const createMutation = useMutation({
     mutationFn: createPost,
   });
+  const editMutation = useMutation({
+    mutationFn: editPost,
+  });
 
-  function handleSubmit(event: React.FormEvent<HTMLButtonElement>): void {
+  async function handleSubmit(event: React.FormEvent<HTMLButtonElement>) {
     event.preventDefault();
 
     let isSubmit = true;
@@ -95,10 +102,17 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
       formData.append("image", image);
 
       if (!postData) {
-        mutateAsync(formData).then((res) => res.status === 201 && router.push("/animalsList"));
+        const response = await createMutation.mutateAsync(formData);
+        if (response.status === 201 && path !== "/animalsList") router.push("/animalsList");
+        if (response.status === 201 && path === "/animalsList") router.refresh();
       } else {
-        editPost(formData, postData._id).then((res) => res.status === 200 && router.refresh());
+        const response = await editMutation.mutateAsync({
+          formData,
+          animalId: postData._id,
+        });
+        if (response.status === 200) router.refresh();
       }
+
       modalClose();
     }
   }
@@ -172,24 +186,26 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
       />
 
       {image && <ImagePreview imgSrc={URL.createObjectURL(image)} />}
-      {postData && postData.imageLink && !image && (
+
+      {postData?.imageLink && !image && (
         <ImagePreview imgSrc={postData.imageLink} />
       )}
 
       <Input
         name="new-post__image"
         label="Choose an image"
-        placeholder="Choose an image"
         type="file"
         handleChange={handleImageChange}
       />
       <Button
         className="button purple mb-8"
         type="submit"
-        disabled={isPending}
+        disabled={createMutation.isPending || editMutation.isPending}
         handleClick={handleSubmit}
       >
-        {isPending ? "Submitting..." : "Save Post"}
+        {createMutation.isPending || editMutation.isPending
+          ? "Submitting..."
+          : "Save Post"}
       </Button>
     </form>
   );

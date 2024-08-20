@@ -1,3 +1,5 @@
+import { usePathname } from "next/navigation";
+
 export async function createPost(formData: FormData) {
   try {
     const response = await fetch("http://localhost:3000/api/posts/new", {
@@ -8,20 +10,22 @@ export async function createPost(formData: FormData) {
     return response;
   } catch (error) {
     console.error(error.message);
-    throw new Error(error.message || "Could not create post");
+    throw new Error("Could not create post");
   }
 }
 
-export async function editPost(formData: FormData, animalId: string) {
+export async function editPost({formData, animalId}) {
   try {
-    const response = await fetch(`http://localhost:3000/api/posts/${animalId}`, {
-      method: "PUT",
-      body: formData,
-    });
-
+    const response = await fetch(
+      `http://localhost:3000/api/posts/${animalId}`,
+      {
+        method: "PUT",
+        body: formData,
+      }
+    );
     return response;
   } catch (error) {
     console.error(error.message);
-    throw new Error(error.message || "Could not create or edit post");
+    throw new Error("Could not edit post");
   }
 }
