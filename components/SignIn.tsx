@@ -55,7 +55,7 @@ export default function SignIn({ signInClose }: SignInProps) {
       });
 
       if (response.error) {
-        console.log(response);
+        console.error(response.error);
       } else signInClose();
     }
   };
