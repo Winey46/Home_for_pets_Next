@@ -29,6 +29,13 @@ export default function Page() {
     event: React.ChangeEvent<HTMLInputElement>
   ): void => setPasswordValue(event.target.value);
 
+  const [confirmPasswordValue, setConfirmPasswordValue] = useState<string>("");
+  const [confirmPasswordError, setConfirmPasswordError] =
+    useState<boolean>(false);
+  const confirmPasswordInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => setConfirmPasswordValue(event.target.value);
+
   const handleSignInOpen = (): void => {
     setSignInState(true);
     document.body.style.overflow = "hidden";
@@ -55,10 +62,17 @@ export default function Page() {
     }
 
     if (
-      passwordValue.trim().length < 3 &&
-      !/[A-Z]/.test(passwordValue.trim())
+      passwordValue.trim().length < 6 ||
+      !/[A-Z]/.test(passwordValue.trim()) ||
+      !/[a-z]/.test(passwordValue.trim()) ||
+      !/\d/.test(passwordValue.trim())
     ) {
       setPasswordError(true);
+      isSubmit = false;
+    }
+
+    if (passwordValue.trim() !== confirmPasswordValue.trim()) {
+      setConfirmPasswordError(true);
       isSubmit = false;
     }
 
@@ -99,12 +113,18 @@ export default function Page() {
     }
 
     if (
-      passwordValue.trim().length >= 3 &&
-      /[A-Z]/.test(passwordValue.trim())
+      passwordValue.trim().length >= 6 &&
+      /[A-Z]/.test(passwordValue) &&
+      /[a-z]/.test(passwordValue) &&
+      /\d/.test(passwordValue)
     ) {
       setPasswordError(false);
     }
-  }, [nameValue, emailValue, passwordValue]);
+
+    if (passwordValue.trim() === confirmPasswordValue.trim()) {
+      setConfirmPasswordError(false);
+    }
+  }, [nameValue, emailValue, passwordValue, confirmPasswordValue]);
 
   return (
     <form
@@ -147,11 +167,6 @@ export default function Page() {
         type="password"
         placeholder="Enter your password"
         handleChange={passwordInputChange}
-        error={
-          passwordError
-            ? "Should contain at least 3 symbols, upper and lower case symbols"
-            : null
-        }
       />
       <ul className="w-full">
         <li className="text-[0.8rem]"> - At least 6 characters</li>
@@ -160,12 +175,20 @@ export default function Page() {
           - Contains uppercase and lowercase characters
         </li>
       </ul>
+      <Input
+        className={confirmPasswordError ? "invalid-input" : "input"}
+        name="registration-confirm"
+        label="Confirm Password"
+        type="password"
+        placeholder="Repeat your password"
+        handleChange={confirmPasswordInputChange}
+        error={confirmPasswordError ? "Passwords should match" : null}
+      />
       <div className="w-full flex justify-center">
         <Button type="submit" className="button purple">
           Create account
         </Button>
       </div>
-
       {signInState && (
         <PortalProvider root="modal">
           <Modal modalClose={handleSignInClose}>

@@ -27,7 +27,7 @@ const Button = ({children, className, disabled, handleClick, scrollTo}: ButtonPr
   return (
     <motion.button
       className={disabled ?
-        'bg-gray-300 flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] text-neutral-100 hover:bg-purple-700 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]' :
+        'bg-gray-500 flex justify-center items-center py-[1rem] px-[1.5rem] rounded-[5px] text-[1rem] text-neutral-100 max-md:text-[0.9rem] max-md:py-[0.6rem] max-md:px-[0.8rem]' :
         className}
       onClick={handleClick ? handleClick : () => handleScroll(scrollTo)}
       variants={{

@@ -8,7 +8,10 @@ export const POST = async (request) => {
   if (
     name.trim().length < 2 ||
     !email.trim().includes("@") ||
-    (password.trim().length < 3 && !/[A-Z]/.test(password.trim()))
+    (password.trim().length < 6 ||
+      !/[A-Z]/.test(password.trim()) ||
+      !/[a-z]/.test(password.trim())||
+      !/\d/.test(password.trim()))
   ) {
     return new Response("Input validation error", {
       status: 400,

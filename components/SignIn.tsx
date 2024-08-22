@@ -42,7 +42,12 @@ export default function SignIn({ signInClose }: SignInProps) {
       isSubmit = false;
     }
 
-    if (passwordValue.trim().length < 6) {
+    if (
+      passwordValue.trim().length < 6 &&
+      !/[A-Z]/.test(passwordValue.trim()) &&
+      !/[a-z]/.test(passwordValue.trim()) &&
+      !/\d/.test(passwordValue.trim())
+    ) {
       setPasswordError(true);
       isSubmit = false;
     }
@@ -67,6 +72,14 @@ export default function SignIn({ signInClose }: SignInProps) {
     if (passwordValue.trim().length >= 6) {
       setPasswordError(false);
     }
+    if (
+      passwordValue.trim().length >= 6 ||
+      /[A-Z]/.test(passwordValue) ||
+      /[a-z]/.test(passwordValue) ||
+      /\d/.test(passwordValue)
+    ) {
+      setPasswordError(false);
+    }
   }, [emailValue, passwordValue]);
 
   return (
@@ -88,7 +101,10 @@ export default function SignIn({ signInClose }: SignInProps) {
         label="Password"
         type="password"
         handleChange={passwordInputChange}
-        error={passwordError && "Should contain at least 6 symbols"}
+        error={
+          passwordError &&
+          "Should contain at least 3 symbols, upper and lower case symbols and number"
+        }
       />
       <div className="flex flex-col w-full">
         <Button

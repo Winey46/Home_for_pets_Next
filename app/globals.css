@@ -45,8 +45,14 @@ body {
   width: 50px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(farthest-side, #833de7 94%, rgba(0, 0, 0, 0)) top/8px 8px no-repeat, conic-gradient(rgba(0, 0, 0, 0) 30%, #833de7);
-  -webkit-mask: radial-gradient(farthest-side, rgba(0, 0, 0, 0) calc(100% - 8px), #000 0);
+  background: radial-gradient(farthest-side, #833de7 94%, rgba(0, 0, 0, 0))
+      top/8px 8px no-repeat,
+    conic-gradient(rgba(0, 0, 0, 0) 30%, #833de7);
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    rgba(0, 0, 0, 0) calc(100% - 8px),
+    #000 0
+  );
   animation: l13 1s infinite linear;
 }
 
@@ -55,6 +61,7 @@ body {
     transform: rotate(1turn);
   }
 }
+
 .button {
   display: flex;
   justify-content: center;
@@ -62,32 +69,34 @@ body {
   padding: 1rem 1.5rem;
   border-radius: 5px;
   font-size: 1rem;
-}
-@media (max-width: 1024px) {
-  .button {
+
+  @media (max-width: 1024px) {
     padding: 0.6rem 0.8rem;
   }
-}
-@media (max-width: 768px) {
-  .button {
+
+  @media (max-width: 768px) {
     font-size: 0.9rem;
   }
 }
 
 .yellow {
   background-color: #fbc43c;
-}
-.yellow:hover {
-  background-color: #ffb100;
+
+  &:hover {
+    background-color: #ffb100;
+  }
+  
 }
 
 .purple {
   background-color: #833de7;
   color: whitesmoke;
+
+  &:hover {
+    background-color: #6204e8;
+  }
 }
-.purple:hover {
-  background-color: #6204e8;
-}
+
 
 .grey {
   background-color: grey;
