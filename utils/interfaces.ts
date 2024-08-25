@@ -34,7 +34,6 @@ export interface UserInterface {
   name: string;
   email: string;
   password: string;
-  // __v: number;
 }
 
 export interface ISessionUser {
@@ -42,4 +41,5 @@ export interface ISessionUser {
   name?: string;
   image?: string;
   id?: string;
+  password?: string;
 }

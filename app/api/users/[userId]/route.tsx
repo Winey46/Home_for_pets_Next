@@ -10,7 +10,6 @@ export const PUT = async (request: NextRequest, { params }) => {
   const { newEmail, newPassword } = await request.json();
 
   const session = await getServerSession(authOptions);
-  const sessionUser = session?.user as ISessionUser;
   if (!session) {
     return new Response(
       "Only authenticated users can edit his user profile information",
@@ -20,29 +19,22 @@ export const PUT = async (request: NextRequest, { params }) => {
     );
   }
 
-  if (newEmail) {
-    if (
-      !newEmail.includes("@") ||
-      !newEmail.includes(".") ||
-      newEmail === sessionUser.email
-    ) {
-      return new Response("Email does not match validation rules", {
-        status: 500,
-      });
-    }
+  if (newEmail && (!newEmail.includes("@") || !newEmail.includes("."))) {
+    return new Response("Email does not match validation rules", {
+      status: 500,
+    });
   }
 
-  if (newPassword) {
-    if (
-      newPassword.trim().length < 6 ||
+  if (
+    newPassword &&
+    (newPassword.trim().length < 6 ||
       !/[A-Z]/.test(newPassword.trim()) ||
       !/[a-z]/.test(newPassword.trim()) ||
-      !/\d/.test(newPassword.trim())
-    ) {
-      return new Response("Password does not match validation rules", {
-        status: 500,
-      });
-    }
+      !/\d/.test(newPassword.trim()))
+  ) {
+    return new Response("Password does not match validation rules", {
+      status: 500,
+    });
   }
 
   try {

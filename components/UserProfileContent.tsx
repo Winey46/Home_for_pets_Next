@@ -6,7 +6,7 @@ import Input from "./ui/Input";
 import Button from "./ui/Button";
 import Image from "next/image";
 import AnimalCart from "./AnimalCart";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { editUser } from "@/lib/edit-user";
 import { useRouter } from "next/navigation";
@@ -18,7 +18,10 @@ interface UserProfileContentProps {
 export default function UserProfileContent({
   animals,
 }: UserProfileContentProps) {
-  const [email, setEmail] = useState<string>("");
+  const { data, update } = useSession();
+  const sessionUser = data?.user as ISessionUser;
+
+  const [email, setEmail] = useState<string | null>();
   const [emailError, setEmailError] = useState<boolean>(false);
 
   const [password, setPassword] = useState<string>("");
@@ -27,9 +30,6 @@ export default function UserProfileContent({
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [confirmPasswordError, setConfirmPasswordError] =
     useState<boolean>(false);
-
-  const session = useSession();
-  const sessionUser = session?.data?.user as ISessionUser;
 
   const router = useRouter();
 
@@ -51,55 +51,72 @@ export default function UserProfileContent({
     setConfirmPassword(event.target.value);
   };
 
-  const editUserMutation = useMutation({
+  const { mutateAsync, isPending, isError, error, isSuccess } = useMutation({
     mutationFn: editUser,
     onSuccess() {
-      router.push("/");
+      update();
+      // router.refresh();
     },
   });
 
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    let isSubmit = { email: true, password: true };
+    let isSubmit = true;
 
-    if (
-      !email.includes("@") ||
-      !email.includes(".") ||
-      email === sessionUser.email
-    ) {
+    if (!email || !email.includes("@") || !email.includes(".")) {
       setEmailError(true);
-      isSubmit.email = false;
+      isSubmit = false;
     }
 
     if (
-      password.trim().length < 6 ||
-      !/[A-Z]/.test(password.trim()) ||
-      !/[a-z]/.test(password.trim()) ||
-      !/\d/.test(password.trim())
+      password &&
+      (password.trim().length < 6 ||
+        !/[A-Z]/.test(password.trim()) ||
+        !/[a-z]/.test(password.trim()) ||
+        !/\d/.test(password.trim()))
     ) {
       setPasswordError(true);
-      isSubmit.password = false;
+      isSubmit = false;
     }
 
-    if (!password || password !== confirmPassword) {
+    if (password !== confirmPassword) {
       setConfirmPasswordError(true);
-      isSubmit.password = false;
+      isSubmit = false;
     }
 
-    const editedUser = {
-      newEmail: null,
-      newPassword: null,
-      userId: sessionUser?.id,
-    };
-
-    if (isSubmit.email) editedUser.newEmail = email;
-    if (isSubmit.password) editedUser.newPassword = password;
-
-    if (isSubmit.email || isSubmit.password) {
-      await editUserMutation.mutateAsync(editedUser);
+    if (isSubmit) {
+      await mutateAsync({
+        newEmail: email,
+        newPassword: password,
+        userId: sessionUser?.id,
+      });
     }
   };
+
+  useEffect(() => {
+    if (!email && email !== "") {
+      setEmail((prevState) => sessionUser?.email);
+    }
+
+    if (email || email?.includes("@") || email?.includes(".")) {
+      setEmailError(false);
+    }
+
+    if (
+      password &&
+      (password.trim().length >= 6 ||
+        /[A-Z]/.test(password.trim()) ||
+        /[a-z]/.test(password.trim()) ||
+        /\d/.test(password.trim()))
+    ) {
+      setPasswordError(false);
+    }
+
+    if (password === confirmPassword) {
+      setConfirmPasswordError(false);
+    }
+  }, [email, password, confirmPassword, sessionUser]);
 
   return (
     <div className="flex flex-col max-w-[1024px] items-center w-[98%] py-[2%] min-h-[576px] border-[1px] border-gray-600 rounded-[10px] bg-neutral-100">
@@ -108,18 +125,14 @@ export default function UserProfileContent({
           <form className="flex flex-col gap-4 w-[70%] items-center px-[5%]">
             <h2 className="text-xl font-[500] mb-6">{sessionUser?.name}</h2>
             <Input
-              className="input mb-8"
+              className={emailError ? "invalid-input" : "input"}
               name="profile_email"
               label="Email *"
               placeholder="Your new password"
               type="text"
               defaultValue={sessionUser?.email}
               handleChange={handleEmailChange}
-              error={
-                emailError && passwordError && confirmPasswordError
-                  ? "Should contain '@' and '.' symbols"
-                  : null
-              }
+              error={emailError ? "Should contain '@' and '.' symbols" : null}
             />
             <Input
               className={passwordError ? "invalid-input" : "input"}
@@ -129,9 +142,7 @@ export default function UserProfileContent({
               placeholder="Your new password"
               handleChange={handlePasswordChange}
               error={
-                emailError &&
                 passwordError &&
-                confirmPasswordError &&
                 "Should contain at least 6 symbols, upper and lower case symbols and numbers"
               }
             />
@@ -146,15 +157,17 @@ export default function UserProfileContent({
             />
             <Button
               className="button purple"
-              disabled={
-                editUserMutation.isPending ||
-                ((!email.length || email === sessionUser?.email) &&
-                  (!password.length || !confirmPassword.length))
-              }
+              disabled={isPending}
               handleClick={handleSubmit}
             >
-              {editUserMutation.isPending ? "Submitting..." : "Save"}
+              {isPending ? "Submitting..." : "Save"}
             </Button>
+            {isError && (
+              <p className="self-start text-red-600">{error.message}</p>
+            )}
+            {isSuccess && !isError && (
+              <p className="self-start text-green-700">Saved successfuly!</p>
+            )}
           </form>
         )}
         <div className="flex flex-col items-center w-[30%]">
