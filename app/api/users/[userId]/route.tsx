@@ -2,12 +2,11 @@ import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
-import { ISessionUser } from "@/utils/interfaces";
 import { dbConnect } from "@/lib/database";
 import { User } from "@/models/user.model";
 
 export const PUT = async (request: NextRequest, { params }) => {
-  const { newEmail, newPassword } = await request.json();
+  const { newName, newEmail, newPassword } = await request.json();
 
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -17,6 +16,12 @@ export const PUT = async (request: NextRequest, { params }) => {
         status: 401,
       }
     );
+  }
+
+  if (newName && newName.length < 2) {
+    return new Response("Name does not match validation rules", {
+      status: 500,
+    });
   }
 
   if (newEmail && (!newEmail.includes("@") || !newEmail.includes("."))) {
@@ -39,6 +44,10 @@ export const PUT = async (request: NextRequest, { params }) => {
 
   try {
     await dbConnect();
+
+    if (newEmail) {
+      await User.findByIdAndUpdate(params.userId, { name: newName });
+    }
 
     if (newEmail) {
       await User.findByIdAndUpdate(params.userId, { email: newEmail });

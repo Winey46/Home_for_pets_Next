@@ -1,8 +1,8 @@
-export async function editUser({ newEmail, newPassword, userId }) {
+export async function editUser({ newName, newEmail, newPassword, userId }) {
   try {
     const response = await fetch(`http://localhost:3000/api/users/${userId}`, {
       method: "PUT",
-      body: JSON.stringify({ newEmail, newPassword }),
+      body: JSON.stringify({ newName, newEmail, newPassword }),
       headers: {
         "Content-Type": "application/json",
       },

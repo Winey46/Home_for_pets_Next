@@ -9,7 +9,6 @@ import AnimalCart from "./AnimalCart";
 import React, { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { editUser } from "@/lib/edit-user";
-import { useRouter } from "next/navigation";
 
 interface UserProfileContentProps {
   animals: IPostData[];
@@ -21,7 +20,10 @@ export default function UserProfileContent({
   const { data, update } = useSession();
   const sessionUser = data?.user as ISessionUser;
 
-  const [email, setEmail] = useState<string | null>();
+  const [name, setName] = useState<string | undefined>();
+  const [nameError, setNameError] = useState<boolean>(false);
+
+  const [email, setEmail] = useState<string | undefined>();
   const [emailError, setEmailError] = useState<boolean>(false);
 
   const [password, setPassword] = useState<string>("");
@@ -31,11 +33,13 @@ export default function UserProfileContent({
   const [confirmPasswordError, setConfirmPasswordError] =
     useState<boolean>(false);
 
-  const router = useRouter();
-
   const filteredPets = animals.filter(
     (animal) => animal.userId === sessionUser?.id
   );
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -55,7 +59,6 @@ export default function UserProfileContent({
     mutationFn: editUser,
     onSuccess() {
       update();
-      // router.refresh();
     },
   });
 
@@ -63,6 +66,11 @@ export default function UserProfileContent({
     event.preventDefault();
 
     let isSubmit = true;
+
+    if (!name || name.length < 2) {
+      setNameError(true);
+      isSubmit = false;
+    }
 
     if (!email || !email.includes("@") || !email.includes(".")) {
       setEmailError(true);
@@ -87,6 +95,7 @@ export default function UserProfileContent({
 
     if (isSubmit) {
       await mutateAsync({
+        newName: name,
         newEmail: email,
         newPassword: password,
         userId: sessionUser?.id,
@@ -95,8 +104,16 @@ export default function UserProfileContent({
   };
 
   useEffect(() => {
+    if (!name && name !== "") {
+      setName((prevState) => sessionUser?.name);
+    }
+
     if (!email && email !== "") {
       setEmail((prevState) => sessionUser?.email);
+    }
+
+    if (!name || name.length >= 2) {
+      setNameError(false);
     }
 
     if (email || email?.includes("@") || email?.includes(".")) {
@@ -116,16 +133,26 @@ export default function UserProfileContent({
     if (password === confirmPassword) {
       setConfirmPasswordError(false);
     }
-  }, [email, password, confirmPassword, sessionUser]);
+  }, [name, email, password, confirmPassword, sessionUser]);
 
   return (
     <div className="flex flex-col max-w-[1024px] items-center w-[98%] py-[2%] min-h-[576px] border-[1px] border-gray-600 rounded-[10px] bg-neutral-100">
+      <h2 className="text-xl font-[500] mb-6">Profile</h2>
       <div className="flex w-full min-h-[450px] max-w-[910px]">
         {sessionUser && (
           <form className="flex flex-col gap-4 w-[70%] items-center px-[5%]">
-            <h2 className="text-xl font-[500] mb-6">{sessionUser?.name}</h2>
             <Input
-              className={emailError ? "invalid-input" : "input"}
+              className={nameError ? "invalid-input" : "input"}
+              name="profile_name"
+              label="Name *"
+              placeholder="Your new name"
+              type="text"
+              defaultValue={sessionUser?.name}
+              handleChange={handleNameChange}
+              error={nameError ? "Should contain at least 2 symbols" : null}
+            />
+            <Input
+              className={emailError ? "invalid-input mb-6" : "input mb-6"}
               name="profile_email"
               label="Email *"
               placeholder="Your new password"
@@ -171,7 +198,6 @@ export default function UserProfileContent({
           </form>
         )}
         <div className="flex flex-col items-center w-[30%]">
-          <h3 className="text-xl">Avatar:</h3>
           <Image
             className="w-full my-8 rounded-[50%]"
             src="/avatar-logo.png"
