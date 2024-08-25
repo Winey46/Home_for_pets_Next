@@ -77,18 +77,12 @@ export default function Page() {
     }
 
     if (isSubmit) {
-      const formData = new FormData(event.currentTarget);
-
-      const name = formData.get("registration-name");
-      const email = formData.get("registration-email");
-      const password = formData.get("registration-password");
-
       const response = await fetch("/api/registration", {
         method: "POST",
         body: JSON.stringify({
-          name,
-          email,
-          password,
+          name: nameValue,
+          email: emailValue,
+          password: passwordValue,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -167,6 +161,10 @@ export default function Page() {
         type="password"
         placeholder="Enter your password"
         handleChange={passwordInputChange}
+        error={
+          passwordError &&
+          "Should contain at least 6 symbols, upper and lower case symbols and numbers"
+        }
       />
       <ul className="w-full">
         <li className="text-[0.8rem]"> - At least 6 characters</li>

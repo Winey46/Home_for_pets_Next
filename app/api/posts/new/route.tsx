@@ -5,8 +5,9 @@ import { authOptions } from "../../auth/[...nextauth]/route";
 import { getDate, uploadImage } from "@/utils/helpers";
 import { revalidateTag } from "next/cache";
 import { Post } from "@/models/post.model";
+import { NextRequest } from "next/server";
 
-export const POST = async (request) => {
+export const POST = async (request: NextRequest) => {
   const formData = await request.formData();
 
   const session = await getServerSession(authOptions);
@@ -17,11 +18,11 @@ export const POST = async (request) => {
     });
 
   const newPost: IPostData = {
-    animalType: formData.get("animalType"),
-    contacts: formData.get("contacts"),
-    date: getDate(),
-    text: formData.get("text"),
-    title: formData.get("title"),
+    animalType: formData.get("animalType") as string,
+    contacts: formData.get("contacts") as string,
+    date: getDate() as string,
+    text: formData.get("text") as string,
+    title: formData.get("title") as string,
     userId: sessionUser.id,
     imageName: null,
     imageLink: null,
@@ -37,7 +38,7 @@ export const POST = async (request) => {
       status: 400,
     });
   }
-  const image = formData.get("image");
+  const image = formData.get("image") as File;
 
   try {
     const imageResponse = await uploadImage(image);

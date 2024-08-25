@@ -21,7 +21,7 @@ export default function HeaderContent({
   signInOpen,
 }: HeaderContentProps) {
   const session = useSession();
-
+console.log(session)
   return (
     <div className="flex justify-center w-full h-[75px] border-b-[1px] border-b-gray-400">
       <div className="flex justify-between items-center max-w-[1024px] w-full px-[2%]">

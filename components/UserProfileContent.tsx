@@ -6,7 +6,10 @@ import Input from "./ui/Input";
 import Button from "./ui/Button";
 import Image from "next/image";
 import AnimalCart from "./AnimalCart";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { editUser } from "@/lib/edit-user";
+import { useRouter } from "next/navigation";
 
 interface UserProfileContentProps {
   animals: IPostData[];
@@ -15,12 +18,20 @@ interface UserProfileContentProps {
 export default function UserProfileContent({
   animals,
 }: UserProfileContentProps) {
-  const [email, setEmail] = useState<string | null>(null);
-  const [password, setPassword] = useState<string | null>(null);
-  const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
+  const [email, setEmail] = useState<string>("");
+  const [emailError, setEmailError] = useState<boolean>(false);
+
+  const [password, setPassword] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [confirmPasswordError, setConfirmPasswordError] =
+    useState<boolean>(false);
 
   const session = useSession();
   const sessionUser = session?.data?.user as ISessionUser;
+
+  const router = useRouter();
 
   const filteredPets = animals.filter(
     (animal) => animal.userId === sessionUser?.id
@@ -40,16 +51,54 @@ export default function UserProfileContent({
     setConfirmPassword(event.target.value);
   };
 
-  const handleEmailSubmit = async (
-    event: React.FormEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
+  const editUserMutation = useMutation({
+    mutationFn: editUser,
+    onSuccess() {
+      router.push("/");
+    },
+  });
 
-  const handlePasswordSubmit = async (
-    event: React.FormEvent<HTMLButtonElement>
-  ) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
+
+    let isSubmit = { email: true, password: true };
+
+    if (
+      !email.includes("@") ||
+      !email.includes(".") ||
+      email === sessionUser.email
+    ) {
+      setEmailError(true);
+      isSubmit.email = false;
+    }
+
+    if (
+      password.trim().length < 6 ||
+      !/[A-Z]/.test(password.trim()) ||
+      !/[a-z]/.test(password.trim()) ||
+      !/\d/.test(password.trim())
+    ) {
+      setPasswordError(true);
+      isSubmit.password = false;
+    }
+
+    if (!password || password !== confirmPassword) {
+      setConfirmPasswordError(true);
+      isSubmit.password = false;
+    }
+
+    const editedUser = {
+      newEmail: null,
+      newPassword: null,
+      userId: sessionUser?.id,
+    };
+
+    if (isSubmit.email) editedUser.newEmail = email;
+    if (isSubmit.password) editedUser.newPassword = password;
+
+    if (isSubmit.email || isSubmit.password) {
+      await editUserMutation.mutateAsync(editedUser);
+    }
   };
 
   return (
@@ -59,43 +108,52 @@ export default function UserProfileContent({
           <form className="flex flex-col gap-4 w-[70%] items-center px-[5%]">
             <h2 className="text-xl font-[500] mb-6">{sessionUser?.name}</h2>
             <Input
-              className="input"
+              className="input mb-8"
               name="profile_email"
               label="Email *"
               placeholder="Your new password"
               type="text"
               defaultValue={sessionUser?.email}
               handleChange={handleEmailChange}
+              error={
+                emailError && passwordError && confirmPasswordError
+                  ? "Should contain '@' and '.' symbols"
+                  : null
+              }
             />
-            <Button
-              className="button purple"
-              disabled={!email || email === sessionUser?.email}
-              handleClick={handleEmailSubmit}
-            >
-              Save Email
-            </Button>
             <Input
-              className="input"
+              className={passwordError ? "invalid-input" : "input"}
               name="profile_password"
               label="Password *"
               type="password"
               placeholder="Your new password"
               handleChange={handlePasswordChange}
+              error={
+                emailError &&
+                passwordError &&
+                confirmPasswordError &&
+                "Should contain at least 6 symbols, upper and lower case symbols and numbers"
+              }
             />
             <Input
-              className="input"
+              className={confirmPasswordError ? "invalid-input" : "input"}
               name="profile_confirm_password"
               label="Password confirmation *"
               type="password"
               placeholder="Confirm your new password"
               handleChange={handleConfirmPasswordChange}
+              error={confirmPasswordError ? "Passwords should match" : null}
             />
             <Button
               className="button purple"
-              disabled={!password || password !== confirmPassword}
-              handleClick={handlePasswordSubmit}
+              disabled={
+                editUserMutation.isPending ||
+                ((!email.length || email === sessionUser?.email) &&
+                  (!password.length || !confirmPassword.length))
+              }
+              handleClick={handleSubmit}
             >
-              Save Password
+              {editUserMutation.isPending ? "Submitting..." : "Save"}
             </Button>
           </form>
         )}

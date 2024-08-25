@@ -7,6 +7,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
 
+
 interface SignInProps {
   signInClose: () => void;
 }
@@ -43,9 +44,9 @@ export default function SignIn({ signInClose }: SignInProps) {
     }
 
     if (
-      passwordValue.trim().length < 6 &&
-      !/[A-Z]/.test(passwordValue.trim()) &&
-      !/[a-z]/.test(passwordValue.trim()) &&
+      passwordValue.trim().length < 6 ||
+      !/[A-Z]/.test(passwordValue.trim()) ||
+      !/[a-z]/.test(passwordValue.trim()) ||
       !/\d/.test(passwordValue.trim())
     ) {
       setPasswordError(true);
@@ -103,7 +104,7 @@ export default function SignIn({ signInClose }: SignInProps) {
         handleChange={passwordInputChange}
         error={
           passwordError &&
-          "Should contain at least 3 symbols, upper and lower case symbols and number"
+          "Should contain at least 6 symbols, upper and lower case symbols and numbers"
         }
       />
       <div className="flex flex-col w-full">
