@@ -1,7 +1,6 @@
 "use client";
 
 import { IPostData, ISessionUser } from "@/utils/interfaces";
-import { useSession } from "next-auth/react";
 import Input from "./ui/Input";
 import Button from "./ui/Button";
 import Image from "next/image";
@@ -12,18 +11,18 @@ import { editUser } from "@/lib/edit-user";
 
 interface UserProfileContentProps {
   animals: IPostData[];
+  sessionUser: ISessionUser;
 }
 
 export default function UserProfileContent({
   animals,
+  sessionUser,
 }: UserProfileContentProps) {
-  const { data, update } = useSession();
-  const sessionUser = data?.user as ISessionUser;
 
-  const [name, setName] = useState<string | undefined>();
+  const [name, setName] = useState<string | undefined>(sessionUser.name);
   const [nameError, setNameError] = useState<boolean>(false);
 
-  const [email, setEmail] = useState<string | undefined>();
+  const [email, setEmail] = useState<string | undefined>(sessionUser.email);
   const [emailError, setEmailError] = useState<boolean>(false);
 
   const [password, setPassword] = useState<string>("");
@@ -57,9 +56,6 @@ export default function UserProfileContent({
 
   const { mutateAsync, isPending, isError, error, isSuccess } = useMutation({
     mutationFn: editUser,
-    onSuccess() {
-      update();
-    },
   });
 
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
@@ -104,14 +100,6 @@ export default function UserProfileContent({
   };
 
   useEffect(() => {
-    if (!name && name !== "") {
-      setName((prevState) => sessionUser?.name);
-    }
-
-    if (!email && email !== "") {
-      setEmail((prevState) => sessionUser?.email);
-    }
-
     if (!name || name.length >= 2) {
       setNameError(false);
     }

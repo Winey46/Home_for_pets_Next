@@ -33,81 +33,91 @@ export const authOptions: NextAuthOptions = {
     Credentials({
       name: "email and password",
       credentials: {
-        email: { label: 'Email', type: 'email', required: true },
-        password: { label: 'Password', type: 'password', required: true }
+        email: { label: "Email", type: "email", required: true },
+        password: { label: "Password", type: "password", required: true },
       },
       async authorize(credentials) {
-        if (!credentials) return null
+        if (!credentials) return null;
 
         try {
-          await dbConnect()
+          await dbConnect();
 
-          const currentUser = await User.findOne({ email: credentials.email }) as IUser
+          const currentUser = (await User.findOne({
+            email: credentials.email,
+          })) as IUser;
 
           if (!currentUser) {
             return null;
           }
 
-          const match = await bcrypt.compare(credentials.password, currentUser?.password)
+          const match = await bcrypt.compare(
+            credentials.password,
+            currentUser?.password
+          );
 
           if (currentUser && match) {
             const userWithoutPassword = {
               id: currentUser._id.toString(),
               email: currentUser.email,
               name: currentUser.name,
-            }
+              image: currentUser.image,
+            };
 
             return userWithoutPassword as NextAuthUser;
           }
         } catch (error) {
           console.error("User doesn't exist");
           console.error(error);
-          return null
+          return null;
         }
 
-        return null
-      }
-    })
+        return null;
+      },
+    }),
   ],
   callbacks: {
     async session({ session }) {
-      const sessionUser = await User.findOne({ email: session.user.email }) as IUser
+      const sessionUser = (await User.findOne({
+        email: session.user.email,
+      })) as IUser;
 
-      const updatedUser = { id: sessionUser.id, ...session.user }
-      session.user = updatedUser
+      const updatedUser = { id: sessionUser.id, ...session.user };
+      session.user = updatedUser;
 
       return session;
     },
     async signIn({ account, profile }) {
       if (account.provider === "google") {
         try {
-          await dbConnect()
+          await dbConnect();
 
-          const userExists = await User.findOne({ email: profile.email }) as IUser;
+          const userExists = (await User.findOne({
+            email: profile.email,
+          })) as IUser;
 
           if (!userExists) {
-            const updatedUser = {...profile} as IUpdatedUser
-            
+            const updatedUser = { ...profile } as IUpdatedUser;
+
             await createUser({
               email: updatedUser.email,
               name: updatedUser.name,
               image: updatedUser.picture,
-            })
+            });
           }
 
-          return true
+          return true;
         } catch (error) {
-          console.log("Error checking if user exists: ", error.message)
+          console.log("Error checking if user exists: ", error.message);
 
-          return false
+          return false;
         }
       }
 
-      if (account.provider === "credentials") return true
+      if (account.provider === "credentials") return true;
     },
-  }
-}
+  },
+};
 
-const handler = NextAuth(authOptions)
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
