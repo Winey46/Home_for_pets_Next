@@ -20,7 +20,8 @@ export default function HeaderContent({
   modalOpen,
   signInOpen,
 }: HeaderContentProps) {
-  const session = useSession();
+  const { data, status } = useSession();
+  const sessionUser = data?.user as any;
 
   return (
     <div className="flex justify-center w-full h-[75px] border-b-[1px] border-b-gray-400">
@@ -48,19 +49,23 @@ export default function HeaderContent({
           </AnimatePresence>
         </div>
         <div className="flex items-center gap-[75px]">
-          {session?.status === "authenticated" && (
+          {status === "authenticated" && (
             <Button className="button yellow" handleClick={modalOpen}>
               Add Post+
             </Button>
           )}
 
           <div className="flex items-center gap-[10px]">
-            {session?.data ? (
+            {data ? (
               <>
                 <Link className="flex items-center" href="/userProfile">
                   <Image
                     className="rounded-[50%]"
-                    src={session?.data?.user?.image ? session?.data?.user?.image : "/dog-image.jpg"}
+                    src={
+                      sessionUser?.image?.imageLink
+                        ? sessionUser.image.imageLink
+                        : "/avatar-logo.png"
+                    }
                     alt="user_photo"
                     width={50}
                     height={50}

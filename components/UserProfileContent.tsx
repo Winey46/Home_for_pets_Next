@@ -8,6 +8,7 @@ import AnimalCart from "./AnimalCart";
 import React, { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { editUser } from "@/lib/edit-user";
+import { useSession } from "next-auth/react";
 
 interface UserProfileContentProps {
   animals: IPostData[];
@@ -18,7 +19,6 @@ export default function UserProfileContent({
   animals,
   sessionUser,
 }: UserProfileContentProps) {
-
   const [name, setName] = useState<string | undefined>(sessionUser.name);
   const [nameError, setNameError] = useState<boolean>(false);
 
@@ -32,9 +32,19 @@ export default function UserProfileContent({
   const [confirmPasswordError, setConfirmPasswordError] =
     useState<boolean>(false);
 
-  const filteredPets = animals.filter(
-    (animal) => animal.userId === sessionUser?.id
-  );
+  const [image, setImage] = useState<File | undefined>();
+
+  const session = useSession();
+
+  const handleImageChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const file: File | null = event.target.files[0];
+
+    if (file) {
+      setImage(file);
+    }
+  };
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -54,8 +64,12 @@ export default function UserProfileContent({
     setConfirmPassword(event.target.value);
   };
 
-  const { mutateAsync, isPending, isError, error, isSuccess } = useMutation({
+  const { mutate, isPending, isError, error, isSuccess } = useMutation({
     mutationFn: editUser,
+    onSuccess(data) {
+      if (data.ok)
+        data.json().then((res) => session.update({ name, email, image: res }));
+    },
   });
 
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
@@ -90,12 +104,13 @@ export default function UserProfileContent({
     }
 
     if (isSubmit) {
-      await mutateAsync({
-        newName: name,
-        newEmail: email,
-        newPassword: password,
-        userId: sessionUser?.id,
-      });
+      const formData = new FormData();
+      formData.append("profile_name", name);
+      formData.append("profile_email", email);
+      formData.append("profile_password", password);
+      formData.append("profile_image", image);
+
+      mutate({ formData, userId: sessionUser.id });
     }
   };
 
@@ -188,18 +203,28 @@ export default function UserProfileContent({
         <div className="flex flex-col items-center w-[30%]">
           <Image
             className="w-full my-8 rounded-[50%]"
-            src="/avatar-logo.png"
+            src={
+              image
+                ? URL.createObjectURL(image)
+                : sessionUser?.image.imageLink
+                ? sessionUser?.image.imageLink
+                : "/avatar-logo.png"
+            }
             alt="avatar_logo"
             width={256}
             height={256}
           />
-          <Input name="avatar-image" type="file" />
+          <Input
+            name="avatar-image"
+            type="file"
+            handleChange={handleImageChange}
+          />
         </div>
       </div>
       <h3 className="px-[50px] text-lg font-[500] self-start">My Posts:</h3>
       <ul className="max-w-[920px] w-full flex flex-wrap gap-[5px] bg-white rounded-[10px] px-[5px]">
-        {filteredPets.length ? (
-          filteredPets.map((animal) => (
+        {animals.length ? (
+          animals.map((animal) => (
             <AnimalCart
               key={animal._id}
               to={`/animalsList/${animal._id}`}

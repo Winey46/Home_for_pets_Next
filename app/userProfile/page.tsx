@@ -9,9 +9,13 @@ async function UserProfile() {
   const animals: IPostData[] = await getAllAnimals();
 
   const session = await getServerSession(authOptions);
-  const sessionUser = session?.user as ISessionUser;
+  const sessionUser = session?.user as any;
 
-  return <UserProfileContent animals={animals} sessionUser={sessionUser} />;
+  const filteredAnimals = animals.filter(
+    (animal) => animal.userId === sessionUser?.id
+  );
+
+  return <UserProfileContent animals={filteredAnimals} sessionUser={sessionUser} />;
 }
 
 export default function UserProfilePage() {

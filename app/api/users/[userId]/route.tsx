@@ -4,10 +4,9 @@ import { NextRequest } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { dbConnect } from "@/lib/database";
 import { User } from "@/models/user.model";
+import { deleteImage, uploadImage } from "@/utils/helpers";
 
 export const PUT = async (request: NextRequest, { params }) => {
-  const { newName, newEmail, newPassword } = await request.json();
-
   const session = await getServerSession(authOptions);
   if (!session) {
     return new Response(
@@ -17,6 +16,13 @@ export const PUT = async (request: NextRequest, { params }) => {
       }
     );
   }
+
+  const formData = await request.formData();
+
+  const newName = formData.get("profile_name") as string;
+  const newEmail = formData.get("profile_email") as string;
+  const newPassword = formData.get("profile_password") as string;
+  const newImage = formData.get("profile_image") as File | undefined;
 
   if (newName && newName.length < 2) {
     return new Response("Name does not match validation rules", {
@@ -31,7 +37,7 @@ export const PUT = async (request: NextRequest, { params }) => {
   }
 
   if (
-    newPassword &&
+    newPassword.length &&
     (newPassword.trim().length < 6 ||
       !/[A-Z]/.test(newPassword.trim()) ||
       !/[a-z]/.test(newPassword.trim()) ||
@@ -45,19 +51,40 @@ export const PUT = async (request: NextRequest, { params }) => {
   try {
     await dbConnect();
 
-    if (newEmail) {
-      await User.findByIdAndUpdate(params.userId, { name: newName });
+    const existingUser = await User.findById(params.userId);
+
+    if (!existingUser) {
+      return new Response("User not found", { status: 404 });
+    }
+
+    if (newName) {
+      existingUser.name = newName;
     }
 
     if (newEmail) {
-      await User.findByIdAndUpdate(params.userId, { email: newEmail });
+      existingUser.email = newEmail;
     }
 
     if (newPassword) {
       const hashedPassword = await bcrypt.hash(newPassword, 5);
 
-      await User.findByIdAndUpdate(params.userId, { password: hashedPassword });
+      existingUser.password = hashedPassword;
     }
+
+    if (newImage.name) {
+      if (existingUser.image.imageLink) {
+        await deleteImage(existingUser.image.imageName);
+      }
+
+      const imageResponse = await uploadImage(newImage);
+      existingUser.image = imageResponse;
+    }
+
+    await existingUser.save();
+
+    return new Response(JSON.stringify(existingUser.image), {
+      status: 200,
+    });
   } catch (error) {
     console.error(error);
     return new Response("Failed to change user profile information", {
@@ -65,7 +92,7 @@ export const PUT = async (request: NextRequest, { params }) => {
     });
   }
 
-  return new Response("User profile information has been changed", {
-    status: 200,
-  });
+  // return new Response("User profile information has been changed", {
+  //   status: 200,
+  // });
 };

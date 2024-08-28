@@ -7,6 +7,7 @@ import Modal from "@/components/ui/Modal";
 import SignIn from "@/components/SignIn";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export default function Page() {
   const [signInState, setSignInState] = useState<boolean>(false);
@@ -93,7 +94,17 @@ export default function Page() {
         throw new Error("Could not create account");
       }
 
-      response.status === 201 && router.push("/");
+      const signInRes = await signIn("credentials", {
+        email: emailValue,
+        password: passwordValue,
+        redirect: false,
+      });
+
+      if (!signInRes.ok) {
+        throw new Error("Could not create account");
+      }
+
+      response.ok && signInRes.ok && router.push("/");
     }
   };
 

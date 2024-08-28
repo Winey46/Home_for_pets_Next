@@ -28,7 +28,6 @@ export const authOptions: NextAuthOptions = {
     GoggleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_SECRET,
-      allowDangerousEmailAccountLinking: true,
     }),
     Credentials({
       name: "email and password",
@@ -85,6 +84,14 @@ export const authOptions: NextAuthOptions = {
       session.user = updatedUser;
 
       return session;
+    },
+    jwt({ token, trigger, session }) {
+      if (trigger === "update" && session?.name) {
+        token.name = session.name;
+        token.email = session.email;
+        token.picture = session.image;
+      }
+      return token;
     },
     async signIn({ account, profile }) {
       if (account.provider === "google") {

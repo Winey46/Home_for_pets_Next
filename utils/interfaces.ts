@@ -36,10 +36,15 @@ export interface UserInterface {
   password: string;
 }
 
+export interface IImage {
+  imageName: string;
+  imageLink: string;
+}
+
 export interface ISessionUser {
-  email?: string;
   name?: string;
-  image?: string;
-  id?: string;
+  email?: string;
   password?: string;
+  image?: IImage;
+  id?: string;
 }
