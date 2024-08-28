@@ -60,7 +60,7 @@ export default function HeaderContent({
               <>
                 <Link className="flex items-center" href="/userProfile">
                   <Image
-                    className="rounded-[50%]"
+                    className="rounded-[50%] aspect-square object-cover"
                     src={
                       sessionUser?.image?.imageLink
                         ? sessionUser.image.imageLink

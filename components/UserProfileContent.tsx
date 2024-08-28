@@ -202,7 +202,7 @@ export default function UserProfileContent({
         )}
         <div className="flex flex-col items-center w-[30%]">
           <Image
-            className="w-full my-8 rounded-[50%]"
+            className="w-full aspect-square object-cover my-8 rounded-[50%]"
             src={
               image
                 ? URL.createObjectURL(image)

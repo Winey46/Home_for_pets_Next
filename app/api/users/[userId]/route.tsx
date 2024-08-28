@@ -91,8 +91,4 @@ export const PUT = async (request: NextRequest, { params }) => {
       status: 500,
     });
   }
-
-  // return new Response("User profile information has been changed", {
-  //   status: 200,
-  // });
 };

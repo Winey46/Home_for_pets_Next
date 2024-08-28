@@ -14,7 +14,7 @@ const AnimalsList = ({ animals }: AnimalsListProps) => {
   const [filteredAnimals, setFilteredAnimals] = useState<IPostData[]>(animals);
 
   const session = useSession();
-  const sessionUser = session?.data?.user as ISessionUser;
+  const sessionUser = session?.data?.user as any;
 
   const params = useSearchParams();
   const postQuery = params.getAll("type");
