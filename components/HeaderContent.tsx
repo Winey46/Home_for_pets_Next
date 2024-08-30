@@ -50,7 +50,17 @@ export default function HeaderContent({
         </div>
         <div className="flex items-center gap-[75px]">
           {status === "authenticated" && (
-            <Button className="button yellow" handleClick={modalOpen}>
+            <Button
+              className="button yellow"
+              handleClick={modalOpen}
+              variants={{
+                initial: { scale: 1 },
+                animate: { scale: 1.2 },
+              }}
+              initial="initial"
+              whileHover="animate"
+              transition={{ type: "spring", stiffness: 50 }}
+            >
               Add Post+
             </Button>
           )}

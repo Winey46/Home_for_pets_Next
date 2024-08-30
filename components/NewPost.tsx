@@ -103,8 +103,10 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
 
       if (!postData) {
         const response = await createMutation.mutateAsync(formData);
-        if (response.status === 201 && path !== "/animalsList") router.push("/animalsList");
-        if (response.status === 201 && path === "/animalsList") router.refresh();
+        if (response.status === 201 && path !== "/animalsList")
+          router.push("/animalsList");
+        if (response.status === 201 && path === "/animalsList")
+          router.refresh();
       } else {
         const response = await editMutation.mutateAsync({
           formData,
@@ -200,8 +202,19 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
       <Button
         className="button purple mb-8"
         type="submit"
-        disabled={createMutation.isPending || editMutation.isPending}
         handleClick={handleSubmit}
+        disabled={createMutation.isPending || editMutation.isPending}
+        variants={{
+          initial: { scale: 1 },
+          animate: { scale: 1.2 },
+        }}
+        initial="initial"
+        whileHover="animate"
+        transition={{
+          type: "spring",
+          stiffness: 50,
+          duration: 0.5,
+        }}
       >
         {createMutation.isPending || editMutation.isPending
           ? "Submitting..."

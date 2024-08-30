@@ -9,6 +9,9 @@ import React, { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { editUser } from "@/lib/edit-user";
 import { useSession } from "next-auth/react";
+import PortalProvider from "./ui/PortalProvider";
+import Modal from "./ui/Modal";
+import InformationPanel from "./InformationPanel";
 
 interface UserProfileContentProps {
   animals: IPostData[];
@@ -34,7 +37,23 @@ export default function UserProfileContent({
 
   const [image, setImage] = useState<File | undefined>();
 
+  const [informationPanel, setInformationPanel] = useState<boolean>(false);
+
+  const { mutate, isPending, isError, error, isSuccess } = useMutation({
+    mutationFn: editUser,
+    onSuccess(data) {
+      if (data.ok)
+        data.json().then((res) => session.update({ name, email, image: res }));
+
+      setInformationPanel(true);
+    },
+  });
+
   const session = useSession();
+
+  const handleInformationPanelClose = () => {
+    setInformationPanel(false);
+  };
 
   const handleImageChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -63,14 +82,6 @@ export default function UserProfileContent({
   ) => {
     setConfirmPassword(event.target.value);
   };
-
-  const { mutate, isPending, isError, error, isSuccess } = useMutation({
-    mutationFn: editUser,
-    onSuccess(data) {
-      if (data.ok)
-        data.json().then((res) => session.update({ name, email, image: res }));
-    },
-  });
 
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -189,15 +200,16 @@ export default function UserProfileContent({
               className="button purple"
               disabled={isPending}
               handleClick={handleSubmit}
+              variants={{
+                initial: { scale: 1 },
+                animate: { scale: 1.2 },
+              }}
+              initial="initial"
+              whileHover="animate"
+              transition={{ type: "spring", stiffness: 50 }}
             >
               {isPending ? "Submitting..." : "Save"}
             </Button>
-            {isError && (
-              <p className="self-start text-red-600">{error.message}</p>
-            )}
-            {isSuccess && !isError && (
-              <p className="self-start text-green-700">Saved successfuly!</p>
-            )}
           </form>
         )}
         <div className="flex flex-col items-center w-[30%]">
@@ -221,6 +233,20 @@ export default function UserProfileContent({
           />
         </div>
       </div>
+
+      {informationPanel && (
+        <PortalProvider root="modal">
+          <Modal className="h-16 absolute top-[155px] left-[3%] flex gap-12 items-center bg-white rounded-md shadow">
+            <InformationPanel
+              isSuccess={isSuccess}
+              handleClose={handleInformationPanelClose}
+            >
+              {isSuccess ? "Saved successfuly!" : error.message}
+            </InformationPanel>
+          </Modal>
+        </PortalProvider>
+      )}
+
       <h3 className="px-[50px] text-lg font-[500] self-start">My Posts:</h3>
       <ul className="max-w-[920px] w-full flex flex-wrap gap-[5px] bg-white rounded-[10px] px-[5px]">
         {animals.length ? (

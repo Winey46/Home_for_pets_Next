@@ -108,7 +108,10 @@ export const authOptions: NextAuthOptions = {
             await createUser({
               email: updatedUser.email,
               name: updatedUser.name,
-              image: updatedUser.picture,
+              image: {
+                imageName: updatedUser.picture,
+                imageLink: updatedUser.picture,
+              },
             });
           }
 

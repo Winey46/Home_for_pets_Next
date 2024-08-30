@@ -23,7 +23,7 @@ const AnimalDetails = ({ data }: AnimalDetailsProps) => {
   const router = useRouter();
 
   const session = useSession();
-  const sessionUser = session?.data?.user as ISessionUser;
+  const sessionUser = session?.data?.user as any;
 
   const handleModalOpen = (): void => {
     setImageIsOpened(true);
@@ -88,6 +88,13 @@ const AnimalDetails = ({ data }: AnimalDetailsProps) => {
             <Button
               className="button yellow"
               type="button"
+              variants={{
+                initial: { scale: 1 },
+                animate: { scale: 1.2 },
+              }}
+              initial="initial"
+              whileHover="animate"
+              transition={{ type: "spring", stiffness: 50 }}
               handleClick={handleEditOpen}
             >
               Edit
@@ -95,6 +102,13 @@ const AnimalDetails = ({ data }: AnimalDetailsProps) => {
             <Button
               className="button purple"
               type="button"
+              variants={{
+                initial: { scale: 1 },
+                animate: { scale: 1.2 },
+              }}
+              initial="initial"
+              whileHover="animate"
+              transition={{ type: "spring", stiffness: 50 }}
               handleClick={deleteHandler}
             >
               Delete
@@ -104,11 +118,17 @@ const AnimalDetails = ({ data }: AnimalDetailsProps) => {
 
       {imageIsOpened && (
         <PortalProvider root="modal">
-          <Modal modalClose={handleModalClose}>
-            <img
+          <Modal
+            modalClose={handleModalClose}
+            className="flex items-center justify-center bg-neutral-100 fixed top-[7vh] max-w-[86vw] max-h-[86vh] rounded-[10px] shadow-lg overflow-y-auto p-[10px] z-10 max-lg:max-h-[76vh] max-sm:max-h-[72vh]"
+            backdrop
+          >
+            <Image
               className=" bg-neutral-100 max-w-[85vw] max-h-[80vh] object-contain rounded-[10px]"
               src={data.imageLink ? data.imageLink : "/pets-default.jpg"}
               alt={data.animalType}
+              width={1024}
+              height={1024}
               onClick={handleModalOpen}
             />
           </Modal>
@@ -117,7 +137,11 @@ const AnimalDetails = ({ data }: AnimalDetailsProps) => {
 
       {editIsOpened && (
         <PortalProvider root="modal">
-          <Modal modalClose={handleEditClose}>
+          <Modal
+            modalClose={handleEditClose}
+            className="flex items-center justify-center bg-neutral-100 fixed top-[7vh] max-w-[86vw] max-h-[86vh] rounded-[10px] shadow-lg overflow-y-auto p-[10px] z-10 max-lg:max-h-[76vh] max-sm:max-h-[72vh]"
+            backdrop
+          >
             <NewPost modalClose={handleEditClose} postData={data} />
           </Modal>
         </PortalProvider>
