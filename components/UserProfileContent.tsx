@@ -36,6 +36,7 @@ export default function UserProfileContent({
     useState<boolean>(false);
 
   const [image, setImage] = useState<File | undefined>();
+  const [dragging, setDragging] = useState<boolean>(false);
 
   const [informationPanel, setInformationPanel] = useState<boolean>(false);
 
@@ -77,6 +78,25 @@ export default function UserProfileContent({
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
+  };
+
+  const handleDragOver = (event: React.DragEvent) => {
+    event.preventDefault();
+
+    setDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setDragging(false);
+  };
+
+  const handleDrop = (event: React.DragEvent) => {
+    event.preventDefault();
+
+    setDragging(false);
+
+    const droppedFile = event.dataTransfer.files[0];
+    setImage(droppedFile);
   };
 
   const handleConfirmPasswordChange = (
@@ -214,7 +234,16 @@ export default function UserProfileContent({
             </Button>
           </form>
         )}
-        <div className="flex flex-col items-center w-[30%]">
+        <div
+          className={
+            dragging
+              ? "border-2 border-dashed border-gray-600 flex flex-col items-center w-[30%]"
+              : "flex flex-col items-center w-[30%]"
+          }
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+        >
           <Image
             className="w-full aspect-square object-cover my-8 rounded-[50%]"
             src={

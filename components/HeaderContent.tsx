@@ -39,14 +39,13 @@ export default function HeaderContent({
             height={35}
           />
           <span className="max-lg:hidden">Home for Pets</span>
-          <AnimatePresence>
-            <motion.span
-              className="flex items-center justify-center"
-              animate={{ rotate: navigation ? 0 : 180 }}
-            >
-              {openArrow}
-            </motion.span>
-          </AnimatePresence>
+          <motion.span
+            className="flex items-center justify-center"
+            animate={{ rotate: navigation ? 0 : 180 }}
+            transition={{ type: "spring", stiffness: 100 }}
+          >
+            {openArrow}
+          </motion.span>
         </div>
         <div className="flex items-center gap-[75px]">
           {status === "authenticated" && (
@@ -55,7 +54,7 @@ export default function HeaderContent({
               handleClick={modalOpen}
               initial={{ scale: 1 }}
               whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 300}}
+              transition={{ type: "spring", stiffness: 300 }}
             >
               Add Post+
             </Button>
@@ -91,7 +90,7 @@ export default function HeaderContent({
                 handleClick={signInOpen}
                 initial={{ scale: 1 }}
                 whileHover={{ scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 300}}
+                transition={{ type: "spring", stiffness: 300 }}
               >
                 Sign in
               </Button>

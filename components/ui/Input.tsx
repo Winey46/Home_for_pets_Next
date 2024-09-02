@@ -13,6 +13,9 @@ export interface InputProps {
   handleTextareaChange?: (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
+  onDragOver?: (event: React.DragEvent) => void;
+  onDragLeave?: () => void;
+  onDrop?: (event: React.DragEvent) => void;
 }
 
 const Input = forwardRef(
