@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect } from "react";
 import Button from "./ui/Button";
 
 export default function InformationPanel({ isSuccess, handleClose, children }) {
@@ -6,7 +9,11 @@ export default function InformationPanel({ isSuccess, handleClose, children }) {
   if (isSuccess) panelColor += "bg-green-600";
   else panelColor += "bg-red-500";
 
-  
+  useEffect(() => {
+    const timer = setTimeout(handleClose, 10000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>

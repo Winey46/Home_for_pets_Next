@@ -108,26 +108,18 @@ export default function Filters() {
         <Button
           handleClick={filtersHandle}
           className="button yellow"
-          variants={{
-            initial: { scale: 1 },
-            animate: { scale: 1.2 },
-          }}
-          initial="initial"
-          whileHover="animate"
-          transition={{ type: "spring", stiffness: 50 }}
+          initial={{ scale: 1 }}
+          whileHover={{ scale: 1.1 }}
+          transition={{ type: "spring", stiffness: 300 }}
         >
           Ok
         </Button>
         <Button
           handleClick={filtersReset}
           className="button yellow"
-          variants={{
-            initial: { scale: 1 },
-            animate: { scale: 1.2 },
-          }}
-          initial="initial"
-          whileHover="animate"
-          transition={{ type: "spring", stiffness: 50 }}
+          initial={{ scale: 1 }}
+          whileHover={{ scale: 1.1 }}
+          transition={{ type: "spring", stiffness: 300 }}
           disabled={!catFilter && !dogFilter && !birdFilter && !myPostsFilter}
         >
           Reset

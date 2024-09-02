@@ -88,13 +88,9 @@ const AnimalDetails = ({ data }: AnimalDetailsProps) => {
             <Button
               className="button yellow"
               type="button"
-              variants={{
-                initial: { scale: 1 },
-                animate: { scale: 1.2 },
-              }}
-              initial="initial"
-              whileHover="animate"
-              transition={{ type: "spring", stiffness: 50 }}
+              initial={{ scale: 1 }}
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 300 }}
               handleClick={handleEditOpen}
             >
               Edit
@@ -102,13 +98,9 @@ const AnimalDetails = ({ data }: AnimalDetailsProps) => {
             <Button
               className="button purple"
               type="button"
-              variants={{
-                initial: { scale: 1 },
-                animate: { scale: 1.2 },
-              }}
-              initial="initial"
-              whileHover="animate"
-              transition={{ type: "spring", stiffness: 50 }}
+              initial={{ scale: 1 }}
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 300 }}
               handleClick={deleteHandler}
             >
               Delete

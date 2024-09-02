@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Input from "./ui/Input";
 import Button from "./ui/Button";
 import ImagePreview from "@/components/ui/ImagePreview";
@@ -57,6 +57,8 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
     event: React.ChangeEvent<HTMLInputElement>
   ): void => setContactsValue(event.target.value);
 
+  const imageRef = useRef<HTMLInputElement | null>(null);
+
   const router = useRouter();
 
   const path = usePathname();
@@ -67,6 +69,10 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
   const editMutation = useMutation({
     mutationFn: editPost,
   });
+
+  const handleImagePicker = () => {
+    imageRef.current.click();
+  };
 
   async function handleSubmit(event: React.FormEvent<HTMLButtonElement>) {
     event.preventDefault();
@@ -194,27 +200,30 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
       )}
 
       <Input
+        ref={imageRef}
+        className="hidden"
         name="new-post__image"
-        label="Choose an image"
         type="file"
         handleChange={handleImageChange}
       />
       <Button
-        className="button purple mb-8"
+        className="button purple self-start"
+        type="button"
+        initial={{ scale: 1 }}
+        whileHover={{ scale: 1.1 }}
+        transition={{ type: "spring", stiffness: 300 }}
+        handleClick={handleImagePicker}
+      >
+        Choose an image
+      </Button>
+      <Button
+        className="button yellow mb-8"
         type="submit"
         handleClick={handleSubmit}
         disabled={createMutation.isPending || editMutation.isPending}
-        variants={{
-          initial: { scale: 1 },
-          animate: { scale: 1.2 },
-        }}
-        initial="initial"
-        whileHover="animate"
-        transition={{
-          type: "spring",
-          stiffness: 50,
-          duration: 0.5,
-        }}
+        initial={{ scale: 1 }}
+        whileHover={{ scale: 1.1 }}
+        transition={{ type: "spring", stiffness: 300 }}
       >
         {createMutation.isPending || editMutation.isPending
           ? "Submitting..."

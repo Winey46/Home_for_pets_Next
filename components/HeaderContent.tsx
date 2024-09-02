@@ -53,13 +53,9 @@ export default function HeaderContent({
             <Button
               className="button yellow"
               handleClick={modalOpen}
-              variants={{
-                initial: { scale: 1 },
-                animate: { scale: 1.2 },
-              }}
-              initial="initial"
-              whileHover="animate"
-              transition={{ type: "spring", stiffness: 50 }}
+              initial={{ scale: 1 }}
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 300}}
             >
               Add Post+
             </Button>
@@ -93,6 +89,9 @@ export default function HeaderContent({
               <Button
                 className="button purple px-[1rem] py-[0.5rem]"
                 handleClick={signInOpen}
+                initial={{ scale: 1 }}
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 300}}
               >
                 Sign in
               </Button>

@@ -5,7 +5,7 @@ import Input from "./ui/Input";
 import Button from "./ui/Button";
 import Image from "next/image";
 import AnimalCart from "./AnimalCart";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { editUser } from "@/lib/edit-user";
 import { useSession } from "next-auth/react";
@@ -39,7 +39,9 @@ export default function UserProfileContent({
 
   const [informationPanel, setInformationPanel] = useState<boolean>(false);
 
-  const { mutate, isPending, isError, error, isSuccess } = useMutation({
+  const imageRef = useRef<HTMLInputElement | null>(null);
+
+  const { mutate, isPending, error, isSuccess } = useMutation({
     mutationFn: editUser,
     onSuccess(data) {
       if (data.ok)
@@ -81,6 +83,10 @@ export default function UserProfileContent({
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setConfirmPassword(event.target.value);
+  };
+
+  const handleImagePicker = () => {
+    imageRef.current.click();
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
@@ -197,16 +203,12 @@ export default function UserProfileContent({
               error={confirmPasswordError ? "Passwords should match" : null}
             />
             <Button
-              className="button purple"
+              className="button yellow"
               disabled={isPending}
               handleClick={handleSubmit}
-              variants={{
-                initial: { scale: 1 },
-                animate: { scale: 1.2 },
-              }}
-              initial="initial"
-              whileHover="animate"
-              transition={{ type: "spring", stiffness: 50 }}
+              initial={{ scale: 1 }}
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 300 }}
             >
               {isPending ? "Submitting..." : "Save"}
             </Button>
@@ -227,10 +229,22 @@ export default function UserProfileContent({
             height={256}
           />
           <Input
+            ref={imageRef}
+            className="hidden"
             name="avatar-image"
             type="file"
             handleChange={handleImageChange}
           />
+          <Button
+            className="button purple"
+            type="button"
+            initial={{ scale: 1 }}
+            whileHover={{ scale: 1.1 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            handleClick={handleImagePicker}
+          >
+            Choose an image
+          </Button>
         </div>
       </div>
 

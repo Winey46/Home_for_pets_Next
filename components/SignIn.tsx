@@ -111,6 +111,9 @@ export default function SignIn({ signInClose }: SignInProps) {
         <Button
           className="button yellow self-start"
           type="button"
+          initial={{ scale: 1 }}
+          whileHover={{ scale: 1.1 }}
+          transition={{ type: "spring", stiffness: 300}}
           handleClick={handleSubmit}
         >
           Sign in
@@ -118,6 +121,9 @@ export default function SignIn({ signInClose }: SignInProps) {
         <Button
           className="button purple self-end gap-2"
           type="button"
+          initial={{ scale: 1 }}
+          whileHover={{ scale: 1.1 }}
+          transition={{ type: "spring", stiffness: 300}}
           handleClick={() => signIn("google", { callbackUrl })}
         >
           <Image

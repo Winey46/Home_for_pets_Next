@@ -15,14 +15,13 @@ interface ButtonProps {
   variants?: {
     initial: { scale?: number; rotate?: number };
     animate: { scale?: number; rotate?: number };
+    exit?: { scale?: number; rotate?: number };
   };
-  initial?: string;
-  whileHover?: string;
+  initial?: { scale?: number };
+  whileHover?: { scale?: number };
   transition?: {
     type?: string;
     stiffness?: number;
-    ease?: string;
-    damping?: number;
     duration?: number;
   };
 }
