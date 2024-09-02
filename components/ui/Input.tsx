@@ -27,10 +27,23 @@ const Input = forwardRef(
       textarea,
       handleChange,
       handleTextareaChange,
+      className,
       ...props
     }: InputProps,
     ref: any
   ) => {
+    if (className === "hidden") {
+      return (
+        <input
+          name={name}
+          onChange={handleChange}
+          ref={ref}
+          {...props}
+          className={`hidden ${className}`}
+        />
+      );
+    }
+
     return (
       <div className="w-full">
         {label && (
@@ -39,9 +52,20 @@ const Input = forwardRef(
           </label>
         )}
         {!textarea ? (
-          <input name={name} onChange={handleChange} ref={ref} {...props} />
+          <input
+            className={className}
+            name={name}
+            onChange={handleChange}
+            ref={ref}
+            {...props}
+          />
         ) : (
-          <textarea name={name} onChange={handleTextareaChange} {...props} />
+          <textarea
+            className={className}
+            name={name}
+            onChange={handleTextareaChange}
+            {...props}
+          />
         )}
         {error && (
           <div className="text-red-500">

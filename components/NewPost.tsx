@@ -16,6 +16,8 @@ interface NewPostProps {
 
 const NewPost = ({ modalClose, postData }: NewPostProps) => {
   const [image, setImage] = useState<File | null>(null);
+  const [dragging, setDragging] = useState<boolean>(false);
+
   const handleImageChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
@@ -72,6 +74,25 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
 
   const handleImagePicker = () => {
     imageRef.current.click();
+  };
+
+  const handleDragOver = (event: React.DragEvent) => {
+    event.preventDefault();
+
+    setDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setDragging(false);
+  };
+
+  const handleDrop = (event: React.DragEvent) => {
+    event.preventDefault();
+
+    setDragging(false);
+
+    const droppedFile = event.dataTransfer.files[0];
+    setImage(droppedFile);
   };
 
   async function handleSubmit(event: React.FormEvent<HTMLButtonElement>) {
@@ -193,29 +214,40 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
         error={contactsError ? "Should contain at least 3 symbols" : null}
       />
 
-      {image && <ImagePreview imgSrc={URL.createObjectURL(image)} />}
-
-      {postData?.imageLink && !image && (
-        <ImagePreview imgSrc={postData.imageLink} />
-      )}
-
-      <Input
-        ref={imageRef}
-        className="hidden"
-        name="new-post__image"
-        type="file"
-        handleChange={handleImageChange}
-      />
-      <Button
-        className="button purple self-start"
-        type="button"
-        initial={{ scale: 1 }}
-        whileHover={{ scale: 1.1 }}
-        transition={{ type: "spring", stiffness: 300 }}
-        handleClick={handleImagePicker}
+      <div
+        className={
+          dragging
+            ? "w-full p-[10px] flex flex-col items-center gap-2 bg-neutral-100 rounded-[10px] border-[2px] border-gray-600 border-dashed"
+            : "w-full p-[10px] flex flex-col items-center gap-2 bg-neutral-100 rounded-[10px] border-[1px] border-gray-600"
+        }
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
       >
-        Choose an image
-      </Button>
+        {image && <ImagePreview imgSrc={URL.createObjectURL(image)} />}
+
+        {postData?.imageLink && !image && (
+          <ImagePreview imgSrc={postData.imageLink} />
+        )}
+
+        <Input
+          ref={imageRef}
+          className="hidden"
+          name="new-post__image"
+          type="file"
+          handleChange={handleImageChange}
+        />
+        <Button
+          className="button purple self-start"
+          type="button"
+          initial={{ scale: 1 }}
+          whileHover={{ scale: 1.1 }}
+          transition={{ type: "spring", stiffness: 300 }}
+          handleClick={handleImagePicker}
+        >
+          Choose an image
+        </Button>
+      </div>
       <Button
         className="button yellow mb-8"
         type="submit"
