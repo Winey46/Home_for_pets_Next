@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { AnimatePresence, LayoutGroup } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import Modal from "@/components/ui/Modal";
 import NewPost from "@/components/NewPost";
 import MainNavigation from "@/components/MainNavigation";
@@ -41,48 +41,44 @@ const Header = () => {
   return (
     <header
       id="header"
-      className="flex flex-col items-center w-full bg-[#f2f2f2] shadow-lg"
+      className="flex flex-col items-center w-full"
     >
-      {/* <LayoutGroup> */}
-        <HeaderContent
-          toggleNavigation={toggleNavigation}
-          navigation={navigationState}
-          modalOpen={handleModalOpen}
-          signInOpen={handleSignInOpen}
-        />
+      <HeaderContent
+        toggleNavigation={toggleNavigation}
+        navigation={navigationState}
+        modalOpen={handleModalOpen}
+        signInOpen={handleSignInOpen}
+      />
 
-        <AnimatePresence>
-          {navigationState && <MainNavigation />}
-        </AnimatePresence>
+      <AnimatePresence>{navigationState && <MainNavigation />}</AnimatePresence>
 
-        <AnimatePresence>
-          {isOpened && (
-            <PortalProvider root="modal">
-              <Modal
-                className="flex items-center justify-center bg-neutral-100 fixed top-[7vh] max-w-[86vw] max-h-[86vh] rounded-[10px] shadow-lg overflow-y-auto p-[10px] z-10 max-lg:max-h-[76vh] max-sm:max-h-[72vh]"
-                modalClose={handleModalClose}
-                backdrop
-              >
-                <NewPost modalClose={handleModalClose} />
-              </Modal>
-            </PortalProvider>
-          )}
-        </AnimatePresence>
+      <AnimatePresence>
+        {isOpened && (
+          <PortalProvider root="modal">
+            <Modal
+              className="flex items-center justify-center bg-neutral-100 fixed top-[7vh] max-w-[86vw] max-h-[86vh] rounded-[10px] shadow-lg overflow-y-auto p-[10px] z-10 max-lg:max-h-[76vh] max-sm:max-h-[72vh]"
+              modalClose={handleModalClose}
+              backdrop
+            >
+              <NewPost modalClose={handleModalClose} />
+            </Modal>
+          </PortalProvider>
+        )}
+      </AnimatePresence>
 
-        <AnimatePresence>
-          {signInState && (
-            <PortalProvider root="modal">
-              <Modal
-                className="flex items-center justify-center bg-neutral-100 fixed top-[7vh] max-w-[86vw] max-h-[86vh] rounded-[10px] shadow-lg overflow-y-auto p-[10px] z-10 max-lg:max-h-[76vh] max-sm:max-h-[72vh]"
-                modalClose={handleSignInClose}
-                backdrop
-              >
-                <SignIn signInClose={handleSignInClose} />
-              </Modal>
-            </PortalProvider>
-          )}
-        </AnimatePresence>
-      {/* </LayoutGroup> */}
+      <AnimatePresence>
+        {signInState && (
+          <PortalProvider root="modal">
+            <Modal
+              className="flex items-center justify-center bg-neutral-100 fixed top-[7vh] max-w-[86vw] max-h-[86vh] rounded-[10px] shadow-lg overflow-y-auto p-[10px] z-10 max-lg:max-h-[76vh] max-sm:max-h-[72vh]"
+              modalClose={handleSignInClose}
+              backdrop
+            >
+              <SignIn signInClose={handleSignInClose} />
+            </Modal>
+          </PortalProvider>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

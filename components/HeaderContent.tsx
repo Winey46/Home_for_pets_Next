@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { openArrow } from "@/utils/symbols";
 import { signOut, useSession } from "next-auth/react";
 import Button from "@/components/ui/Button";
@@ -24,7 +24,7 @@ export default function HeaderContent({
   const sessionUser = data?.user as any;
 
   return (
-    <div className="flex justify-center w-full h-[75px] border-b-[1px] border-b-gray-400">
+    <div className="flex justify-center w-full h-[75px] border-b-[1px] border-b-gray-600 bg-[#f2f2f2] z-[6]">
       <div className="flex justify-between items-center max-w-[1024px] w-full px-[2%]">
         <div
           className="flex items-center justify-center gap-[5px] text-[1.25rem] hover:cursor-pointer hover:text-[#fbc43c]"

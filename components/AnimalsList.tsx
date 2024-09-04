@@ -50,18 +50,16 @@ const AnimalsList = ({ animals }: AnimalsListProps) => {
   }
 
   return (
-    <div className="max-w-[910px] flex max-xl:w-full">
-      <ul className="flex flex-wrap gap-[5px]">
-        {filteredAnimals.map((animal) => (
-          <AnimalCart
-            key={animal._id.toString()}
-            to={`/animalsList/${animal._id.toString()}`}
-            imgSrc={animal.imageLink}
-            title={animal.title}
-          />
-        ))}
-      </ul>
-    </div>
+    <ul className="w-full flex flex-wrap gap-[5px] border-[1px] border-gray-600 rounded-[10px] p-[5px] bg-neutral-100">
+      {filteredAnimals.map((animal) => (
+        <AnimalCart
+          key={animal._id.toString()}
+          to={`/animalsList/${animal._id.toString()}`}
+          imgSrc={animal.imageLink}
+          title={animal.title}
+        />
+      ))}
+    </ul>
   );
 };
 

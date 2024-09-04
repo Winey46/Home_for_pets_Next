@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Heading() {
   return (
-    <section id="heading" className="w-full flex my-[175px] justify-center max-sm:flex-col max-sm:items-center">
+    <section id="heading" className="w-full px-[2%] flex my-[175px] justify-center max-sm:flex-col max-sm:items-center">
       <div className="flex flex-col justify-center items-center w-1/2">
         <h1 className="text-center text-[3.5rem] max-lg:text-[2.5rem] max-md:text-[1.75rem] mb-8">
           We are searching pets service.
