@@ -2,7 +2,7 @@
 
 import AnimalCart from "@/components/AnimalCart";
 import { useSearchParams } from "next/navigation";
-import { IPostData, ISessionUser } from "@/utils/interfaces";
+import { IPostData } from "@/utils/interfaces";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
@@ -19,9 +19,16 @@ const AnimalsList = ({ animals }: AnimalsListProps) => {
   const params = useSearchParams();
   const postQuery = params.getAll("type");
   const myPostsQuery = params.get("myposts");
+  const sortQuery = params.get("sortbydate");
 
   useEffect(() => {
-    setFilteredAnimals(animals);
+    if (sortQuery === "new") {
+      setFilteredAnimals(animals);
+    }
+
+    if (sortQuery === "old") {
+      setFilteredAnimals(animals.reverse());
+    }
 
     if (postQuery.length) {
       setFilteredAnimals((prevState) =>
@@ -43,14 +50,14 @@ const AnimalsList = ({ animals }: AnimalsListProps) => {
 
   if (!animals.length) {
     return (
-      <p className="max-w-[910px] w-full flex justify-center items-center text-2xl h-[500px] text-center px-[7px]">
+      <p className="w-full flex justify-center items-center text-2xl h-[500px] text-center px-[7px]">
         There are no available pets.
       </p>
     );
   }
 
   return (
-    <ul className="w-full flex flex-wrap gap-[5px] border-[1px] border-gray-600 rounded-[10px] p-[5px] bg-neutral-100">
+    <ul className="w-full min-h-[487px] flex flex-wrap gap-[5px] border-[1px] border-gray-600 rounded-[10px] p-[5px] bg-neutral-100">
       {filteredAnimals.map((animal) => (
         <AnimalCart
           key={animal._id.toString()}
