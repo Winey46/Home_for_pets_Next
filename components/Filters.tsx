@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { openArrow } from "@/utils/symbols";
@@ -18,11 +18,10 @@ export default function Filters() {
 
   const [sortByDate, setSortByDate] = useState<string>("new");
 
-  const router = useRouter();
+  const { replace } = useRouter();
+  const pathname = usePathname();
   const session = useSession();
-
-  const params = useSearchParams();
-  const sortQuery = params.get("sortbydate");
+  const searchParams = useSearchParams();
 
   const toggleSortByDate = (): void => {
     setSortByDate((prevState) => {
@@ -36,32 +35,23 @@ export default function Filters() {
   };
 
   const filtersHandle = () => {
-    let url: string = `/animalsList?sortbydate=${sortByDate}`;
+    const params = new URLSearchParams();
 
-    if (catFilter) {
-      if (url.includes("sortbydate")) url += "&type=cat";
-      else url += "type=cat";
-    }
+    params.set("sortbydate", sortByDate);
 
-    if (dogFilter) {
-      if (url.includes("sortbydate") || url.includes("type"))
-        url += "&type=dog";
-      else url += "type=dog";
-    }
+    if (catFilter) params.append("type", "cat");
+    else params.delete("type", "cat");
 
-    if (birdFilter) {
-      if (url.includes("sortbydate") || url.includes("type"))
-        url += "&type=bird";
-      else url += "type=bird";
-    }
+    if (dogFilter) params.append("type", "dog");
+    else params.delete("type", "dog");
 
-    if (myPostsFilter) {
-      if (url.includes("sortbydate") || url.includes("type"))
-        url += "&myposts=true";
-      else url += "myposts=true";
-    }
+    if (birdFilter) params.append("type", "bird");
+    else params.delete("type", "bird");
 
-    router.push(url);
+    if (myPostsFilter) params.set("myposts", "true");
+    else params.delete("myposts");
+
+    replace(`${pathname}?${params.toString()}`);
   };
 
   const filtersReset = (event) => {
@@ -72,25 +62,16 @@ export default function Filters() {
     setBirdFilter(false);
     setMyPostsFilter(false);
 
-    router.push(`/animalsList?sortbydate=${sortByDate}`);
+    // replace(`/animalsList?sortbydate=${sortByDate}`);
+    replace("/animalsList");
   };
 
   useEffect(() => {
-    let url = window.location.href;
+    const params = new URLSearchParams(searchParams);
 
-    if (sortByDate && !url.includes("sortbydate"))
-      if (url.includes("?")) url += `&sortbydate=${sortByDate}`;
-      else url += `?sortbydate=${sortByDate}`;
+    params.set("sortbydate", sortByDate);
 
-    if (sortByDate === "new" && url.includes("sortbydate=old")) {
-      url = url.replace("old", "new");
-    }
-
-    if (sortByDate === "old" && url.includes("sortbydate=new")) {
-      url = url.replace("new", "old");
-    }
-
-    router.push(url);
+    replace(`${pathname}?${params.toString()}`);
   }, [sortByDate]);
 
   return (
@@ -186,7 +167,7 @@ export default function Filters() {
               whileHover={{ scale: 1.1 }}
               transition={{ type: "spring", stiffness: 300 }}
               disabled={
-                !catFilter && !dogFilter && !birdFilter && !myPostsFilter
+                !searchParams.get("type") && !searchParams.get("myposts")
               }
             >
               Reset

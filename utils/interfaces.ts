@@ -8,9 +8,12 @@ export interface IPostData {
   text: string;
   date?: string;
   contacts: string;
-  imageLink?: string | null;
-  imageName?: string | null;
-  image?: File | null;
+  // imageLink?: string | null;
+  // imageName?: string | null;
+  image?: {
+    imageName: string | null;
+    imageLink: string | null;
+  };
 }
 
 export interface UserInterface {

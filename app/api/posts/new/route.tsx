@@ -1,5 +1,5 @@
 import { dbConnect } from "@/lib/database";
-import { IPostData, ISessionUser } from "@/utils/interfaces";
+import { IPostData } from "@/utils/interfaces";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { getDate, uploadImage } from "@/utils/helpers";
@@ -11,7 +11,7 @@ export const POST = async (request: NextRequest) => {
   const formData = await request.formData();
 
   const session = await getServerSession(authOptions);
-  const sessionUser = session?.user as ISessionUser;
+  const sessionUser = session?.user as any;
   if (!session)
     new Response("Only authenticated users can create posts", {
       status: 401,
@@ -24,8 +24,10 @@ export const POST = async (request: NextRequest) => {
     text: formData.get("text") as string,
     title: formData.get("title") as string,
     userId: sessionUser.id,
-    imageName: null,
-    imageLink: null,
+    image: {
+      imageName: null,
+      imageLink: null,
+    },
   };
 
   if (
@@ -42,8 +44,8 @@ export const POST = async (request: NextRequest) => {
 
   try {
     const imageResponse = await uploadImage(image);
-    newPost.imageName = imageResponse.imageName;
-    newPost.imageLink = imageResponse.imageLink;
+    newPost.image.imageName = imageResponse.imageName;
+    newPost.image.imageLink = imageResponse.imageLink;
 
     await dbConnect();
 

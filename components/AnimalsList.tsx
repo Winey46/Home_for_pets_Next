@@ -22,15 +22,10 @@ const AnimalsList = ({ animals }: AnimalsListProps) => {
   const sortQuery = params.get("sortbydate");
 
   useEffect(() => {
-    if (sortQuery === "new") {
-      setFilteredAnimals(animals);
-    }
+    if (sortQuery === "new") setFilteredAnimals(animals);
+    else setFilteredAnimals([...animals].reverse());
 
-    if (sortQuery === "old") {
-      setFilteredAnimals(animals.reverse());
-    }
-
-    if (postQuery.length) {
+    if (postQuery.length)
       setFilteredAnimals((prevState) =>
         prevState.filter(
           (animal) =>
@@ -39,18 +34,17 @@ const AnimalsList = ({ animals }: AnimalsListProps) => {
             animal.animalType.toLowerCase() === postQuery[2]
         )
       );
-    }
 
     if (myPostsQuery) {
       setFilteredAnimals((prevState) =>
         prevState.filter((animal) => animal.userId === sessionUser?.id)
       );
     }
-  }, [animals, sessionUser]);
+  }, [sortQuery, myPostsQuery, sessionUser]);
 
   if (!animals.length) {
     return (
-      <p className="w-full flex justify-center items-center text-2xl h-[500px] text-center px-[7px]">
+      <p className="w-full min-h-[487px] flex justify-center items-center text-2xl text-center border-[1px] border-gray-600 rounded-[10px] bg-neutral-100">
         There are no available pets.
       </p>
     );
@@ -62,7 +56,7 @@ const AnimalsList = ({ animals }: AnimalsListProps) => {
         <AnimalCart
           key={animal._id.toString()}
           to={`/animalsList/${animal._id.toString()}`}
-          imgSrc={animal.imageLink}
+          imgSrc={animal.image.imageLink}
           title={animal.title}
         />
       ))}

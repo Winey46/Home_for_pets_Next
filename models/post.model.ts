@@ -27,13 +27,9 @@ const PostSchema = new Schema({
     type: String,
     required: [true, "Contacts is required."],
   },
-  imageLink: {
-    type: String,
-    required: false,
-  },
-  imageName: {
-    type: String,
-    required: false,
+  image: {
+    imageName: { type: String, required: false },
+    imageLink: { type: String, required: false },
   },
 });
 
