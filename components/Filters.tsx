@@ -62,8 +62,8 @@ export default function Filters() {
     setBirdFilter(false);
     setMyPostsFilter(false);
 
-    // replace(`/animalsList?sortbydate=${sortByDate}`);
-    replace("/animalsList");
+    replace(`/animalsList?sortbydate=${sortByDate}`);
+    // replace("/animalsList");
   };
 
   useEffect(() => {

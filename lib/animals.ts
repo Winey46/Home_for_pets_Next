@@ -13,6 +13,39 @@ export async function getAllAnimals() {
   }
 }
 
+export async function getAnimalsPage(page) {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/posts/pages/${page}`,
+      {
+        next: { tags: [`animals-page-${page}`] },
+      }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    return new Error("Failed to fetch animals page");
+  }
+}
+
+export async function getPagesCount() {
+  try {
+    const response = await fetch(`http://localhost:3000/api/posts/pages`, {
+      next: { tags: [`animals-pages`] },
+    });
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    return new Error("Failed to fetch pages count");
+  }
+}
+
 export async function getAnimal(animalId: string) {
   try {
     const response = await fetch(

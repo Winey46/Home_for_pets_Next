@@ -11,7 +11,7 @@ interface ISortProps {
 export default function Sort({ toggleSort, sortByDate }: ISortProps) {
   return (
     <div
-      className="h-[40px] px-[25px] flex justify-center items-center bg-[#fbc43c] rounded-[10px]"
+      className="self-start h-[40px] px-[25px] flex justify-center items-center bg-[#fbc43c] rounded-[10px]"
       onClick={toggleSort}
     >
       by date

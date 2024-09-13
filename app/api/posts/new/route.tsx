@@ -56,6 +56,7 @@ export const POST = async (request: NextRequest) => {
   }
 
   revalidateTag("animals");
+  revalidateTag("animals-pages");
 
   return new Response("Post has been created", { status: 201 });
 };

@@ -16,7 +16,8 @@ export default function Navigation() {
         {shortArrow}
         <li>
           <Link
-            href={path.startsWith("/animalsList") ? "/animalsList" :
+            // href={path.startsWith("/animalsList") ? "/animalsList" :
+            href={path.startsWith("/animalsList") ? "animalsList?sortbydate=new&page=1" :
               path === "/signUp" ? "/signUp" :
               path === "/userProfile" ? "/userProfile" :
                 "/information"}

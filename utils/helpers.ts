@@ -48,3 +48,7 @@ export async function deleteImage(imageName: string | null) {
     ref(storage, `images/${imageName}`)
   );
 }
+
+export const createArithmeticProgression = (length, start, difference) => {
+  return Array.from({ length }, (_, index) => start + index * difference);
+};
