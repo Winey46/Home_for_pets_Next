@@ -1,6 +1,6 @@
 import Filters from "@/components/Filters";
 import AnimalsList from "@/components/AnimalsList";
-import { getAllAnimals, getAnimalsPage, getPagesCount } from "@/lib/animals";
+import { getPagesCount } from "@/lib/animals";
 import { Suspense } from "react";
 import Pagination from "@/components/ui/Pagination";
 

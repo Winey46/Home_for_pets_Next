@@ -1,7 +1,7 @@
 "use client";
 
 import AnimalCart from "@/components/AnimalCart";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { IPostData } from "@/utils/interfaces";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -16,11 +16,14 @@ const AnimalsList = () => {
   const session = useSession();
   const sessionUser = session?.data?.user as any;
 
-  const params = useSearchParams();
-  const postQuery = params.getAll("type");
-  const myPostsQuery = params.get("myposts");
-  const sortQuery = params.get("sortbydate");
-  const page = params.get("page");
+  const { replace } = useRouter();
+  const pathname = usePathname();
+
+  const searchParams = useSearchParams();
+  const postQuery = searchParams.getAll("type");
+  const myPostsQuery = searchParams.get("myposts");
+  const sortQuery = searchParams.get("sortbydate");
+  const page = searchParams.get("page");
 
   const { data, isLoading, isSuccess, isError, error } = useQuery({
     queryKey: ["animals-page", page],
@@ -28,6 +31,22 @@ const AnimalsList = () => {
   });
 
   useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+
+    if (!params.has("sortbydate")) params.set("sortbydate", "new");
+    if (!params.has("page")) params.set("page", "1");
+
+    replace(`${pathname}?${params.toString()}`);
+  }, [data]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+
+    if (!params.has("sortbydate")) params.set("sortbydate", "new");
+    if (!params.has("page")) params.set("page", "1");
+
+    replace(`${pathname}?${params.toString()}`);
+
     if (isSuccess && data) {
       if (sortQuery === "new") setFilteredAnimals((prevState) => data);
       else setFilteredAnimals((prevState) => [...data].reverse());

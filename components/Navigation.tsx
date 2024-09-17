@@ -17,7 +17,7 @@ export default function Navigation() {
         <li>
           <Link
             // href={path.startsWith("/animalsList") ? "/animalsList" :
-            href={path.startsWith("/animalsList") ? "animalsList?sortbydate=new&page=1" :
+            href={path.startsWith("/animalsList") ? "/animalsList?sortbydate=new&page=1" :
               path === "/signUp" ? "/signUp" :
               path === "/userProfile" ? "/userProfile" :
                 "/information"}

@@ -20,7 +20,7 @@ export default function RootLayout({
           <div id="modal" className="flex justify-center items-center"></div>
           <div id="root">
             <Header />
-            <main className="flex flex-col items-center w-full max-w-[1024px] min-h-[650px]">
+            <main className="flex flex-col items-center w-full max-w-[1024px] min-h-[650px] mb-[5px]">
               {children}
             </main>
             <Footer />

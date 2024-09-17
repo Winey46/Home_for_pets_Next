@@ -31,7 +31,7 @@ export default function MainNavigation() {
         </li>
         <li>
           <Link
-            href="/animalsList"
+            href="/animalsList?sortbydate=new&page=1"
             className={
               path.startsWith("/animalsList")
                 ? "text-[#833de7] hover:text-[#fbc43c]"

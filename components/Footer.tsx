@@ -6,7 +6,7 @@ const Footer: React.FC = function Footer() {
   return (
     <footer
       id="footer"
-      className="w-full flex items-center justify-evenly bg-zinc-700 min-h-[175px] shadow-lg mt-[10px] max-md:flex-col"
+      className="w-full flex items-center justify-evenly bg-zinc-700 min-h-[175px] shadow-lg max-md:flex-col"
     >
       <Link
         className="flex items-center justify-center gap-[5px] text-[1.25rem] text-neutral-100 hover:text-[#fbc43c]"
