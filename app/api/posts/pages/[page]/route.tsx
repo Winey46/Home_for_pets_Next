@@ -3,7 +3,7 @@ import { Post } from "@/models/post.model";
 
 export const GET = async (request, { params }) => {
   const page = params.page;
-  const limit = 2;
+  const limit = 40;
   const offset = (page - 1) * limit;
 
   try {
