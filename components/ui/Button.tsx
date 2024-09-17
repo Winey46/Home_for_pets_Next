@@ -5,6 +5,8 @@ import React from "react";
 
 interface ButtonProps {
   className?: string;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
   handleClick?:
     | (() => void)
     | ((event: React.FormEvent<HTMLButtonElement>) => void);

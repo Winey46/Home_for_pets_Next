@@ -8,7 +8,7 @@ export const GET = async () => {
     const response = await Post.countDocuments();
     const posts = Number(JSON.stringify(response));
 
-    const pages = Math.ceil(posts / 4).toString();
+    const pages = Math.ceil(posts / 2).toString();
 
     return new Response(pages, { status: 200 });
   } catch (error) {

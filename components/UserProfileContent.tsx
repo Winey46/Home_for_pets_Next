@@ -42,6 +42,8 @@ export default function UserProfileContent({
 
   const imageRef = useRef<HTMLInputElement | null>(null);
 
+  const session = useSession();
+
   const { mutate, isPending, error, isSuccess } = useMutation({
     mutationFn: editUser,
     onSuccess(data) {
@@ -51,8 +53,6 @@ export default function UserProfileContent({
       setInformationPanel(true);
     },
   });
-
-  const session = useSession();
 
   const handleInformationPanelClose = () => {
     setInformationPanel(false);
@@ -297,7 +297,7 @@ export default function UserProfileContent({
             <AnimalCart
               key={animal._id}
               to={`/animalsList/${animal._id}`}
-              imgSrc={animal.imageLink}
+              imgSrc={animal.image.imageLink}
               title={animal.title}
             />
           ))
