@@ -84,7 +84,8 @@ export const PUT = async (request, { params }) => {
   }
 
   revalidateTag("animals");
-  revalidateTag(params.animalId);
+  revalidateTag(`animal-${params.animalId}`);
+  revalidateTag("animals-pages-count");
 
   return new Response("Post has been edited", { status: 200 });
 };
@@ -107,6 +108,8 @@ export const DELETE = async (request, { params }) => {
   }
 
   revalidateTag("animals");
+  revalidateTag(`animal-${params.animalId}`);
+  revalidateTag("animals-pages-count");
 
   return new Response("Post deleted successfully", { status: 200 });
 };

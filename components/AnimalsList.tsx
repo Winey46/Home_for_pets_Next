@@ -80,14 +80,14 @@ const AnimalsList = () => {
 
   if (isSuccess && !data.length) {
     return (
-      <p className="w-full min-h-[487px] flex justify-center items-center text-2xl text-center border-[1px] border-gray-600 rounded-[10px] bg-neutral-100">
+      <p className="w-full min-h-[437px] flex justify-center items-center text-2xl text-center border-[1px] border-gray-600 rounded-[10px] bg-neutral-100">
         There are no available pets.
       </p>
     );
   }
 
   return (
-    <ul className="w-full min-h-[487px] flex flex-wrap gap-[5px] border-[1px] border-gray-600 rounded-[10px] p-[5px] bg-neutral-100">
+    <ul className="w-full min-h-[437px] flex flex-wrap gap-[5px] border-[1px] border-gray-600 rounded-[10px] p-[5px] bg-neutral-100">
       {filteredAnimals &&
         filteredAnimals.map((animal) => (
           <AnimalCart
