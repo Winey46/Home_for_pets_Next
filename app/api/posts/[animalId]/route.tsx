@@ -54,13 +54,15 @@ export const PUT = async (request, { params }) => {
   if (image?.name) {
     try {
       const animal = await Post.findById(params.animalId);
-      await deleteImage(animal.imageName);
+      await deleteImage(animal.image.imageName);
 
       const imageResponse = await uploadImage(image);
 
       await Post.findByIdAndUpdate(params.animalId, {
-        imageName: imageResponse.imageName,
-        imageLink: imageResponse.imageLink,
+        image: {
+          imageName: imageResponse.imageName,
+          imageLink: imageResponse.imageLink,
+        },
       });
     } catch (error) {
       console.error(error);
@@ -85,7 +87,7 @@ export const PUT = async (request, { params }) => {
 
   revalidateTag("animals");
   revalidateTag(`animal-${params.animalId}`);
-  revalidateTag("animals-pages-count");
+  // revalidateTag("animals-pages-count");
 
   return new Response("Post has been edited", { status: 200 });
 };
@@ -108,7 +110,7 @@ export const DELETE = async (request, { params }) => {
   }
 
   revalidateTag("animals");
-  revalidateTag(`animal-${params.animalId}`);
+  // revalidateTag(`animal-${params.animalId}`);
   revalidateTag("animals-pages-count");
 
   return new Response("Post deleted successfully", { status: 200 });

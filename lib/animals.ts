@@ -1,18 +1,3 @@
-// export async function getAllAnimals() {
-//   try {
-//     const response = await fetch("http://localhost:3000/api/posts", {
-//       next: { tags: ["animals"] },
-//     });
-
-//     const data = await response.json();
-
-//     return data;
-//   } catch (error) {
-//     console.error(error);
-//     return new Error("Failed to fetch animals");
-//   }
-// }
-
 export async function getAnimalsPage(page: string) {
   try {
     const response = await fetch(
@@ -43,6 +28,22 @@ export async function getPagesCount() {
   } catch (error) {
     console.error(error);
     return new Error("Failed to fetch pages count");
+  }
+}
+
+export async function getAnimalsByUserId(userId: string) {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/users/posts/${userId}`,
+      { cache: "no-cache" }
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    return new Error("Failed to fetch user posts");
   }
 }
 

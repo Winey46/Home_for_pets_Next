@@ -226,8 +226,8 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
       >
         {image && <ImagePreview imgSrc={URL.createObjectURL(image)} />}
 
-        {postData?.imageLink && !image && (
-          <ImagePreview imgSrc={postData.imageLink} />
+        {postData?.image.imageLink && !image && (
+          <ImagePreview imgSrc={postData.image.imageLink} />
         )}
 
         <Input
@@ -241,7 +241,7 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
           className="button purple self-start"
           type="button"
           initial={{ scale: 1 }}
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 300 }}
           handleClick={handleImagePicker}
         >
@@ -254,7 +254,7 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
         handleClick={handleSubmit}
         disabled={createMutation.isPending || editMutation.isPending}
         initial={{ scale: 1 }}
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.05 }}
         transition={{ type: "spring", stiffness: 300 }}
       >
         {createMutation.isPending || editMutation.isPending

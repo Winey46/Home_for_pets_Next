@@ -42,13 +42,13 @@ export default function UserProfileContent({
 
   const imageRef = useRef<HTMLInputElement | null>(null);
 
-  const session = useSession();
+  const { update } = useSession();
 
   const { mutate, isPending, error, isSuccess } = useMutation({
     mutationFn: editUser,
     onSuccess(data) {
       if (data.ok)
-        data.json().then((res) => session.update({ name, email, image: res }));
+        data.json().then((res) => update({ name, email, image: res }));
 
       setInformationPanel(true);
     },
