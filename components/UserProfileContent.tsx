@@ -176,7 +176,7 @@ export default function UserProfileContent({
   }, [name, email, password, confirmPassword, sessionUser]);
 
   return (
-    <div className="flex flex-col max-w-[1024px] items-center w-[98%] py-[2%] min-h-[576px] border-[1px] border-gray-600 rounded-[10px] bg-neutral-100">
+    <div className="flex flex-col max-w-[1024px] items-center w-full py-[5px] min-h-[576px] border-[1px] border-gray-600 rounded-[10px] bg-neutral-100">
       <h2 className="text-xl font-[500] mb-6">Profile</h2>
       <div className="flex w-full min-h-[450px] max-w-[910px]">
         {sessionUser && (
@@ -237,8 +237,8 @@ export default function UserProfileContent({
         <div
           className={
             dragging
-              ? "border-2 border-dashed border-gray-600 flex flex-col items-center w-[30%]"
-              : "flex flex-col items-center w-[30%]"
+              ? "border-2 border-dashed border-gray-600 flex flex-col items-center w-[30%] p-[1%]"
+              : "flex flex-col items-center w-[30%] p-[1%]"
           }
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
@@ -291,7 +291,7 @@ export default function UserProfileContent({
       )}
 
       <h3 className="px-[50px] text-lg font-[500] self-start">My Posts:</h3>
-      <ul className="max-w-[920px] w-full flex flex-wrap gap-[5px] bg-white rounded-[10px] px-[5px]">
+      <ul className="w-full flex flex-wrap gap-[5px] bg-white rounded-[10px] px-[5px]">
         {animals.length ? (
           animals.map((animal) => (
             <AnimalCart
@@ -302,7 +302,7 @@ export default function UserProfileContent({
             />
           ))
         ) : (
-          <p className="max-w-[910px] w-full flex justify-center items-center text-2xl h-[310px] text-center px-[2%]">
+          <p className="w-full flex justify-center items-center text-2xl h-[310px] text-center px-[2%]">
             There are no available pets.
           </p>
         )}

@@ -134,7 +134,7 @@ export default function Page() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-[1024px] bg-[#f2f2f2] border-[1px] border-gray-400 rounded-[10px] py-[10px] px-[5%] flex flex-col items-center shadow-lg gap-4"
+      className="w-full bg-[#f2f2f2] border-[1px] border-gray-400 rounded-[10px] py-[10px] px-[5%] flex flex-col items-center shadow-lg gap-4"
     >
       <p className="self-end">
         Already have an account?{" "}

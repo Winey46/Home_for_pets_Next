@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
 interface ModalProps {
-  className: string;
+  className?: string;
   modalClose?: () => void;
   children?: ReactNode;
   backdrop?: boolean;
