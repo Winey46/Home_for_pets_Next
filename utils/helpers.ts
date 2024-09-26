@@ -21,16 +21,16 @@ export function getDate(): string {
   return `${time} ${formattedDate}`;
 }
 
-export async function uploadImage(image: File | null) {
+export async function uploadImage(image: File | null, directory: string = "image") {
   try {
     const imageRef = ref(
       storage,
-      `images/${image.name.slice(0, -4)}-${uuidv4()}`
+      `${directory}/${image.name.slice(0, -4)}-${uuidv4()}`
     );
 
     const imageResponse = await uploadBytes(imageRef, image);
     const imageUrl = await getDownloadURL(
-      ref(storage, `images/${imageResponse.metadata.name}`)
+      ref(storage, `${directory}/${imageResponse.metadata.name}`)
     );
 
     return {
@@ -39,16 +39,15 @@ export async function uploadImage(image: File | null) {
     };
   } catch (error) {
     console.error(error);
-    // return new Response("Failed to save image", { status: 500 });
   }
 }
 
-export async function deleteImage(imageName: string | null) {
+export async function deleteImage(imageName: string | null, directory: string = "image") {
   const deleteResponse = await deleteObject(
-    ref(storage, `images/${imageName}`)
+    ref(storage, `${directory}/${imageName}`)
   );
 }
 
-export const createArithmeticProgression = (length, start, difference) => {
+export const createArithmeticProgression = (length: number, start: number, difference: number) => {
   return Array.from({ length }, (_, index) => start + index * difference);
 };

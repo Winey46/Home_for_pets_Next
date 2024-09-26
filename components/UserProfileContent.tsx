@@ -237,7 +237,7 @@ export default function UserProfileContent({
         <div
           className={
             dragging
-              ? "border-l-[1px] border-y-[1px] border-dashed border-gray-600 flex flex-col items-center w-[30%] p-[1%] rounded-l-[10px]"
+              ? "border-[1px] border-dashed border-gray-600 flex flex-col items-center w-[30%] p-[1%] rounded-[10px]"
               : "flex flex-col items-center w-[30%] p-[1%]"
           }
           onDragOver={handleDragOver}

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { IImage } from "@/utils/interfaces";
 
 const { Schema } = mongoose;
 
