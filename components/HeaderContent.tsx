@@ -65,7 +65,7 @@ export default function HeaderContent({
               <>
                 <Link className="flex items-center" href="/userProfile">
                   <Image
-                    className="rounded-[50%] aspect-square object-cover"
+                    className="rounded-[50%] aspect-square object-cover hover:border-[2px] hover:border-[#fbc43c]"
                     src={
                       sessionUser?.image?.imageLink
                         ? sessionUser.image.imageLink

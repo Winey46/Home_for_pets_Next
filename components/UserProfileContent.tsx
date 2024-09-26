@@ -237,7 +237,7 @@ export default function UserProfileContent({
         <div
           className={
             dragging
-              ? "border-2 border-dashed border-gray-600 flex flex-col items-center w-[30%] p-[1%]"
+              ? "border-l-[1px] border-y-[1px] border-dashed border-gray-600 flex flex-col items-center w-[30%] p-[1%] rounded-l-[10px]"
               : "flex flex-col items-center w-[30%] p-[1%]"
           }
           onDragOver={handleDragOver}
@@ -245,7 +245,7 @@ export default function UserProfileContent({
           onDrop={handleDrop}
         >
           <Image
-            className="w-full aspect-square object-cover my-8 rounded-[50%]"
+            className="w-full aspect-square object-cover my-8 rounded-[50%] hover:border-[3px] hover:border-[#fbc43c]"
             src={
               image
                 ? URL.createObjectURL(image)
@@ -256,6 +256,7 @@ export default function UserProfileContent({
             alt="avatar_logo"
             width={256}
             height={256}
+            onClick={handleImagePicker}
           />
           <Input
             ref={imageRef}

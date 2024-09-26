@@ -217,7 +217,7 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
       <div
         className={
           dragging
-            ? "w-full p-[10px] flex flex-col items-center gap-2 bg-neutral-100 rounded-[10px] border-[2px] border-gray-600 border-dashed"
+            ? "w-full p-[10px] flex flex-col items-center gap-2 bg-neutral-100 rounded-[10px] border-[1px] border-gray-600 border-dashed"
             : "w-full p-[10px] flex flex-col items-center gap-2 bg-neutral-100 rounded-[10px] border-[1px] border-gray-600"
         }
         onDragOver={handleDragOver}
