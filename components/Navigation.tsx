@@ -8,7 +8,7 @@ export default function Navigation() {
   const path = usePathname()
 
   return (
-    <nav id="navigation" className="flex my-[25px] w-full px-[2%] max-w-[1024px] max-lg:my-[15px] max-lg:justify-center">
+    <nav id="navigation" className="flex my-[25px] w-full max-w-[1024px] max-lg:my-[15px] max-lg:justify-center">
       <ul className="flex items-center gap-[10px] ">
         <li>
           <Link href="/" className="hover:text-[#fbc43c]">Home</Link>

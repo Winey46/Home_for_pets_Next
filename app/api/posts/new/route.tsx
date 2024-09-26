@@ -42,11 +42,18 @@ export const POST = async (request: NextRequest) => {
   }
   const image = formData.get("image") as File;
 
-  try {
-    const imageResponse = await uploadImage(image);
-    newPost.image.imageName = imageResponse.imageName;
-    newPost.image.imageLink = imageResponse.imageLink;
+  const imageResponse = await uploadImage(image);
 
+  if (!imageResponse.imageName && !imageResponse.imageLink) {
+    return new Response("Failed to save image", {
+      status: 500,
+    });
+  }
+
+  newPost.image.imageName = imageResponse.imageName;
+  newPost.image.imageLink = imageResponse.imageLink;
+
+  try {
     await dbConnect();
 
     await Post.create(newPost);

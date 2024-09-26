@@ -8,7 +8,7 @@ const AnimalsListPage = async () => {
   const pages = Number(await getPagesCount());
 
   return (
-    <div className="flex flex-col items-center gap-[5px] w-full min-h-[582px] px-[2%]">
+    <div className="flex flex-col items-center gap-[5px] w-full min-h-[582px]">
       <Filters />
       <AnimalsList />
       <Suspense>

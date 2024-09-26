@@ -87,7 +87,7 @@ const AnimalsList = () => {
   }
 
   return (
-    <ul className="w-full min-h-[437px] flex flex-wrap gap-[5px] border-[1px] border-gray-600 rounded-[10px] p-[5px] bg-neutral-100">
+    <ul className="w-full flex items-start flex-wrap gap-[5px] border-[1px] border-gray-600 rounded-[10px] p-[5px] bg-neutral-100">
       {filteredAnimals &&
         filteredAnimals.map((animal) => (
           <AnimalCart

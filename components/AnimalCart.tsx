@@ -15,7 +15,7 @@ export default function AnimalCart({ to, imgSrc, title }: AnimalCartProps) {
   const [postTitleHover, setPostTitleHover] = useState<boolean>(false);
 
   return (
-    <li className="w-[249px] h-[249px] hover:cursor-pointer max-lg:w-[198px] max-lg:h-[198px] max-sm:w-[170px] max-sm:h-[170]">
+    <li className="w-[241px] h-[241px] hover:cursor-pointer max-lg:w-[181px] max-lg:h-[181px] max-sm:w-[175px] max-sm:h-[175px]">
       <Link
         href={to}
         className="h-full w-full"

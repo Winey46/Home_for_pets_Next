@@ -112,11 +112,11 @@ const AnimalDetails = ({ data }: AnimalDetailsProps) => {
         <PortalProvider root="modal">
           <Modal
             modalClose={handleModalClose}
-            className="flex items-center justify-center bg-neutral-100 fixed top-[7vh] max-w-[86vw] max-h-[86vh] rounded-[10px] shadow-lg overflow-y-auto p-[10px] z-10 max-lg:max-h-[76vh] max-sm:max-h-[72vh]"
+            className="flex bg-neutral-100 fixed top-[7vh] max-w-[86vw] max-h-[86vh] rounded-[10px] shadow-lg overflow-y-auto p-[1%] z-10 max-lg:max-h-[76vh] max-sm:max-h-[72vh]"
             backdrop
           >
             <Image
-              className=" bg-neutral-100 max-w-[85vw] max-h-[80vh] object-contain rounded-[10px]"
+              className=" bg-neutral-100 object-contain rounded-[10px]"
               src={data.image.imageLink ? data.image.imageLink : "/pets-default.jpg"}
               alt={data.animalType}
               width={1024}
