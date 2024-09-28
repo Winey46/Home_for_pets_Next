@@ -21,7 +21,7 @@ export function getDate(): string {
   return `${time} ${formattedDate}`;
 }
 
-export async function uploadImage(image: File | null, directory: string = "image") {
+export async function uploadImage(image: File | null, directory: string = "images") {
   try {
     const imageRef = ref(
       storage,
@@ -42,7 +42,7 @@ export async function uploadImage(image: File | null, directory: string = "image
   }
 }
 
-export async function deleteImage(imageName: string | null, directory: string = "image") {
+export async function deleteImage(imageName: string | null, directory: string = "images") {
   const deleteResponse = await deleteObject(
     ref(storage, `${directory}/${imageName}`)
   );

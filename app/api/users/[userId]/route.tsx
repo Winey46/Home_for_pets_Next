@@ -73,7 +73,7 @@ export const PUT = async (request: NextRequest, { params }) => {
 
     if (newImage.name) {
       if (existingUser.image.imageLink) {
-        await deleteImage(existingUser.image.imageName);
+        await deleteImage(existingUser.image.imageName, "avatars");
       }
 
       const imageResponse = await uploadImage(newImage, "avatars");

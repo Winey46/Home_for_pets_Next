@@ -26,8 +26,8 @@ const AnimalsList = () => {
   const page = searchParams.get("page");
 
   const { data, isLoading, isSuccess, isError, error } = useQuery({
-    queryKey: ["animals-page", page],
-    queryFn: () => getAnimalsPage(page),
+    queryKey: ["animals-page", page, sortQuery],
+    queryFn: () => getAnimalsPage({ page, sortQuery }),
   });
 
   useEffect(() => {
@@ -38,7 +38,6 @@ const AnimalsList = () => {
 
     replace(`${pathname}?${params.toString()}`);
   }, [data]);
-
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
 
@@ -48,8 +47,7 @@ const AnimalsList = () => {
     replace(`${pathname}?${params.toString()}`);
 
     if (isSuccess && data) {
-      if (sortQuery === "new") setFilteredAnimals((prevState) => data);
-      else setFilteredAnimals((prevState) => [...data].reverse());
+      setFilteredAnimals((prevState) => data);
 
       if (postQuery.length)
         setFilteredAnimals((prevState) =>

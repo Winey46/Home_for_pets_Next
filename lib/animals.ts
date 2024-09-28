@@ -1,7 +1,7 @@
-export async function getAnimalsPage(page: string) {
+export async function getAnimalsPage({page, sortQuery}: {page:string, sortQuery: string}) {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/posts/pages/${page}`,
+      `http://localhost:3000/api/posts/pages/${page}/${sortQuery}`,
       {
         next: { tags: ["animals"] },
       }
