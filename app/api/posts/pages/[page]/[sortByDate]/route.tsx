@@ -1,5 +1,6 @@
 import { dbConnect } from "@/lib/database";
 import { Post } from "@/models/post.model";
+import { SortOrder } from "mongoose";
 
 export const GET = async (request, { params }) => {
   const page = params.page;
@@ -8,18 +9,16 @@ export const GET = async (request, { params }) => {
   const limit = 40;
   const offset = (page - 1) * limit;
 
+  let sort = -1 as SortOrder;
+  if (sortByDate === "old") sort = 1;
+
   try {
     await dbConnect();
 
-    let response;
-    if (sortByDate === "old") {
-      response = await Post.find({})
-        .sort({ createdAt: -1 })
-        .skip(offset)
-        .limit(limit);
-    } else {
-      response = await Post.find({}).skip(offset).limit(limit);
-    }
+    const response = await Post.find({})
+      .sort({ createdAt: sort })
+      .skip(offset)
+      .limit(limit);
 
     const posts = JSON.stringify(response);
 
