@@ -11,7 +11,10 @@ export const GET = async (request, { params }) => {
     await dbConnect();
 
     const response = await Post.findById(params.animalId);
-    if (!response) return new Response("Post Not Found", { status: 404 });
+
+    if (!response) {
+      return new Response("Not found", { status: 404 });
+    }
 
     const post = JSON.stringify(response);
 
@@ -87,7 +90,6 @@ export const PUT = async (request, { params }) => {
 
   revalidateTag("animals");
   revalidateTag(`animal-${params.animalId}`);
-  // revalidateTag("animals-pages-count");
 
   return new Response("Post has been edited", { status: 200 });
 };

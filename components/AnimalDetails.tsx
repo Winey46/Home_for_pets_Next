@@ -13,7 +13,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 interface AnimalDetailsProps {
-  data: IPostData;
+  data: IPostData | null;
 }
 
 const AnimalDetails = ({ data }: AnimalDetailsProps) => {
@@ -68,7 +68,9 @@ const AnimalDetails = ({ data }: AnimalDetailsProps) => {
       <div className="flex justify-center w-[90%] rounded-[10px] bg-white">
         <Image
           className="w-full px-[5%] max-h-[50vh] object-contain"
-          src={data.image.imageLink ? data.image.imageLink : "/pets-default.jpg"}
+          src={
+            data.image.imageLink ? data.image.imageLink : "/pets-default.jpg"
+          }
           alt={data.animalType}
           onClick={handleModalOpen}
           width={1024}
@@ -117,7 +119,11 @@ const AnimalDetails = ({ data }: AnimalDetailsProps) => {
           >
             <Image
               className=" bg-neutral-100 object-contain rounded-[10px]"
-              src={data.image.imageLink ? data.image.imageLink : "/pets-default.jpg"}
+              src={
+                data.image.imageLink
+                  ? data.image.imageLink
+                  : "/pets-default.jpg"
+              }
               alt={data.animalType}
               width={1024}
               height={1024}

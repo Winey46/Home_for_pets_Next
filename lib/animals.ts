@@ -1,19 +1,22 @@
-export async function getAnimalsPage({page, sortQuery}: {page:string, sortQuery: string}) {
-  try {
-    const response = await fetch(
-      `http://localhost:3000/api/posts/pages/${page}/${sortQuery}`,
-      {
-        next: { tags: ["animals"] },
-      }
-    );
+export async function getAnimalsPage({
+  page,
+  sortQuery,
+}: {
+  page: string;
+  sortQuery: string;
+}) {
+  const response = await fetch(
+    `http://localhost:3000/api/posts/pages/${page}/${sortQuery}`,
+    {
+      next: { tags: ["animals"] },
+    }
+  );
 
-    const data = await response.json();
-
-    return data;
-  } catch (error) {
-    console.error(error);
-    return new Error("Failed to fetch animals page");
+  if (!response.ok) {
+    throw new Error("Failed to fetch page with animals");
   }
+
+  return await response.json();
 }
 
 export async function getPagesCount() {
@@ -48,19 +51,15 @@ export async function getAnimalsByUserId(userId: string) {
 }
 
 export async function getAnimal(animalId: string) {
-  try {
-    const response = await fetch(
-      `http://localhost:3000/api/posts/${animalId}`,
-      { next: { tags: [`animal-${animalId}`] } }
-    );
+  const response = await fetch(`http://localhost:3000/api/posts/${animalId}`, {
+    next: { tags: [`animal-${animalId}`] },
+  });
 
-    const data = await response.json();
-
-    return data;
-  } catch (error) {
-    console.error(error);
+  if (!response.ok) {
     return new Error("Failed to fetch animal details");
   }
+
+  return await response.json();
 }
 
 export async function deleteAnimal(id: string | undefined) {

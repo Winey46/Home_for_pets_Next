@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { getAnimalsPage } from "@/lib/animals";
+import React from "react";
 
 const AnimalsList = () => {
   const [filteredAnimals, setFilteredAnimals] = useState<
@@ -37,16 +38,8 @@ const AnimalsList = () => {
     if (!params.has("page")) params.set("page", "1");
 
     replace(`${pathname}?${params.toString()}`);
-  }, [data]);
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams);
 
-    if (!params.has("sortbydate")) params.set("sortbydate", "new");
-    if (!params.has("page")) params.set("page", "1");
-
-    replace(`${pathname}?${params.toString()}`);
-
-    if (isSuccess && data) {
+    if (isSuccess && !isError && data) {
       setFilteredAnimals((prevState) => data);
 
       if (postQuery.length)
@@ -76,7 +69,12 @@ const AnimalsList = () => {
     );
   }
 
-  if (isSuccess && !data.length) {
+  if (isError) {
+    console.error(error.message);
+    throw new Error("Failed to fetch page with animals");
+  }
+
+  if (isSuccess && !isError && !data.length) {
     return (
       <p className="w-full min-h-[437px] flex justify-center items-center text-2xl text-center border-[1px] border-gray-600 rounded-[10px] bg-neutral-100">
         There are no available pets.
