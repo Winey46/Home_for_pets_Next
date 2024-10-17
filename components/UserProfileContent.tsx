@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import PortalProvider from "./ui/PortalProvider";
 import Modal from "./ui/Modal";
 import InformationPanel from "./InformationPanel";
+import { isErrored } from "stream";
 
 interface UserProfileContentProps {
   animals: IPostData[];
@@ -111,6 +112,8 @@ export default function UserProfileContent({
 
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
+
+    setInformationPanel((prevState) => false);
 
     let isSubmit = true;
 

@@ -3,7 +3,7 @@ import { getAnimal } from "@/lib/animals";
 import AnimalDetails from "@/components/AnimalDetails";
 
 const Animal = async ({ animalId }: { animalId: string }) => {
-  const animal = await getAnimal(animalId);
+  let animal = await getAnimal(animalId);
 
   return <AnimalDetails data={animal} />;
 };

@@ -6,7 +6,8 @@ export const GET = async (request, { params }) => {
     await dbConnect();
 
     const response = await Post.find({ userId: params.userId });
-    if (!response) return new Response("User posts are not found", { status: 404 });
+    if (!response)
+      return new Response("User posts are not found", { status: 404 });
 
     const post = JSON.stringify(response);
 

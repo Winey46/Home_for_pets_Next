@@ -11,6 +11,7 @@ import PortalProvider from "@/components/ui/PortalProvider";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import InformationPanel from "./InformationPanel";
 
 interface AnimalDetailsProps {
   data: IPostData | null;
@@ -19,6 +20,9 @@ interface AnimalDetailsProps {
 const AnimalDetails = ({ data }: AnimalDetailsProps) => {
   const [imageIsOpened, setImageIsOpened] = useState<boolean>(false);
   const [editIsOpened, setEditIsOpened] = useState<boolean>(false);
+
+  const [informationPanel, setInformationPanel] = useState<boolean>(false);
+  const [informationStatus, setInformationStatus] = useState<string>("");
 
   const router = useRouter();
 
@@ -45,17 +49,36 @@ const AnimalDetails = ({ data }: AnimalDetailsProps) => {
     document.body.style.overflow = "";
   };
 
+  const handleInformationPanelClose = () => {
+    setInformationPanel(false);
+  };
+
   async function deleteHandler() {
     const proceed = window.confirm(
       "Are you sure that you want to delete the post?"
     );
 
+    setInformationPanel((prevState) => false);
+
     if (data.image.imageName) {
-      await deleteImage(data.image.imageName);
+      try {
+        await deleteImage(data.image.imageName);
+      } catch (error) {
+        setInformationPanel((prevState) => true);
+        setInformationStatus("Could not delete image");
+        throw new Error("Could not delete image");
+      }
     }
     if (proceed && data._id) {
-      await deleteAnimal(data._id);
-      router.push("/animalsList");
+      const response = await deleteAnimal(data._id);
+
+      if (!response.ok) {
+        setInformationPanel((prevState) => true);
+        setInformationStatus("Could not delete animal from the database");
+        throw new Error("Could not delete animal from the database");
+      } else {
+        router.push("/animalsList");
+      }
     }
   }
 
@@ -141,6 +164,19 @@ const AnimalDetails = ({ data }: AnimalDetailsProps) => {
             backdrop
           >
             <NewPost modalClose={handleEditClose} postData={data} />
+          </Modal>
+        </PortalProvider>
+      )}
+
+      {informationPanel && (
+        <PortalProvider root="modal">
+          <Modal className="h-16 absolute top-[155px] left-[3%] flex gap-12 items-center bg-white rounded-md shadow">
+            <InformationPanel
+              isSuccess={false}
+              handleClose={handleInformationPanelClose}
+            >
+              {informationStatus.length > 0 && informationStatus}
+            </InformationPanel>
           </Modal>
         </PortalProvider>
       )}

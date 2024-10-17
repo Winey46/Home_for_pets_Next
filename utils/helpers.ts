@@ -21,7 +21,10 @@ export function getDate(): string {
   return `${time} ${formattedDate}`;
 }
 
-export async function uploadImage(image: File | null, directory: string = "images") {
+export async function uploadImage(
+  image: File | null,
+  directory: string = "images"
+) {
   try {
     const imageRef = ref(
       storage,
@@ -42,12 +45,17 @@ export async function uploadImage(image: File | null, directory: string = "image
   }
 }
 
-export async function deleteImage(imageName: string | null, directory: string = "images") {
-  const deleteResponse = await deleteObject(
-    ref(storage, `${directory}/${imageName}`)
-  );
+export async function deleteImage(
+  imageName: string | null,
+  directory: string = "images"
+) {
+   await deleteObject(ref(storage, `${directory}/${imageName}`));
 }
 
-export const createArithmeticProgression = (length: number, start: number, difference: number) => {
+export const createArithmeticProgression = (
+  length: number,
+  start: number,
+  difference: number
+) => {
   return Array.from({ length }, (_, index) => start + index * difference);
 };

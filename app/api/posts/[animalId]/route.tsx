@@ -112,7 +112,6 @@ export const DELETE = async (request, { params }) => {
   }
 
   revalidateTag("animals");
-  // revalidateTag(`animal-${params.animalId}`);
   revalidateTag("animals-pages-count");
 
   return new Response("Post deleted successfully", { status: 200 });

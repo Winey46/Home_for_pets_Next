@@ -71,7 +71,7 @@ const AnimalsList = () => {
 
   if (isError) {
     console.error(error.message);
-    throw new Error("Failed to fetch page with animals");
+    throw new Error("Failed to fetch animals");
   }
 
   if (isSuccess && !isError && !data.length) {

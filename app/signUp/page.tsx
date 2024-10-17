@@ -8,6 +8,7 @@ import SignIn from "@/components/SignIn";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import InformationPanel from "@/components/InformationPanel";
 
 export default function Page() {
   const [signInState, setSignInState] = useState<boolean>(false);
@@ -37,6 +38,9 @@ export default function Page() {
     event: React.ChangeEvent<HTMLInputElement>
   ): void => setConfirmPasswordValue(event.target.value);
 
+  const [informationPanel, setInformationPanel] = useState<boolean>(false);
+  const [informationStatus, setInformationStatus] = useState<string>("");
+
   const handleSignInOpen = (): void => {
     setSignInState(true);
     document.body.style.overflow = "hidden";
@@ -45,6 +49,10 @@ export default function Page() {
   const handleSignInClose = (): void => {
     setSignInState(false);
     document.body.style.overflow = "";
+  };
+
+  const handleInformationPanelClose = () => {
+    setInformationPanel(false);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -91,6 +99,8 @@ export default function Page() {
       });
 
       if (!response.ok) {
+        setInformationPanel(true);
+        setInformationStatus("error");
         throw new Error("Could not create account");
       }
 
@@ -101,10 +111,10 @@ export default function Page() {
       });
 
       if (!signInRes.ok) {
-        throw new Error("Could not create account");
+        throw new Error("Could not sign in");
       }
 
-      response.ok && signInRes.ok && router.push("/");
+      if (response.ok && signInRes.ok) router.push("/");
     }
   };
 
@@ -198,10 +208,30 @@ export default function Page() {
           Create account
         </Button>
       </div>
+
       {signInState && (
         <PortalProvider root="modal">
-          <Modal modalClose={handleSignInClose}>
+          <Modal
+            className="flex items-center justify-center bg-neutral-100 fixed top-[7vh] max-w-[86vw] max-h-[86vh] rounded-[10px] shadow-lg overflow-y-auto p-[10px] z-10 max-lg:max-h-[76vh] max-sm:max-h-[72vh]"
+            modalClose={handleSignInClose}
+            backdrop
+          >
             <SignIn signInClose={handleSignInClose} />
+          </Modal>
+        </PortalProvider>
+      )}
+
+      {informationPanel && (
+        <PortalProvider root="modal">
+          <Modal className="h-16 absolute top-[155px] left-[3%] flex gap-12 items-center bg-white rounded-md shadow">
+            <InformationPanel
+              isSuccess={false}
+              handleClose={handleInformationPanelClose}
+            >
+              {informationStatus === "error"
+                ? "Could not create account"
+                : "Account created successfuly!"}
+            </InformationPanel>
           </Modal>
         </PortalProvider>
       )}

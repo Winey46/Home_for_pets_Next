@@ -8,6 +8,9 @@ import { IPostData } from "@/utils/interfaces";
 import { usePathname, useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { createPost, editPost } from "@/lib/create-post";
+import InformationPanel from "./InformationPanel";
+import Modal from "./ui/Modal";
+import PortalProvider from "./ui/PortalProvider";
 
 interface NewPostProps {
   modalClose: () => void;
@@ -59,6 +62,9 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
     event: React.ChangeEvent<HTMLInputElement>
   ): void => setContactsValue(event.target.value);
 
+  const [informationPanel, setInformationPanel] = useState<boolean>(false);
+  const [informationStatus, setInformationStatus] = useState<string>("");
+
   const imageRef = useRef<HTMLInputElement | null>(null);
 
   const router = useRouter();
@@ -93,6 +99,10 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
 
     const droppedFile = event.dataTransfer.files[0];
     setImage(droppedFile);
+  };
+
+  const handleInformationPanelClose = () => {
+    setInformationPanel(false);
   };
 
   async function handleSubmit(event: React.FormEvent<HTMLButtonElement>) {
@@ -130,19 +140,34 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
 
       if (!postData) {
         const response = await createMutation.mutateAsync(formData);
-        if (response.status === 201 && path !== "/animalsList")
-          router.push("/animalsList");
-        if (response.status === 201 && path === "/animalsList")
-          router.refresh();
+
+        if (!response.ok) {
+          setInformationPanel(true);
+          setInformationStatus("Could not create post");
+          throw new Error("Could not create post");
+        }
+
+        if (response.ok && path !== "/animalsList") router.push("/animalsList");
+
+        if (response.ok && path === "/animalsList") router.refresh();
+
+        modalClose();
       } else {
         const response = await editMutation.mutateAsync({
           formData,
           animalId: postData._id,
         });
-        if (response.status === 200) router.refresh();
-      }
 
-      modalClose();
+        if (!response.ok) {
+          setInformationPanel(true);
+          setInformationStatus("Could not edit post");
+          throw new Error("Could not edit post");
+        }
+
+        if (response.ok) router.refresh();
+
+        modalClose();
+      }
     }
   }
 
@@ -261,6 +286,19 @@ const NewPost = ({ modalClose, postData }: NewPostProps) => {
           ? "Submitting..."
           : "Save Post"}
       </Button>
+
+      {informationPanel && (
+        <PortalProvider root="modal">
+          <Modal className="h-16 absolute top-[155px] left-[3%] flex gap-12 items-center bg-white rounded-md shadow">
+            <InformationPanel
+              isSuccess={false}
+              handleClose={handleInformationPanelClose}
+            >
+              {informationStatus.length > 0 && informationStatus}
+            </InformationPanel>
+          </Modal>
+        </PortalProvider>
+      )}
     </form>
   );
 };

@@ -15,12 +15,13 @@ export async function createPost(formData: FormData) {
 export async function editPost({ formData, animalId }) {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/posts/${animalId}5`,
+      `http://localhost:3000/api/posts/${animalId}`,
       {
         method: "PUT",
         body: formData,
       }
     );
+
     return response;
   } catch (error) {
     console.error(error.message);

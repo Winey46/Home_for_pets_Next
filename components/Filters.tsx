@@ -76,9 +76,9 @@ export default function Filters() {
 
   return (
     <>
-      <div className="flex flex-col items-center w-full min-h-[40px] p-[5px] gap-2 bg-[#833de7] rounded-[10px]">
+      <div className="group flex flex-col items-center w-full min-h-[40px] p-[5px] gap-2 bg-[#833de7] rounded-[10px] hover:cursor-pointer">
         <div
-          className="flex items-center gap-3 text-neutral-100  hover:text-[#fbc43c] hover:cursor-pointer"
+          className="flex items-center gap-3 text-neutral-100  group-hover:text-[#fbc43c]"
           onClick={toggleFilters}
         >
           <h2 className="text-xl">Filters</h2>

@@ -6,7 +6,9 @@ import Button from "@/components/ui/Button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
-
+import PortalProvider from "./ui/PortalProvider";
+import Modal from "./ui/Modal";
+import InformationPanel from "./InformationPanel";
 
 interface SignInProps {
   signInClose: () => void;
@@ -23,6 +25,9 @@ export default function SignIn({ signInClose }: SignInProps) {
   const passwordInputChange = (event: ChangeEvent<HTMLInputElement>): void =>
     setPasswordValue(event.target.value);
 
+  const [informationPanel, setInformationPanel] = useState<boolean>(false);
+  const [informationStatus, setInformationStatus] = useState<string>("");
+
   const router = useRouter();
   const path = usePathname();
   const searchParams = useSearchParams();
@@ -33,8 +38,14 @@ export default function SignIn({ signInClose }: SignInProps) {
     signInClose();
   };
 
+  const handleInformationPanelClose = () => {
+    setInformationPanel(false);
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
+
+    setInformationPanel((prevState) => false);
 
     let isSubmit = true;
 
@@ -60,8 +71,10 @@ export default function SignIn({ signInClose }: SignInProps) {
         redirect: false,
       });
 
-      if (response.error) {
+      if (!response.ok) {
         console.error(response.error);
+        setInformationPanel((prevState) => true);
+        setInformationStatus("Could not sign in.");
       } else signInClose();
     }
   };
@@ -113,7 +126,7 @@ export default function SignIn({ signInClose }: SignInProps) {
           type="button"
           initial={{ scale: 1 }}
           whileHover={{ scale: 1.1 }}
-          transition={{ type: "spring", stiffness: 300}}
+          transition={{ type: "spring", stiffness: 300 }}
           handleClick={handleSubmit}
         >
           Sign in
@@ -123,7 +136,7 @@ export default function SignIn({ signInClose }: SignInProps) {
           type="button"
           initial={{ scale: 1 }}
           whileHover={{ scale: 1.1 }}
-          transition={{ type: "spring", stiffness: 300}}
+          transition={{ type: "spring", stiffness: 300 }}
           handleClick={() => signIn("google", { callbackUrl })}
         >
           <Image
@@ -144,6 +157,19 @@ export default function SignIn({ signInClose }: SignInProps) {
           Sign Up here
         </span>
       </p>
+
+      {informationPanel && (
+        <PortalProvider root="modal">
+          <Modal className="h-16 absolute top-[155px] left-[3%] flex gap-12 items-center bg-white rounded-md shadow">
+            <InformationPanel
+              isSuccess={false}
+              handleClose={handleInformationPanelClose}
+            >
+              {informationStatus.length > 0 && informationStatus}
+            </InformationPanel>
+          </Modal>
+        </PortalProvider>
+      )}
     </div>
   );
 }
