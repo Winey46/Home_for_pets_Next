@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
-import { authOptions } from "../../auth/[...nextauth]/route";
 import { dbConnect } from "@/lib/database";
 import { User } from "@/models/user.model";
 import { deleteImage, uploadImage } from "@/utils/helpers";
+import { authOptions } from "@/lib/auth-options";
 
 export const PUT = async (request: NextRequest, { params }) => {
   const session = await getServerSession(authOptions);

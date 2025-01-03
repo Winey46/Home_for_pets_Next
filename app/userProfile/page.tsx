@@ -2,8 +2,8 @@ import UserProfileContent from "@/components/UserProfileContent";
 import { Suspense } from "react";
 import { IPostData } from "@/utils/interfaces";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getAnimalsByUserId } from "@/lib/animals";
+import { authOptions } from "@/lib/auth-options";
 
 async function UserProfile() {
   const session = await getServerSession(authOptions);

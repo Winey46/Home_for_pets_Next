@@ -3,8 +3,8 @@ import { Post } from "@/models/post.model";
 import { deleteImage, getDate, uploadImage } from "@/utils/helpers";
 import { getServerSession } from "next-auth";
 import { revalidateTag } from "next/cache";
-import { authOptions } from "../../auth/[...nextauth]/route";
 import { IPostData } from "@/utils/interfaces";
+import { authOptions } from "@/lib/auth-options";
 
 export const GET = async (request, { params }) => {
   try {

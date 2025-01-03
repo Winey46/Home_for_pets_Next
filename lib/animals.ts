@@ -5,12 +5,9 @@ export async function getAnimalsPage({
   page: string;
   sortQuery: string;
 }) {
-  const response = await fetch(
-    `http://localhost:3000/api/posts/pages/${page}/${sortQuery}`,
-    {
-      next: { tags: ["animals"] },
-    }
-  );
+  const response = await fetch(`/api/posts/pages/${page}/${sortQuery}`, {
+    next: { tags: ["animals"] },
+  });
 
   if (!response.ok) {
     throw new Error("Failed to fetch animals");
@@ -20,8 +17,8 @@ export async function getAnimalsPage({
 }
 
 export async function getPagesCount() {
-  const response = await fetch(`http://localhost:3000/api/posts/pages`, {
-    next: { tags: [`animals-pages-count`] },
+  const response = await fetch(`/api/posts/pages`, {
+    next: { tags: ["animals-pages-count"] },
   });
 
   if (!response.ok) {
@@ -33,10 +30,9 @@ export async function getPagesCount() {
 
 export async function getAnimalsByUserId(userId: string) {
   try {
-    const response = await fetch(
-      `http://localhost:3000/api/users/posts/${userId}`,
-      { cache: "no-cache" }
-    );
+    const response = await fetch(`/api/users/posts/${userId}`, {
+      cache: "no-cache",
+    });
 
     const data = await response.json();
 
@@ -48,7 +44,7 @@ export async function getAnimalsByUserId(userId: string) {
 }
 
 export async function getAnimal(animalId: string) {
-  const response = await fetch(`http://localhost:3000/api/posts/${animalId}`, {
+  const response = await fetch(`/api/posts/${animalId}`, {
     next: { tags: [`animal-${animalId}`] },
   });
 
@@ -62,7 +58,7 @@ export async function getAnimal(animalId: string) {
 export async function deleteAnimal(id: string | undefined) {
   if (id) {
     try {
-      const response = await fetch(`http://localhost:3000/api/posts/${id}`, {
+      const response = await fetch(`/api/posts/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

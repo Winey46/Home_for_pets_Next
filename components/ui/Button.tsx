@@ -25,6 +25,7 @@ interface ButtonProps {
     type?: string;
     stiffness?: number;
     duration?: number;
+    ease?: string;
   };
 }
 

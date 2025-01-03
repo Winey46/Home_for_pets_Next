@@ -1,11 +1,11 @@
 import { dbConnect } from "@/lib/database";
 import { IPostData } from "@/utils/interfaces";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
 import { getDate, uploadImage } from "@/utils/helpers";
 import { revalidateTag } from "next/cache";
 import { Post } from "@/models/post.model";
 import { NextRequest } from "next/server";
+import { authOptions } from "@/lib/auth-options";
 
 export const POST = async (request: NextRequest) => {
   const formData = await request.formData();

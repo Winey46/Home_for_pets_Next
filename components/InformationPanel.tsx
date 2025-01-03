@@ -25,8 +25,6 @@ export default function InformationPanel({ isSuccess, handleClose, children }) {
           initial: { scale: 1, rotate: 45 },
           animate: { scale: 1.3, rotate: 45 },
         }}
-        initial="initial"
-        whileHover="animate"
         transition={{ type: "tween", ease: "easeInOut" }}
         handleClick={handleClose}
       >
