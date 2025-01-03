@@ -8,12 +8,26 @@ export interface IPostData {
   text: string;
   date?: string;
   contacts: string;
-  // imageLink?: string | null;
-  // imageName?: string | null;
   image?: {
     imageName: string | null;
     imageLink: string | null;
   };
+}
+
+export interface IUser {
+  data: {
+    expires: string;
+    user: {
+      email: string;
+      id: string;
+      image: {
+        imageName: string;
+        imageLink: string;
+      };
+      name: string;
+    };
+  } | null;
+  status: string;
 }
 
 export interface UserInterface {

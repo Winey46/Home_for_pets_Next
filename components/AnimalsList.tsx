@@ -17,7 +17,7 @@ const AnimalsList = () => {
   const session = useSession();
   const sessionUser = session?.data?.user as any;
 
-  const { replace } = useRouter();
+  const router = useRouter();
   const pathname = usePathname();
 
   const searchParams = useSearchParams();
@@ -37,7 +37,7 @@ const AnimalsList = () => {
     if (!params.has("sortbydate")) params.set("sortbydate", "new");
     if (!params.has("page")) params.set("page", "1");
 
-    replace(`${pathname}?${params.toString()}`);
+    router.replace(`${pathname}?${params.toString()}`);
 
     if (isSuccess && !isError && data) {
       setFilteredAnimals((prevState) => data);

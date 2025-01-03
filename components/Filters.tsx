@@ -63,7 +63,6 @@ export default function Filters() {
     setMyPostsFilter(false);
 
     replace(`/animalsList?sortbydate=${sortByDate}`);
-    // replace("/animalsList");
   };
 
   useEffect(() => {

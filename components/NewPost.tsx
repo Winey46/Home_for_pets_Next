@@ -13,7 +13,7 @@ import Modal from "./ui/Modal";
 import PortalProvider from "./ui/PortalProvider";
 
 interface NewPostProps {
-  modalClose: () => void;
+  modalClose?: () => void;
   postData?: IPostData;
 }
 

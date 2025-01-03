@@ -83,13 +83,11 @@ export default function SignIn({ signInClose }: SignInProps) {
     if (emailValue.includes("@")) {
       setEmailError(false);
     }
-    if (passwordValue.trim().length >= 6) {
-      setPasswordError(false);
-    }
+
     if (
-      passwordValue.trim().length >= 6 ||
-      /[A-Z]/.test(passwordValue) ||
-      /[a-z]/.test(passwordValue) ||
+      passwordValue.trim().length >= 6 &&
+      /[A-Z]/.test(passwordValue) &&
+      /[a-z]/.test(passwordValue) &&
       /\d/.test(passwordValue)
     ) {
       setPasswordError(false);
