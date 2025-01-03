@@ -5,7 +5,7 @@ export async function getAnimalsPage({
   page: string;
   sortQuery: string;
 }) {
-  const response = await fetch(`/api/posts/pages/${page}/${sortQuery}`, {
+  const response = await fetch(`https://${process.env.VERCEL_URL}/api/posts/pages/${page}/${sortQuery}`, {
     next: { tags: ["animals"] },
   });
 
@@ -17,7 +17,7 @@ export async function getAnimalsPage({
 }
 
 export async function getPagesCount() {
-  const response = await fetch(`/api/posts/pages`, {
+  const response = await fetch(`https://${process.env.VERCEL_URL}/api/posts/pages`, {
     next: { tags: ["animals-pages-count"] },
   });
 
@@ -30,7 +30,7 @@ export async function getPagesCount() {
 
 export async function getAnimalsByUserId(userId: string) {
   try {
-    const response = await fetch(`/api/users/posts/${userId}`, {
+    const response = await fetch(`https://${process.env.VERCEL_URL}/api/users/posts/${userId}`, {
       cache: "no-cache",
     });
 
@@ -44,7 +44,7 @@ export async function getAnimalsByUserId(userId: string) {
 }
 
 export async function getAnimal(animalId: string) {
-  const response = await fetch(`/api/posts/${animalId}`, {
+  const response = await fetch(`https://${process.env.VERCEL_URL}/api/posts/${animalId}`, {
     next: { tags: [`animal-${animalId}`] },
   });
 
@@ -58,7 +58,7 @@ export async function getAnimal(animalId: string) {
 export async function deleteAnimal(id: string | undefined) {
   if (id) {
     try {
-      const response = await fetch(`/api/posts/${id}`, {
+      const response = await fetch(`https://${process.env.VERCEL_URL}/api/posts/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
