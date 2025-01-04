@@ -1,18 +1,15 @@
 "use client";
 
-import { createArithmeticProgression } from "@/utils/helpers";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { purpleArrow, yellowArrow } from "@/utils/symbols";
+import { createArithmeticProgression } from "@/utils/helpers";
+import { purpleArrow } from "@/utils/symbols";
 import Button from "./Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getPagesCount } from "@/lib/animals";
 
-export default function Pagination({ pages }) {
-  const [leftArrowColor, setLeftArrowColor] =
-    useState<JSX.Element>(purpleArrow);
-  const [rigthArrowColor, setRightArrowColor] =
-    useState<JSX.Element>(purpleArrow);
-
-  const pagesArr = createArithmeticProgression(pages, 1, 1);
+export default function Pagination() {
+  const [pages, setPages] = useState<number>();
+  const [pagesArr, setPagesArr] = useState<number[]>();
 
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -27,20 +24,35 @@ export default function Pagination({ pages }) {
     replace(`${pathname}?${params.toString()}`);
   };
 
+  useEffect(() => {
+    const getPages = async () => {
+      const pages = Number(await getPagesCount());
+
+      setPages(pages);
+    };
+
+    getPages();
+  }, []);
+
+  useEffect(() => {
+    const pagesArr = createArithmeticProgression(pages, 1, 1);
+
+    setPagesArr(pagesArr);
+  }, [pages]);
+
   return (
     <ul className="flex justify-center items-center gap-2 max-w-[1024px] w-full h-[50px]">
       {pages > 1 && (
         <Button
           className="-rotate-90"
-          onMouseEnter={() => setLeftArrowColor(yellowArrow)}
-          onMouseLeave={() => setLeftArrowColor(purpleArrow)}
           handleClick={() =>
             handlePageChange(currentPage > 1 ? currentPage - 1 : 1)
           }
         >
-          {leftArrowColor}
+          {purpleArrow}
         </Button>
       )}
+
       {pages > 1 &&
         pagesArr.map((page) => {
           if (page < 3)
@@ -95,7 +107,7 @@ export default function Pagination({ pages }) {
         </li>
       )}
 
-      {pages > 1 &&
+      {pages > 2 &&
         pagesArr.map((page) => {
           if (page === pages || page === pages - 1)
             return (
@@ -112,16 +124,15 @@ export default function Pagination({ pages }) {
               </li>
             );
         })}
+
       {pages > 1 && (
         <Button
           className="rotate-90"
-          onMouseEnter={() => setRightArrowColor(yellowArrow)}
-          onMouseLeave={() => setRightArrowColor(purpleArrow)}
           handleClick={() =>
             handlePageChange(currentPage !== pages ? currentPage + 1 : pages)
           }
         >
-          {rigthArrowColor}
+          {purpleArrow}
         </Button>
       )}
     </ul>
