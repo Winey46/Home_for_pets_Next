@@ -1,6 +1,6 @@
 export async function createPost(formData: FormData) {
   try {
-    const response = await fetch("http://localhost:3000/api/posts/new", {
+    const response = await fetch("/api/posts/new", {
       method: "POST",
       body: formData,
     });
@@ -15,7 +15,7 @@ export async function createPost(formData: FormData) {
 export async function editPost({ formData, animalId }) {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/posts/${animalId}`,
+      `/api/posts/${animalId}`,
       {
         method: "PUT",
         body: formData,

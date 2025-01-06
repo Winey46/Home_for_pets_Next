@@ -1,8 +1,5 @@
 import UserProfileContent from "@/components/UserProfileContent";
-
-import { IPostData } from "@/utils/interfaces";
 import { getServerSession } from "next-auth";
-import { getAnimalsByUserId } from "@/lib/animals";
 import { authOptions } from "@/lib/auth-options";
 
 async function UserProfile() {

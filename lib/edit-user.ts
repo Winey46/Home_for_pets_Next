@@ -1,6 +1,6 @@
 export async function editUser({ formData, userId }) {
   try {
-    const response = await fetch(`http://localhost:3000/api/users/${userId}`, {
+    const response = await fetch(`/api/users/${userId}`, {
       method: "PUT",
       body: formData,
       cache: "no-cache",
