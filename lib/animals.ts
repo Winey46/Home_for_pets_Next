@@ -45,7 +45,6 @@ export async function getAnimal(animalId: string) {
   const response = await fetch(`/api/posts/${animalId}`,
     {next: { tags: [`animal-${animalId}`] },}
   );
-  // const response = await fetch(`/api/posts/${animalId}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch animal details");
