@@ -17,7 +17,7 @@ export async function getAnimalsPage({
 }
 
 export async function getPagesCount() {
-  const response = await fetch(`/api/posts/pages`, {
+  const response = await fetch("/api/posts/pages", {
     next: { tags: ["animals-pages-count"] },
   });
 
@@ -30,9 +30,7 @@ export async function getPagesCount() {
 
 export async function getAnimalsByUserId(userId: string) {
   try {
-    const response = await fetch(`/api/users/posts/${userId}`, {
-      cache: "no-cache",
-    });
+    const response = await fetch(`/api/users/posts/${userId}`);
 
     const data = await response.json();
 
@@ -44,9 +42,10 @@ export async function getAnimalsByUserId(userId: string) {
 }
 
 export async function getAnimal(animalId: string) {
-  const response = await fetch(`/api/posts/${animalId}`, {
-    next: { tags: [`animal-${animalId}`] },
-  });
+  const response = await fetch(`/api/posts/${animalId}`,
+    {next: { tags: [`animal-${animalId}`] },}
+  );
+  // const response = await fetch(`/api/posts/${animalId}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch animal details");

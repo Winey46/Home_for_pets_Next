@@ -1,26 +1,24 @@
 "use client";
 
-import { IPostData, ISessionUser } from "@/utils/interfaces";
+import { ISessionUser } from "@/utils/interfaces";
 import Input from "./ui/Input";
 import Button from "./ui/Button";
 import Image from "next/image";
 import AnimalCart from "./AnimalCart";
 import React, { useEffect, useRef, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { editUser } from "@/lib/edit-user";
 import { useSession } from "next-auth/react";
 import PortalProvider from "./ui/PortalProvider";
 import Modal from "./ui/Modal";
 import InformationPanel from "./InformationPanel";
-import { isErrored } from "stream";
+import { getAnimalsByUserId } from "@/lib/animals";
 
 interface UserProfileContentProps {
-  animals: IPostData[];
   sessionUser: ISessionUser;
 }
 
 export default function UserProfileContent({
-  animals,
   sessionUser,
 }: UserProfileContentProps) {
   const [name, setName] = useState<string | undefined>(sessionUser.name);
@@ -45,7 +43,12 @@ export default function UserProfileContent({
 
   const { update } = useSession();
 
-  const { mutate, isPending, error, isSuccess } = useMutation({
+  const query = useQuery({
+    queryKey: [],
+    queryFn: () => getAnimalsByUserId(sessionUser?.id),
+  });
+
+  const mutate = useMutation({
     mutationFn: editUser,
     onSuccess(data) {
       if (data.ok)
@@ -150,7 +153,7 @@ export default function UserProfileContent({
       formData.append("profile_password", password);
       formData.append("profile_image", image);
 
-      mutate({ formData, userId: sessionUser.id });
+      mutate.mutate({ formData, userId: sessionUser.id });
     }
   };
 
@@ -177,6 +180,17 @@ export default function UserProfileContent({
       setConfirmPasswordError(false);
     }
   }, [name, email, password, confirmPassword, sessionUser]);
+
+  if (query.isLoading) {
+    return (
+      <>
+        <div className="spinner"></div>
+        <p>Loading...</p>
+      </>
+    );
+  }
+
+  if (query.isError) throw new Error("Failed to fetch user information");
 
   return (
     <div className="flex flex-col max-w-[1024px] items-center w-full py-[5px] min-h-[576px] border-[1px] border-gray-600 rounded-[10px] bg-neutral-100">
@@ -227,13 +241,13 @@ export default function UserProfileContent({
             />
             <Button
               className="button yellow"
-              disabled={isPending}
+              disabled={mutate.isPending}
               handleClick={handleSubmit}
               initial={{ scale: 1 }}
               whileHover={{ scale: 1.1 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              {isPending ? "Submitting..." : "Save"}
+              {mutate.isPending ? "Submitting..." : "Save"}
             </Button>
           </form>
         )}
@@ -285,10 +299,10 @@ export default function UserProfileContent({
         <PortalProvider root="modal">
           <Modal className="h-16 absolute top-[155px] left-[3%] flex gap-12 items-center bg-white rounded-md shadow">
             <InformationPanel
-              isSuccess={isSuccess}
+              isSuccess={mutate.isSuccess}
               handleClose={handleInformationPanelClose}
             >
-              {isSuccess ? "Saved successfuly!" : error.message}
+              {mutate.isSuccess ? "Saved successfuly!" : mutate.error.message}
             </InformationPanel>
           </Modal>
         </PortalProvider>
@@ -296,8 +310,8 @@ export default function UserProfileContent({
 
       <h3 className="px-[50px] text-lg font-[500] self-start">My Posts:</h3>
       <ul className="w-full flex flex-wrap gap-[5px] bg-white rounded-[10px] px-[5px]">
-        {animals.length ? (
-          animals.map((animal) => (
+        {query?.data?.length ? (
+          query?.data.map((animal) => (
             <AnimalCart
               key={animal._id}
               to={`/animalsList/${animal._id}`}
