@@ -5,7 +5,7 @@ export async function getAnimalsPage({
   page: string;
   sortQuery: string;
 }) {
-  const response = await fetch(`/api/posts/pages/${page}/${sortQuery}`, {
+  const response = await fetch(`https://home-for-pets-beige.vercel.app/api/posts/pages/${page}/${sortQuery}`, {
     next: { tags: ["animals"] },
   });
 
@@ -17,7 +17,7 @@ export async function getAnimalsPage({
 }
 
 export async function getPagesCount() {
-  const response = await fetch("/api/posts/pages", {
+  const response = await fetch("https://home-for-pets-beige.vercel.app/api/posts/pages", {
     next: { tags: ["animals-pages-count"] },
   });
 
