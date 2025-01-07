@@ -1,6 +1,5 @@
 "use client";
 
-import { ISessionUser } from "@/utils/interfaces";
 import Input from "./ui/Input";
 import Button from "./ui/Button";
 import Image from "next/image";
@@ -14,18 +13,14 @@ import Modal from "./ui/Modal";
 import InformationPanel from "./InformationPanel";
 import { getAnimalsByUserId } from "@/lib/animals";
 
-interface UserProfileContentProps {
-  sessionUser: ISessionUser;
-}
-
-// export default function UserProfileContent({
-//   sessionUser,
-// }: UserProfileContentProps) {
 export default function UserProfileContent() {
-  const [name, setName] = useState<string | undefined>();
+  const { update, data } = useSession();
+  const sessionUser = data?.user as any;
+
+  const [name, setName] = useState<string | undefined>(sessionUser?.name);
   const [nameError, setNameError] = useState<boolean>(false);
 
-  const [email, setEmail] = useState<string | undefined>();
+  const [email, setEmail] = useState<string | undefined>(sessionUser?.email);
   const [emailError, setEmailError] = useState<boolean>(false);
 
   const [password, setPassword] = useState<string>("");
@@ -42,9 +37,6 @@ export default function UserProfileContent() {
 
   const imageRef = useRef<HTMLInputElement | null>(null);
 
-  const { update, data } = useSession();
-  const sessionUser = data?.user as any;
-console.log(sessionUser)
   const query = useQuery({
     queryKey: [],
     queryFn: () => getAnimalsByUserId(sessionUser?.id),
