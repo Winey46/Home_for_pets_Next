@@ -18,13 +18,14 @@ interface UserProfileContentProps {
   sessionUser: ISessionUser;
 }
 
-export default function UserProfileContent({
-  sessionUser,
-}: UserProfileContentProps) {
-  const [name, setName] = useState<string | undefined>(sessionUser.name);
+// export default function UserProfileContent({
+//   sessionUser,
+// }: UserProfileContentProps) {
+export default function UserProfileContent() {
+  const [name, setName] = useState<string | undefined>();
   const [nameError, setNameError] = useState<boolean>(false);
 
-  const [email, setEmail] = useState<string | undefined>(sessionUser.email);
+  const [email, setEmail] = useState<string | undefined>();
   const [emailError, setEmailError] = useState<boolean>(false);
 
   const [password, setPassword] = useState<string>("");
@@ -41,8 +42,9 @@ export default function UserProfileContent({
 
   const imageRef = useRef<HTMLInputElement | null>(null);
 
-  const { update } = useSession();
-
+  const { update, data } = useSession();
+  const sessionUser = data?.user as any;
+console.log(sessionUser)
   const query = useQuery({
     queryKey: [],
     queryFn: () => getAnimalsByUserId(sessionUser?.id),
